@@ -1,0 +1,35 @@
+{
+  "name": "@quotivity/cpq-inventory-core",
+  "version": "0.1.0",
+  "description": "Analysis core for the Quotivity CPQ Inventory & Migration Analysis: extraction, classification, mapping, report assembly and the local report server. Runs entirely on the customer's machine.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quotivity/salesforce-cpq-migration-analysis.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/quotivity/salesforce-cpq-migration-analysis",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "types": "./lib/index.d.ts",
+  "files": [
+    "/lib",
+    "/assets",
+    "!/lib/**/*.map",
+    "!/lib/**/*.tsbuildinfo"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run --root ../.. packages/core"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

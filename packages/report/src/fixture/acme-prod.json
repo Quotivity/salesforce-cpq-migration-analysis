@@ -1,0 +1,1994 @@
+{
+  "version": "0.1.0",
+  "runId": "8f2c",
+  "generatedAt": "2026-09-12T12:00:00.000Z",
+  "org": {
+    "name": "acme-prod",
+    "username": "admin@acme.com",
+    "instanceUrl": "https://acme.my.salesforce.com",
+    "orgId": "00D000000000001AAA"
+  },
+  "window": {
+    "months": 24,
+    "since": "2024-09-12T12:00:00.000Z",
+    "label": "24 months"
+  },
+  "quoteDateField": "SBQQ__StartDate__c",
+  "phases": [
+    {
+      "id": "before",
+      "name": "Before the quote",
+      "note": "What exists before a rep opens one",
+      "buckets": [
+        "catalog",
+        "configuration",
+        "discovery"
+      ]
+    },
+    {
+      "id": "quote",
+      "name": "The quote",
+      "note": "What happens while one is built",
+      "buckets": [
+        "price",
+        "discounting",
+        "guardrails",
+        "approvals",
+        "output"
+      ]
+    },
+    {
+      "id": "after",
+      "name": "After signature",
+      "note": "What the deal becomes",
+      "buckets": [
+        "lifecycle"
+      ]
+    },
+    {
+      "id": "outside",
+      "name": "Outside the configuration",
+      "note": "Built on top of the CPQ objects",
+      "buckets": [
+        "code"
+      ]
+    }
+  ],
+  "buckets": [
+    {
+      "id": "catalog",
+      "name": "Catalog",
+      "question": "What do we sell, and in which currencies?",
+      "phase": "before",
+      "exists": 15,
+      "alive": 14,
+      "aliveUnreliable": [],
+      "needsAttention": 1,
+      "countsMechanisms": false,
+      "summary": [
+        "9 active products across 2 price books, 2 currencies enabled.",
+        "5 never appeared on a quote line in the trailing 24 months."
+      ],
+      "rows": [
+        {
+          "rowId": "cat.products",
+          "label": "Active products",
+          "count": 9,
+          "alive": 8,
+          "lands": "HubSpot product",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Platform Bundle",
+            "Seat",
+            "Nested Bundle",
+            "Support",
+            "Hardware",
+            "Storage",
+            "API Calls",
+            "Standalone Subscription",
+            "Legacy Widget"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cat.pricebooks",
+          "label": "Price books",
+          "count": 2,
+          "alive": 2,
+          "lands": "Quotivity price book",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Standard Price Book",
+            "Partner"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cat.currencies",
+          "label": "Enabled currencies",
+          "count": 2,
+          "alive": 2,
+          "lands": "Price book entry prices per enabled portal currency",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [],
+          "details": [
+            "USD",
+            "EUR"
+          ]
+        },
+        {
+          "rowId": "cat.dcrStatic",
+          "label": "Dated conversion rates, one period per currency",
+          "count": 1,
+          "unit": "currencies",
+          "alive": 1,
+          "lands": "A manually set exchange rate — equivalent to a static rate",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [],
+          "details": [
+            "USD"
+          ]
+        },
+        {
+          "rowId": "cat.dcrTable",
+          "label": "Dated conversion rates, maintained rate table",
+          "count": 1,
+          "unit": "currencies",
+          "alive": 1,
+          "lands": "HubSpot holds one current rate per currency. There is no way to author a rate for a named past or future period",
+          "verdict": "Degraded",
+          "names": [],
+          "details": [
+            "EUR: 3 rate periods"
+          ]
+        }
+      ],
+      "note": "Counts come from aggregate queries. PricebookEntry records are never retrieved — a product with no price in a currency is a catalogue data problem, not a migration finding.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "configuration",
+      "name": "Configuration",
+      "question": "What can be sold together, and what does the rep choose?",
+      "phase": "before",
+      "exists": 18,
+      "alive": 15,
+      "aliveUnreliable": [],
+      "needsAttention": 6,
+      "review": 1,
+      "countsMechanisms": false,
+      "summary": [
+        "2 bundles, 4 bundle options, deepest 2 levels.",
+        "1 not configured since 2024. 1 use dynamic option sets."
+      ],
+      "rows": [
+        {
+          "rowId": "cfg.features",
+          "label": "Bundle options (CPQ product features), optional selection",
+          "count": 1,
+          "alive": 0,
+          "lands": "Bundle option",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Nested feature"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.featurePickOne",
+          "label": "Features — pick one",
+          "count": 1,
+          "alive": 1,
+          "lands": "Included option with a default product — \"Pick one\"",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Edition"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.featurePickMany",
+          "label": "Features — pick one or more",
+          "count": 1,
+          "alive": 1,
+          "lands": "Included option, allow multiple — \"Pick one or more\"",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Add-ons"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.featureCap",
+          "label": "Features with a numeric option cap",
+          "count": 1,
+          "alive": 1,
+          "lands": "Allow-multiple, plus roll-up + Block to enforce the count",
+          "verdict": "Degraded",
+          "names": [
+            "Seats"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.optionsPlain",
+          "label": "Option products, not configurable",
+          "count": 3,
+          "alive": 3,
+          "lands": "Option product",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "O1",
+            "O3",
+            "O4"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.optionsNested",
+          "label": "Option products that are themselves bundles",
+          "count": 1,
+          "alive": 1,
+          "lands": "—",
+          "verdict": "No target",
+          "names": [
+            "O2"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.configRules",
+          "label": "Configuration rules",
+          "count": 1,
+          "alive": 1,
+          "lands": "Absorbed — scope is implicit, since Compatibility Rules execute within the bundle",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "CR1"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.constraintExclusion",
+          "label": "Option constraints — exclusion",
+          "count": 1,
+          "alive": 1,
+          "lands": "Compatibility Rule (Incompatible)",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Support excludes Hardware"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.constraintDepSatisfied",
+          "label": "Option constraints — dependency, already satisfied",
+          "count": 1,
+          "alive": 1,
+          "lands": "Already satisfied — the option is always present",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Support requires Seat"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.constraintDepOther",
+          "label": "Option constraints — dependency, any other shape",
+          "count": 1,
+          "alive": 1,
+          "lands": "Add add-on bundle product, or Block",
+          "verdict": "Degraded",
+          "names": [
+            "Hardware requires Support"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.selectionRules",
+          "label": "Selection rules",
+          "count": 1,
+          "alive": 1,
+          "lands": "Add add-on bundle product / Swap bundle product",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Auto-add support"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.filterRules",
+          "label": "Filter rules — dynamic option sets",
+          "count": 1,
+          "alive": 1,
+          "lands": "—",
+          "verdict": "No target",
+          "names": [
+            "Regional filter"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.actionSwap",
+          "label": "Remove or disable actions with a replacement",
+          "count": 1,
+          "alive": 0,
+          "lands": "Swap bundle product",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Remove on rule PR4"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.actionRemoveNoReplacement",
+          "label": "Remove or disable actions with no replacement",
+          "count": 1,
+          "alive": 0,
+          "lands": "—",
+          "verdict": "No target",
+          "names": [
+            "Disable on rule PR5"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.lookupProductRule",
+          "label": "Lookup queries on a product rule",
+          "count": 1,
+          "alive": 1,
+          "lands": "Depends on the custom object behind them, which the tool cannot read",
+          "verdict": "Further review",
+          "review": "Unread",
+          "names": [
+            "Compat matrix"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "cfg.priceRuleConfigurator",
+          "label": "Price rules evaluated in the configurator",
+          "count": 1,
+          "alive": 1,
+          "lands": "Compatibility Rules and Dynamic Property Sets evaluate in the configurator; pricing does not resolve until the bundle lands on the quote",
+          "verdict": "Degraded",
+          "names": [
+            "Configurator price hint"
+          ],
+          "details": [
+            "Configurator · Edit"
+          ]
+        },
+        {
+          "rowId": "disc.attributesOnOptions",
+          "label": "Attributes applied to product options",
+          "count": 1,
+          "alive": 1,
+          "lands": "Bundle header property + Update Bundle Members",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "crossListed": {
+            "countedIn": "discovery",
+            "countedInName": "Discovery & capture"
+          },
+          "names": [
+            "Tier"
+          ],
+          "details": []
+        }
+      ],
+      "note": "Nesting has no target — Quotivity bundles are one level deep, so 1 option product has to be flattened or split.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "discovery",
+      "name": "Discovery & capture",
+      "question": "What do we ask before or while quoting?",
+      "phase": "before",
+      "exists": 6,
+      "alive": 6,
+      "aliveUnreliable": [],
+      "needsAttention": 0,
+      "countsMechanisms": false,
+      "summary": [
+        "2 configuration attributes, 1 guided selling process, 2 process inputs.",
+        "1 price rule exist only to default a field."
+      ],
+      "rows": [
+        {
+          "rowId": "disc.attributesGuided",
+          "label": "Attributes not applied to product options",
+          "count": 1,
+          "alive": 1,
+          "lands": "Guided Selling question",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Region"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "disc.attributesOnOptions",
+          "label": "Attributes applied to product options",
+          "count": 1,
+          "alive": 1,
+          "lands": "Bundle header property + Update Bundle Members",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Tier"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "disc.quoteProcesses",
+          "label": "Quote processes",
+          "count": 1,
+          "alive": 1,
+          "lands": "Guided Selling flow",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "New business"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "disc.processInputs",
+          "label": "Process inputs",
+          "count": 2,
+          "alive": 2,
+          "lands": "Guided Selling questions",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Company size",
+            "Industry"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "disc.priceRulesDefaulting",
+          "label": "Price rules writing a non-money field",
+          "count": 1,
+          "alive": 1,
+          "lands": "Update Line Items",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Default region"
+          ],
+          "details": [
+            "Calculator · On Initialization"
+          ]
+        }
+      ],
+      "note": "Attributes split by whether the answer is pushed onto product options — that decides which of the two destinations applies.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "price",
+      "name": "Price determination",
+      "question": "How does a price get to the line?",
+      "phase": "quote",
+      "exists": 16,
+      "alive": 12,
+      "aliveUnreliable": [],
+      "needsAttention": 6,
+      "review": 1,
+      "countsMechanisms": true,
+      "summary": [
+        "16 distinct ways a price reaches a line.",
+        "2 of the calculation paths run through a Quote Calculator Plugin."
+      ],
+      "rows": [
+        {
+          "rowId": "price.costPlus",
+          "label": "Cost-plus pricing",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Calculated pricing formula",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Hardware"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.percentOfTotal",
+          "label": "Percent-of-total pricing",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Roll-up + calculated pricing formula",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Support"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.block",
+          "label": "Block pricing",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Calculated pricing formula",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Storage"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.attributeDriven",
+          "label": "Attribute-driven price",
+          "count": 1,
+          "unit": "rules",
+          "alive": 1,
+          "lands": "Pricing table (value or range), or product variants",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Tier pricing"
+          ],
+          "details": [
+            "Calculator · On Calculate"
+          ]
+        },
+        {
+          "rowId": "price.priceRulesPrice",
+          "label": "Price rules writing a price field",
+          "count": 1,
+          "unit": "rules",
+          "alive": 1,
+          "lands": "Calculated pricing formula",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "names": [
+            "Volume list price"
+          ],
+          "details": [
+            "Calculator · On Calculate"
+          ]
+        },
+        {
+          "rowId": "price.actionsOverLimit",
+          "label": "Price actions over the formula limits",
+          "count": 2,
+          "alive": 0,
+          "lands": "—",
+          "verdict": "No target",
+          "names": [
+            "SBQQ__NetPrice__c on rule PRC1",
+            "SBQQ__ListPrice__c on rule PRC6"
+          ],
+          "details": [
+            "AND() takes 2 to 5 arguments; this one has 6",
+            "ROUND() is not in the calculated pricing grammar"
+          ]
+        },
+        {
+          "rowId": "price.actionsQuoteRollup",
+          "label": "Summary variables rolled up to the quote",
+          "count": 1,
+          "alive": 0,
+          "lands": "Roll-up, which writes its result to the quote",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "names": [
+            "Quote_Total_Seats__c on rule PRC1"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.actionsQuoteArbitrary",
+          "label": "Price actions writing an arbitrary quote field",
+          "count": 1,
+          "alive": 0,
+          "lands": "— no outcome writes an arbitrary quote property",
+          "verdict": "No target",
+          "names": [
+            "Custom_Total__c on rule PRC1"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.subscriptionUnbundled",
+          "label": "Subscription term, not a bundle option",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Ramp pricing",
+          "verdict": "Degraded",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Standalone Subscription"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.subscriptionBundled",
+          "label": "Subscription term on a bundle header or option",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle",
+          "verdict": "Degraded",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Platform Bundle"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.usage",
+          "label": "Usage-based charge type",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "—",
+          "verdict": "No target",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "API Calls"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.mdqSame",
+          "label": "MDQ segments, same quantity every segment",
+          "count": 1,
+          "unit": "dimensions",
+          "alive": 1,
+          "lands": "Ramp pricing; Update Bundle Members rules when the product is bundled",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Yearly bundle"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.mdqDiffering",
+          "label": "MDQ segments with differing quantities",
+          "count": 1,
+          "unit": "dimensions",
+          "alive": 1,
+          "lands": "Quantity is locked across ramp periods — stepped quantity does not carry",
+          "verdict": "Degraded",
+          "names": [
+            "Yearly"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.lookupPriceRule",
+          "label": "Lookup queries on a price rule",
+          "count": 1,
+          "alive": 1,
+          "lands": "Depends on the custom object behind it, and custom object values cannot be inputs to a pricing formula",
+          "verdict": "Further review",
+          "review": "Unread",
+          "names": [
+            "Rate card"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "sv.plain",
+          "label": "Summary variables over quote lines",
+          "count": 1,
+          "alive": 1,
+          "lands": "Roll-up field, with conditions when FilterField is set",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Total seats"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "sv.composite",
+          "label": "Composite summary variables",
+          "count": 1,
+          "alive": 0,
+          "lands": "Two roll-ups, composed in a calculated pricing formula",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "names": [
+            "Seats doubled"
+          ],
+          "details": [
+            "no rule, condition or term references this variable — dead configuration"
+          ]
+        }
+      ],
+      "note": "This bucket counts mechanisms, not records. 16 is high — most orgs run three or four.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "discounting",
+      "name": "Discounting",
+      "question": "Who gets off list, and by how much?",
+      "phase": "quote",
+      "exists": 8,
+      "alive": 6,
+      "aliveUnreliable": [],
+      "needsAttention": 2,
+      "countsMechanisms": false,
+      "summary": [
+        "4 discount schedules, 6 tiers, 3 contracted prices.",
+        "2 schedules aggregate above the line rather than on it."
+      ],
+      "rows": [
+        {
+          "rowId": "dsc.perLine",
+          "label": "Per-line schedules",
+          "count": 1,
+          "alive": 1,
+          "lands": "Volume pricing tiers",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Seat volume"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "dsc.quoteScope",
+          "label": "Schedules aggregating across the quote",
+          "count": 1,
+          "alive": 1,
+          "lands": "Quote-wide roll-up, then a calculated pricing formula over it",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "names": [
+            "Quote-wide"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "dsc.groupScope",
+          "label": "Schedules aggregating across a quote line group",
+          "count": 1,
+          "alive": 1,
+          "lands": "Roll-ups aggregate quote-wide or per bundle. Line item grouping is a template display feature and carries no functional aggregate",
+          "verdict": "Degraded",
+          "names": [
+            "Per group"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "dsc.slab",
+          "label": "Slab-type schedules",
+          "count": 1,
+          "alive": 0,
+          "lands": "Volume tiers, converted to per-unit",
+          "verdict": "Degraded",
+          "names": [
+            "Slab"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "dsc.contractedPrices",
+          "label": "Contracted prices",
+          "count": 3,
+          "alive": 2,
+          "lands": "Price book assigned to a company",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "names": [
+            "Globex seat",
+            "Globex support",
+            "Initech seat"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "dsc.priceRulesDiscount",
+          "label": "Price rules writing a discount or markup field",
+          "count": 1,
+          "alive": 1,
+          "lands": "Volume tiers or Add One-time Discount",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Partner discount"
+          ],
+          "details": [
+            "Calculator · On Calculate",
+            "custom logic 1 OR 2 → 1 OR 2"
+          ]
+        }
+      ],
+      "note": "6 tiers are read but not counted as constructs — they belong to their schedule. Tier bounds are half-open in CPQ and stay that way on import.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "guardrails",
+      "name": "Guardrails",
+      "question": "What can a rep not do?",
+      "phase": "quote",
+      "exists": 8,
+      "alive": 7,
+      "aliveUnreliable": [],
+      "needsAttention": 2,
+      "countsMechanisms": false,
+      "summary": [
+        "5 rules that stop or warn a rep. 7 touched in the trailing 24 months.",
+        "1 margin floor or ceiling is computed by a price rule a validation rule then tests."
+      ],
+      "rows": [
+        {
+          "rowId": "sv.constraint",
+          "label": "Summary variables constrained to a quote value",
+          "count": 1,
+          "alive": 1,
+          "lands": "Roll-up conditions compare a line property to a static value, not to a quote property. Needs Update Line Items to stamp the quote value onto lines first, then filter on it",
+          "verdict": "Degraded",
+          "names": [
+            "Margin by region"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "sv.productOption",
+          "label": "Summary variables over product options",
+          "count": 1,
+          "alive": 1,
+          "lands": "Aggregates catalog records at configuration time; roll-ups aggregate quote lines",
+          "verdict": "Degraded",
+          "names": [
+            "Option count"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "grd.validation",
+          "label": "Validation rules",
+          "count": 2,
+          "alive": 1,
+          "lands": "Block outcome",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Margin floor",
+            "Broken custom logic"
+          ],
+          "details": [
+            "custom logic 1 AND 4 → 1 AND 4"
+          ]
+        },
+        {
+          "rowId": "grd.alert",
+          "label": "Alert rules",
+          "count": 1,
+          "alive": 1,
+          "lands": "Notify outcome",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Discount warning"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "grd.quoteScope",
+          "label": "Quote-scope rules, no bundle context",
+          "count": 1,
+          "alive": 1,
+          "lands": "Block or Require Approval outcome",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Quote-level check"
+          ],
+          "details": [
+            "custom logic (1 AND 2) OR 3 → 1 AND 2 OR 3"
+          ]
+        },
+        {
+          "rowId": "grd.floorCeiling",
+          "label": "Floors and ceilings via price rules",
+          "count": 1,
+          "alive": 1,
+          "lands": "Roll-up + Block outcome",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "names": [
+            "Compute margin"
+          ],
+          "details": [
+            "Calculator · After Calculate"
+          ]
+        },
+        {
+          "rowId": "grd.customLogic",
+          "label": "Custom boolean condition logic on a rule",
+          "count": 3,
+          "alive": 2,
+          "lands": "Condition groups, the expression expanded to disjunctive normal form",
+          "verdict": "Clear path",
+          "shape": "Fan-out",
+          "crossListed": {
+            "countedIn": "guardrails",
+            "countedInName": "its own row in Guardrails"
+          },
+          "names": [
+            "Quote-level check",
+            "Broken custom logic",
+            "Partner discount"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "grd.platformValidation",
+          "label": "Platform validation rules on CPQ objects",
+          "count": 1,
+          "alive": 1,
+          "lands": "Block outcome",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "SBQQ__Quote__c.Discount_needs_reason"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "grd.productFlags",
+          "label": "Non-discountable / not price-editable",
+          "count": 2,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Price book unit price editability",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Standalone Subscription",
+            "Legacy Widget"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "grd.groupGated",
+          "label": "Rules and schedules gating on a quote line group",
+          "count": 3,
+          "alive": 3,
+          "lands": "Grouping is display-only; anything that aggregates or gates by group has to be rebuilt on a quote-wide or per-bundle roll-up",
+          "verdict": "Degraded",
+          "crossListed": {
+            "countedIn": "guardrails",
+            "countedInName": "its own row in Guardrails"
+          },
+          "names": [
+            "Quote-level check",
+            "Per group",
+            "Discount over 20%"
+          ],
+          "details": []
+        }
+      ],
+      "note": "Platform validation rules on CPQ objects are counted only when admin-authored (1 here). Package-owned rules are excluded by namespace.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "approvals",
+      "name": "Approvals",
+      "question": "Who has to sign off, and in what order?",
+      "phase": "quote",
+      "exists": 6,
+      "alive": 6,
+      "aliveUnreliable": [],
+      "needsAttention": 2,
+      "countsMechanisms": false,
+      "summary": [
+        "2 approval rules, 1 chain, 2 approvers. Median cycle 2.0 days.",
+        "Advanced Approvals and 1 native approval process are both live."
+      ],
+      "rows": [
+        {
+          "rowId": "apr.rules",
+          "label": "Approval rules and their conditions",
+          "count": 1,
+          "alive": 1,
+          "lands": "Require Approval outcome + approval queue",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Discount over 20%"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "apr.derivedApprover",
+          "label": "Approvers derived from a field",
+          "count": 1,
+          "alive": 1,
+          "lands": "Workflow routing",
+          "verdict": "Degraded",
+          "names": [
+            "Manager sign-off"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "apr.chains",
+          "label": "Chains with step-gated ordering",
+          "count": 1,
+          "alive": 1,
+          "lands": "Stacked Request Quote Approval actions in a HubSpot workflow",
+          "verdict": "Clear path",
+          "shape": "Rebuild",
+          "names": [
+            "Sales chain"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "apr.trackedFields",
+          "label": "Tracked fields",
+          "count": 1,
+          "alive": 1,
+          "lands": "Rule conditions + roll-ups",
+          "verdict": "Degraded",
+          "names": [
+            "Net total"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "apr.variables",
+          "label": "Approval variables",
+          "count": 1,
+          "alive": 1,
+          "lands": "Roll-up field, read by the rule conditions",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Max discount"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "apr.native",
+          "label": "Native approval processes",
+          "count": 1,
+          "alive": 1,
+          "lands": "Require Approval + HubSpot workflow",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Opportunity discount approval"
+          ],
+          "details": [
+            "Opportunity · Active"
+          ]
+        }
+      ],
+      "note": "Both engines are running. A SOQL-only inventory would have missed the native processes entirely.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "output",
+      "name": "Quote output",
+      "question": "What does the customer actually receive?",
+      "phase": "quote",
+      "exists": 14,
+      "alive": 11,
+      "aliveUnreliable": [],
+      "needsAttention": 1,
+      "countsMechanisms": false,
+      "summary": [
+        "2 templates, 3 sections, 2 line columns, 1 quote term.",
+        "1 template has not been touched since 2024."
+      ],
+      "rows": [
+        {
+          "rowId": "sv.asset",
+          "label": "Summary variables over assets or subscriptions",
+          "count": 1,
+          "alive": 1,
+          "lands": "— no asset model",
+          "verdict": "No target",
+          "names": [
+            "Asset total"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "out.templates",
+          "label": "Templates, sections, content",
+          "count": 2,
+          "alive": 1,
+          "lands": "Quotivity Template",
+          "verdict": "Clear path",
+          "shape": "Rebuild",
+          "names": [
+            "Standard quote",
+            "Legacy proposal"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "out.lineColumns",
+          "label": "Line columns",
+          "count": 2,
+          "alive": 2,
+          "lands": "Line item columns + Dynamic Property Sets",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Product",
+            "Custom column"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "out.terms",
+          "label": "Quote terms",
+          "count": 1,
+          "alive": 1,
+          "lands": "Terms Library + Insert Template Terms",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Payment terms"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "out.termConditions",
+          "label": "Term conditions",
+          "count": 1,
+          "alive": 1,
+          "lands": "Template module visibility — condition groups combined with AND / OR",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [
+            "Region__c equals EMEA"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "out.groups",
+          "label": "Quote line groups used for presentation",
+          "count": 7,
+          "alive": 5,
+          "lands": "Template grouping of line items by a line item property",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [],
+          "details": []
+        }
+      ],
+      "note": "Templates are authored fresh rather than imported — same document, no import file. That is true of a move to Revenue Cloud Advanced too.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "lifecycle",
+      "name": "Contract lifecycle",
+      "question": "What happens to the deal after it is won?",
+      "phase": "after",
+      "exists": 13,
+      "alive": 12,
+      "aliveUnreliable": [],
+      "needsAttention": 5,
+      "countsMechanisms": false,
+      "summary": [
+        "4 active contracts, 6 subscriptions.",
+        "67% of 2025's quotes were renewals or amendments."
+      ],
+      "rows": [
+        {
+          "rowId": "price.subscriptionUnbundled",
+          "label": "Subscription term, not a bundle option",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Ramp pricing",
+          "verdict": "Degraded",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Standalone Subscription"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.subscriptionBundled",
+          "label": "Subscription term on a bundle header or option",
+          "count": 1,
+          "unit": "products",
+          "alive": 1,
+          "lands": "Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle",
+          "verdict": "Degraded",
+          "crossListed": {
+            "countedIn": "catalog",
+            "countedInName": "Catalog"
+          },
+          "names": [
+            "Platform Bundle"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "life.contracts",
+          "label": "Contracts and subscriptions",
+          "count": 4,
+          "alive": 3,
+          "lands": "HubSpot Contract + contract line items",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [],
+          "details": [
+            "6 subscriptions"
+          ]
+        },
+        {
+          "rowId": "life.amendRenew",
+          "label": "Amendment and renewal quotes",
+          "count": 4,
+          "alive": 4,
+          "lands": "Change quote, renewal quote",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "names": [],
+          "details": []
+        },
+        {
+          "rowId": "life.ordersAssets",
+          "label": "Orders and assets",
+          "count": 5,
+          "alive": 5,
+          "lands": "—",
+          "verdict": "No target",
+          "names": [],
+          "details": [
+            "2 orders",
+            "3 assets"
+          ]
+        }
+      ],
+      "note": "Renewals and amendments are the majority of quoting volume here, so this bucket carries more weight than its record count suggests.",
+      "partial": false,
+      "unread": []
+    },
+    {
+      "id": "code",
+      "name": "Custom code & UI",
+      "question": "What has been customised on top of the CPQ objects?",
+      "phase": "outside",
+      "exists": 7,
+      "alive": null,
+      "aliveUnreliable": [],
+      "needsAttention": 0,
+      "review": 7,
+      "countsMechanisms": false,
+      "summary": [
+        "2 Quote Calculator Plugins, 1 trigger, 1 custom action, 3 UI customisations.",
+        "Named and flagged for review. Not interpreted."
+      ],
+      "rows": [
+        {
+          "rowId": "cfg.lookupProductRule",
+          "label": "Lookup queries on a product rule",
+          "count": 1,
+          "alive": 1,
+          "lands": "Depends on the custom object behind them, which the tool cannot read",
+          "verdict": "Further review",
+          "review": "Unread",
+          "crossListed": {
+            "countedIn": "configuration",
+            "countedInName": "Configuration"
+          },
+          "names": [
+            "Compat matrix"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "price.lookupPriceRule",
+          "label": "Lookup queries on a price rule",
+          "count": 1,
+          "alive": 1,
+          "lands": "Depends on the custom object behind it, and custom object values cannot be inputs to a pricing formula",
+          "verdict": "Further review",
+          "review": "Unread",
+          "crossListed": {
+            "countedIn": "price",
+            "countedInName": "Price determination"
+          },
+          "names": [
+            "Rate card"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "grd.platformValidation",
+          "label": "Platform validation rules on CPQ objects",
+          "count": 1,
+          "alive": 1,
+          "lands": "Block outcome",
+          "verdict": "Clear path",
+          "shape": "1:1",
+          "crossListed": {
+            "countedIn": "guardrails",
+            "countedInName": "Guardrails"
+          },
+          "names": [
+            "SBQQ__Quote__c.Discount_needs_reason"
+          ],
+          "details": []
+        },
+        {
+          "rowId": "code.qcp",
+          "label": "Quote Calculator Plugins",
+          "count": 2,
+          "alive": 2,
+          "lands": "Flagged for review — likely calculated pricing",
+          "verdict": "Further review",
+          "review": "Unread",
+          "names": [
+            "QCP_MarginFloorAcrossQuote",
+            "QCP_Empty"
+          ],
+          "details": [
+            "hooks: onBeforePriceRules, onAfterCalculate",
+            "no calculator hook detected"
+          ]
+        },
+        {
+          "rowId": "code.triggers",
+          "label": "Apex triggers on CPQ objects",
+          "count": 1,
+          "alive": 1,
+          "lands": "Flagged for review — trigger bodies are unread",
+          "verdict": "Further review",
+          "review": "Unread",
+          "names": [
+            "QuoteMarginTrigger"
+          ],
+          "details": [
+            "SBQQ__Quote__c · Active"
+          ]
+        },
+        {
+          "rowId": "code.customActions",
+          "label": "Custom actions",
+          "count": 1,
+          "alive": 1,
+          "lands": "Flagged for review",
+          "verdict": "Further review",
+          "review": "Unread",
+          "names": [
+            "Send to ERP"
+          ],
+          "details": [
+            "Quote",
+            "Button"
+          ]
+        },
+        {
+          "rowId": "code.ui",
+          "label": "Layouts, buttons, record pages",
+          "count": 3,
+          "alive": 3,
+          "lands": "Flagged for review",
+          "verdict": "Further review",
+          "review": "Unread",
+          "names": [
+            "Layout · Quote Line Layout",
+            "Button · Export_Quote",
+            "Record page · Quote_Record_Page"
+          ],
+          "details": [
+            "SBQQ__QuoteLine__c",
+            "SBQQ__Quote__c"
+          ]
+        }
+      ],
+      "note": "Package-owned records are excluded: 2 custom actions and scripts shipped with CPQ, plus every namespaced trigger, button, layout and record page. QCP_MarginFloorAcrossQuote, QCP_Empty — most orgs have zero to three.",
+      "partial": false,
+      "unread": []
+    }
+  ],
+  "verdictScale": [
+    {
+      "label": "Clear path",
+      "meaning": "The behaviour survives and the route to it is known",
+      "count": 21,
+      "pct": 68
+    },
+    {
+      "label": "Degraded",
+      "meaning": "The behaviour survives in part. The report names what is lost",
+      "count": 6,
+      "pct": 19
+    },
+    {
+      "label": "No target",
+      "meaning": "The behaviour does not survive. Needs a redesign or a product change",
+      "count": 4,
+      "pct": 13
+    }
+  ],
+  "shapeLegend": [
+    {
+      "label": "1:1",
+      "meaning": "One record becomes one record",
+      "count": 15
+    },
+    {
+      "label": "Fan-out",
+      "meaning": "One construct becomes several records, or several collapse into one",
+      "count": 4
+    },
+    {
+      "label": "Rebuild",
+      "meaning": "Authored fresh in the target rather than imported",
+      "count": 2
+    }
+  ],
+  "reviewCount": 3,
+  "mapping": [
+    {
+      "id": "catalog.products",
+      "bucket": "catalog",
+      "bucketName": "Catalog",
+      "from": "Products, price books",
+      "to": "HubSpot product library, Quotivity price books",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 11
+    },
+    {
+      "id": "catalog.multicurrency",
+      "bucket": "catalog",
+      "bucketName": "Catalog",
+      "from": "Multi-currency price books",
+      "to": "Price book entries carry a price per enabled portal currency",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 2
+    },
+    {
+      "id": "catalog.dcrStatic",
+      "bucket": "catalog",
+      "bucketName": "Catalog",
+      "from": "Dated conversion rates, a single static rate",
+      "to": "A manually set HubSpot exchange rate",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 1
+    },
+    {
+      "id": "catalog.dcrTable",
+      "bucket": "catalog",
+      "bucketName": "Catalog",
+      "from": "Dated conversion rates, a maintained rate table",
+      "to": "HubSpot holds one current rate per currency — a rate cannot be authored against a period",
+      "verdict": "Degraded",
+      "count": 1
+    },
+    {
+      "id": "configuration.bundles",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Bundles, features, options, quantity bounds",
+      "to": "Bundles, bundle options, option products",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 7
+    },
+    {
+      "id": "configuration.exclusion",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Option constraints — exclusion",
+      "to": "Compatibility Rules",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 1
+    },
+    {
+      "id": "configuration.dependency",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Option constraints — dependency (\"requires\")",
+      "to": "Already satisfied when the required option is included with a default; otherwise Add add-on or Block",
+      "verdict": "Degraded",
+      "count": 4
+    },
+    {
+      "id": "configuration.minMax",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Feature min/max option counts",
+      "to": "\"Pick one\" and \"Pick one or more\" are native; a numeric cap needs a roll-up + Block",
+      "verdict": "Degraded",
+      "count": 3
+    },
+    {
+      "id": "configuration.nested",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Nested bundles",
+      "to": "—",
+      "verdict": "No target",
+      "count": 2
+    },
+    {
+      "id": "configuration.filter",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Dynamic option sets (filter rules)",
+      "to": "—",
+      "verdict": "No target",
+      "count": 1
+    },
+    {
+      "id": "configuration.lookup",
+      "bucket": "configuration",
+      "bucketName": "Configuration",
+      "from": "Lookup queries on a product rule",
+      "to": "Depends on the custom object behind them, which the tool cannot read",
+      "verdict": "Further review",
+      "count": 1
+    },
+    {
+      "id": "discovery.attributes",
+      "bucket": "discovery",
+      "bucketName": "Discovery & capture",
+      "from": "Configuration attributes",
+      "to": "Header property + Update Bundle Members, or Guided Selling",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 3
+    },
+    {
+      "id": "discovery.guided",
+      "bucket": "discovery",
+      "bucketName": "Discovery & capture",
+      "from": "Guided selling processes",
+      "to": "Guided Selling flows + questions",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 3
+    },
+    {
+      "id": "price.tiers",
+      "bucket": "price",
+      "bucketName": "Price determination",
+      "from": "Volume and tier pricing, attribute pricing",
+      "to": "Price book adjustments, pricing tables, variants",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 1
+    },
+    {
+      "id": "price.calculated",
+      "bucket": "price",
+      "bucketName": "Price determination",
+      "from": "Cost-plus, percent-of-total, block pricing",
+      "to": "Calculated pricing (+ roll-ups)",
+      "verdict": "Clear path",
+      "shape": "Fan-out",
+      "count": 7
+    },
+    {
+      "id": "price.mdq",
+      "bucket": "price",
+      "bucketName": "Price determination",
+      "from": "MDQ / segmented subscription pricing",
+      "to": "Ramp pricing; Update Bundle Members rules when bundled. Stepped quantity does not carry",
+      "verdict": "Degraded",
+      "count": 5
+    },
+    {
+      "id": "price.term",
+      "bucket": "price",
+      "bucketName": "Price determination",
+      "from": "Subscription term and proration maths",
+      "to": "—",
+      "verdict": "No target",
+      "count": 4
+    },
+    {
+      "id": "price.lookup",
+      "bucket": "price",
+      "bucketName": "Price determination",
+      "from": "Lookup queries on a price rule",
+      "to": "Depends on the custom object behind them, which the tool cannot read",
+      "verdict": "Further review",
+      "count": 1
+    },
+    {
+      "id": "discounting.tiers",
+      "bucket": "discounting",
+      "bucketName": "Discounting",
+      "from": "Discount schedules, per-line tiers",
+      "to": "Volume pricing tiers",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 3
+    },
+    {
+      "id": "discounting.quote",
+      "bucket": "discounting",
+      "bucketName": "Discounting",
+      "from": "Schedules aggregating across the quote",
+      "to": "Quote-wide roll-up + calculated pricing formula",
+      "verdict": "Clear path",
+      "shape": "Fan-out",
+      "count": 1
+    },
+    {
+      "id": "discounting.group",
+      "bucket": "discounting",
+      "bucketName": "Discounting",
+      "from": "Schedules aggregating across a quote line group",
+      "to": "Roll-up quote-wide or per bundle — grouping itself carries no functional aggregate",
+      "verdict": "Degraded",
+      "count": 4
+    },
+    {
+      "id": "discounting.contracted",
+      "bucket": "discounting",
+      "bucketName": "Discounting",
+      "from": "Contracted pricing",
+      "to": "Price books assigned to companies",
+      "verdict": "Clear path",
+      "shape": "Fan-out",
+      "count": 3
+    },
+    {
+      "id": "guardrails.validation",
+      "bucket": "guardrails",
+      "bucketName": "Guardrails",
+      "from": "Validation rules",
+      "to": "Block",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 5
+    },
+    {
+      "id": "guardrails.alert",
+      "bucket": "guardrails",
+      "bucketName": "Guardrails",
+      "from": "Alert rules",
+      "to": "Notify",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 1
+    },
+    {
+      "id": "guardrails.flags",
+      "bucket": "guardrails",
+      "bucketName": "Guardrails",
+      "from": "Non-discountable, price-not-editable",
+      "to": "Price book editability, property-set rules",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 2
+    },
+    {
+      "id": "guardrails.custom",
+      "bucket": "guardrails",
+      "bucketName": "Guardrails",
+      "from": "Custom boolean condition logic on a rule",
+      "to": "Condition groups, the expression flattened",
+      "verdict": "Clear path",
+      "shape": "Fan-out",
+      "count": 3
+    },
+    {
+      "id": "approvals.rules",
+      "bucket": "approvals",
+      "bucketName": "Approvals",
+      "from": "Approval rules and conditions",
+      "to": "Require Approval + approval queue",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 3
+    },
+    {
+      "id": "approvals.chains",
+      "bucket": "approvals",
+      "bucketName": "Approvals",
+      "from": "Approval chains, ordering",
+      "to": "Stacked Request Quote Approval (v2) actions in a HubSpot workflow",
+      "verdict": "Clear path",
+      "shape": "Rebuild",
+      "count": 1
+    },
+    {
+      "id": "approvals.derived",
+      "bucket": "approvals",
+      "bucketName": "Approvals",
+      "from": "Derived approvers, escalation",
+      "to": "Workflow routing",
+      "verdict": "Degraded",
+      "count": 2
+    },
+    {
+      "id": "output.groups",
+      "bucket": "output",
+      "bucketName": "Quote output",
+      "from": "Quote line groups",
+      "to": "Template grouping of line items by a line item property",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 7
+    },
+    {
+      "id": "output.templates",
+      "bucket": "output",
+      "bucketName": "Quote output",
+      "from": "Quote templates, sections, columns, terms",
+      "to": "Quotivity Templates, Terms Library",
+      "verdict": "Clear path",
+      "shape": "Rebuild",
+      "count": 6
+    },
+    {
+      "id": "lifecycle.renewals",
+      "bucket": "lifecycle",
+      "bucketName": "Contract lifecycle",
+      "from": "Amendments, prorations, renewals",
+      "to": "HubSpot Contracts, change and renewal quotes",
+      "verdict": "Clear path",
+      "shape": "1:1",
+      "count": 8
+    },
+    {
+      "id": "lifecycle.orders",
+      "bucket": "lifecycle",
+      "bucketName": "Contract lifecycle",
+      "from": "Orders, assets",
+      "to": "—",
+      "verdict": "No target",
+      "count": 6
+    },
+    {
+      "id": "code.custom",
+      "bucket": "code",
+      "bucketName": "Custom code & UI",
+      "from": "QCP, triggers and UI customisations on CPQ objects",
+      "to": "Calculated pricing, most likely — listed, not interpreted",
+      "verdict": "Further review",
+      "count": 7
+    }
+  ],
+  "review": [
+    {
+      "reason": "Unread",
+      "subject": "Lookup queries on a product rule — 1",
+      "count": 1,
+      "question": "How many product properties does your lookup table key on?",
+      "outA": "Keys on one property: this is a pricing table and a direct port.",
+      "outB": "Keys on three: it becomes product variants, or an expanded catalogue.",
+      "names": [
+        "Compat matrix"
+      ]
+    },
+    {
+      "reason": "Unread",
+      "subject": "Lookup queries on a price rule — 1",
+      "count": 1,
+      "question": "Are the lookup inputs properties of the product, or values from another object?",
+      "outA": "Product properties: a pricing table carries it.",
+      "outB": "Another object: custom object values cannot feed a pricing formula, so the matrix is re-expressed as variants or products.",
+      "names": [
+        "Rate card"
+      ]
+    },
+    {
+      "reason": "Unread",
+      "subject": "Quote Calculator Plugins, triggers and UI — 7",
+      "count": 7,
+      "question": "What does each script actually do at its calculator hook?",
+      "outA": "Pricing maths: calculated pricing absorbs it declaratively.",
+      "outB": "An external call or a cross-system lookup: it needs a redesign, and the call decides which.",
+      "names": [
+        "QCP_MarginFloorAcrossQuote",
+        "QCP_Empty",
+        "QuoteMarginTrigger",
+        "Send to ERP",
+        "Layout · Quote Line Layout",
+        "Button · Export_Quote",
+        "Record page · Quote_Record_Page"
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "head": "Clear path is not a claim that it is easy",
+      "body": "It says the behaviour survives and the route is known. A quote template rebuilt from scratch is a clear path — the finished document is reproducible and every part of it has a destination. Shape is where the work shows: Fan-out means one construct becomes several records, Rebuild means it is authored fresh rather than imported."
+    },
+    {
+      "head": "Ramp pricing has hard edges, and a route around them",
+      "body": "A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Degraded."
+    },
+    {
+      "head": "Dated conversion rates: quoting carries, authoring does not",
+      "body": "HubSpot holds one current rate per currency, set manually or updated on a schedule from Open Exchange Rates. A deal's rate is stamped at close and history stays viewable, so point-in-time quoting carries. What does not carry is authoring a rate against a named past or future period. 1 of your currencies maintain more than one rate period, which is the practice that does not reproduce."
+    },
+    {
+      "head": "The formula limits are specific",
+      "body": "Calculated pricing supports IF, CASE, AND, OR, NOT, ISBLANK, BLANKVALUE, MIN and MAX — and AND / OR take two to five arguments each. A price action that ANDs six conditions is over the limit even though every function it uses is supported. The report prints the specific limit each formula breaches."
+    },
+    {
+      "head": "Contracted pricing states its cardinality",
+      "body": "It lands as a price book assigned to a company, which also locks the quote so reps cannot switch away from negotiated pricing. Your 3 contracted prices across 2 accounts become 2 price books and 3 entries, expressed as import file rows."
+    },
+    {
+      "head": "Discount tiers are half-open",
+      "body": "CPQ validates that each tier lower bound equals the previous upper bound, so a schedule reads 1–5, 5–10, 10–25. Reading those as inclusive ranges shifts every boundary by one unit and misprices the tier edges, so the convention is preserved on import."
+    },
+    {
+      "head": "Package-owned records are excluded everywhere",
+      "body": "CPQ ships its own metadata and configuration records into every org. Counted naively they become your customisation. Namespaced components are filtered on namespace; seeded configuration records are identified by an install signature. In this org: 2 SBQQ__CustomAction__c shipped with CPQ and were not counted."
+    },
+    {
+      "head": "Apex classes and Flows were not scanned",
+      "body": "Neither can be attributed to a CPQ object reliably — matching strings in a class body over-matches on incidental references and under-matches on dynamic SOQL. Logic may exist there that this report does not see."
+    },
+    {
+      "head": "Custom condition logic that does not parse",
+      "body": "1 rule carry a Custom conditions-met expression the tool could not resolve against the conditions on the rule: Broken custom logic (references conditions 4 that do not exist). Those rules are counted under their type but their logic needs a look."
+    }
+  ],
+  "prerequisites": [
+    {
+      "field": "Custom_Col__c",
+      "object": "SBQQ__QuoteLine__c",
+      "need": "Line item property — read by template line columns",
+      "review": false
+    },
+    {
+      "field": "Custom_Total__c",
+      "object": "SBQQ__Quote__c",
+      "need": "Quote property — read by price rule actions",
+      "review": false
+    },
+    {
+      "field": "Margin__c",
+      "object": "SBQQ__QuoteLine__c",
+      "need": "Line item property — read by price rule actions, validation rules, summary variables",
+      "review": false
+    },
+    {
+      "field": "Partner_Tier__c",
+      "object": "SBQQ__Quote__c",
+      "need": "Quote property — read by price rule conditions",
+      "review": false
+    },
+    {
+      "field": "Region__c",
+      "object": "SBQQ__QuoteLine__c",
+      "need": "Line item property — read by price rule actions, summary variables, term conditions, configuration attributes",
+      "review": false
+    },
+    {
+      "field": "Tier__c",
+      "object": "SBQQ__QuoteLine__c",
+      "need": "Line item property — read by price rule conditions, configuration attributes",
+      "review": false
+    },
+    {
+      "field": "Quote_External_Rate__c",
+      "object": "SBQQ__Quote__c",
+      "need": "Quote property — written by QCP QCP_MarginFloorAcrossQuote — no declarative source until the code question is settled",
+      "review": true
+    },
+    {
+      "field": "Quote_Margin_Percent__c",
+      "object": "SBQQ__Quote__c",
+      "need": "Quote property — read by approval rules; written by trigger QuoteMarginTrigger — no declarative source until the code question is settled",
+      "review": true
+    }
+  ],
+  "seeded": [
+    {
+      "object": "SBQQ__CustomAction__c",
+      "count": 2
+    }
+  ],
+  "unread": [],
+  "unscanned": "Apex classes and Flows were not scanned. Neither can be attributed to an object reliably, so logic may exist there that this report does not see.",
+  "residue": {
+    "count": 4,
+    "pct": 4.7
+  },
+  "highlights": "In this org: 1 bundle option not configured since 2024, 1 approval rule that has not fired in the last 12 months, 5 products never quoted inside the 24 months window, and 2 Quote Calculator Plugins.",
+  "volume": {
+    "quotesByYear": [
+      {
+        "year": 2024,
+        "total": 3,
+        "amendRenew": 0
+      },
+      {
+        "year": 2025,
+        "total": 6,
+        "amendRenew": 4
+      },
+      {
+        "year": 2026,
+        "total": 2,
+        "amendRenew": 0
+      }
+    ],
+    "quotesInWindow": 10,
+    "distinctProductsQuoted": 4
+  },
+  "outbound": {
+    "portalId": "REPLACE_WITH_PORTAL_ID",
+    "gateFormGuid": "REPLACE_WITH_GATE_FORM_GUID",
+    "meetingFormGuid": "REPLACE_WITH_MEETING_FORM_GUID",
+    "meetingSummaryField": "cpq_inventory_report_summary",
+    "leadSource": "cpq-inventory-tool",
+    "sourceUrl": "https://github.com/quotivity/salesforce-cpq-migration-analysis",
+    "privacyPolicyUrl": "https://quotivity.com/privacy",
+    "learnMoreUrl": "https://quotivity.com",
+    "configured": false
+  },
+  "fileName": "quotivity-cpq-inventory-acme-prod-2026-09-12",
+  "sourceUrl": "https://github.com/quotivity/salesforce-cpq-migration-analysis"
+}

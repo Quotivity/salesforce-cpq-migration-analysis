@@ -141,3 +141,16 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Build outputs
+packages/*/lib/
+packages/core/assets/
+packages/report/dist/
+packages/plugin/oclif.manifest.json
+
+# Playwright
+test-results/
+playwright-report/
+
+# Local run output
+.cpq-inventory/
