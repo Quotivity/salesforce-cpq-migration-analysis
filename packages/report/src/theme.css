@@ -541,12 +541,40 @@ h1.h32-20 {
   }
 }
 
-.share-form {
-  margin-top: 28px;
-  max-width: 560px;
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(15, 46, 34, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 }
-.share-form .input {
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: var(--page);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 12px 32px rgba(15, 46, 34, 0.2);
+  padding: 24px 26px 22px;
+}
+.modal .input {
   max-width: none;
+}
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 22px;
 }
 .input.textarea {
   resize: vertical;

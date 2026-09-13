@@ -104,8 +104,10 @@ test.describe('CPQ Inventory report', () => {
     await expect(page.getByRole('heading', { name: /Share this analysis/ })).toBeVisible();
     await expect(page.getByText('quotivity-cpq-inventory-acme-prod-2026-09-12.pdf')).toBeVisible();
 
-    // Share = the meeting-request form, intercepted above. The message is required.
+    // Share = the meeting-request form, in a modal opened by the button. The message is required.
     await page.getByRole('button', { name: 'Schedule a Free Consultation' }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.getByRole('button', { name: 'Send and Schedule' }).click();
     await expect(
       page.getByText('Tell us a little about your configuration or migration'),
     ).toBeVisible();
@@ -114,7 +116,8 @@ test.describe('CPQ Inventory report', () => {
       .getByLabel(/Tell us about your configuration/)
       .fill('Three QCPs and a lot of contracted pricing.');
     await page.getByLabel('Migration timing').selectOption('3-to-6');
-    await page.getByRole('button', { name: 'Schedule a Free Consultation' }).click();
+    await page.getByRole('button', { name: 'Send and Schedule' }).click();
+    await expect(page.getByRole('dialog')).toHaveCount(0);
     await expect(page.getByText('Sent. Pick a time that suits you.')).toBeVisible();
 
     // Exactly the two HubSpot form posts left the machine: the gate and the meeting request.
