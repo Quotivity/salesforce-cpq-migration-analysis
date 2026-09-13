@@ -19,11 +19,11 @@ sf cpq inventory --target-org <alias>
 
 The CLI will warn that the plugin is not signed by Salesforce and ask you to confirm. That prompt is expected: we ship unsigned and accept it.
 
-Options: `--window <months>` (dead-configuration window, default 24), `--port <port>` (default 3579, bound to 127.0.0.1), `--no-open`. Needs Node.js 22 or newer, which the CLI brings with it.
+Options: `--window <months>` (dead-configuration window, default 24), `--port <port>` (default 3579, loopback only), `--no-open`. Needs Node.js 22 or newer, which the CLI brings with it.
 
 ## What happens when you run it
 
-1. The terminal prints which org it is connected to and opens your browser on `http://127.0.0.1:3579`.
+1. The terminal prints which org it is connected to and opens your browser on `http://localhost:3579`.
 2. The landing screens explain what the tool does. **No query runs yet.**
 3. The email gate. Submitting it posts your name and email, the plugin version, a run identifier and the lead source to a HubSpot form — nothing about your configuration. If that request cannot get out (proxy, VPN, egress rule), the analysis runs anyway and the report says so.
 4. The first SOQL call is made when the gate is submitted. Progress is shown per bucket. Every request is a read; there is no DML and no Metadata deploy.
@@ -37,7 +37,7 @@ Press Ctrl-C in the terminal to stop the server. The query results stay on your 
 
 - The Salesforce credential is the one the CLI already holds. It is held in memory for the run, never written, never transmitted, and no Quotivity connected app or OAuth grant is involved.
 - Exactly two outbound requests exist, both user-initiated, both HubSpot form submissions made from your browser: the email gate (name and email) and the meeting request. The meeting request carries your message, your migration timing if you chose one, and the report summary (bucket counts, verdicts, mapping rows, the names of scripts flagged for review) — never the query results, product names, prices, customers, code or org access.
-- The server binds `127.0.0.1` only.
+- The server binds the loopback interface only (`127.0.0.1` and `::1`); nothing is reachable from another machine.
 - Apex classes and Flows are not scanned; the report says so.
 
 The source is here so you can check all of that before running it.

@@ -27,7 +27,7 @@ Options:
   --access-token <tok>   Session access token (required)
   --org-name <name>      Name printed on the report and in the PDF filename (default: instance host)
   --window <months>      Dead-configuration window in months (default: 24)
-  --port <port>          Port to serve the report on, bound to 127.0.0.1 (default: 3579)
+  --port <port>          Port to serve the report on, loopback only (default: 3579)
   --no-open              Do not open a browser; print the URL instead
   --help                 Show this help
 

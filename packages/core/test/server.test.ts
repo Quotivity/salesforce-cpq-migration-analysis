@@ -97,7 +97,7 @@ describe('share summary', () => {
 });
 
 describe('local server', () => {
-  it('binds 127.0.0.1, runs only after POST /api/run, streams progress and serves the print doc', async () => {
+  it('serves on localhost, runs only after POST /api/run, streams progress and serves the print doc', async () => {
     const conn = new EmulatedConnection(acmeStore());
     let ran = 0;
     running = await startServer({
@@ -122,7 +122,9 @@ describe('local server', () => {
         });
       },
     });
-    expect(running.url).toMatch(/^http:\/\/127\.0\.0\.1:\d+\/$/);
+    expect(running.url).toMatch(/^http:\/\/localhost:\d+\/$/);
+    expect((running.server.address() as { address: string }).address).toBe('127.0.0.1');
+    expect((await fetch(`http://127.0.0.1:${running.port}/api/state`)).status).toBe(200);
     const state = await (await fetch(`${running.url}api/state`)).json();
     expect(state).toMatchObject({ status: 'idle', org: { name: 'acme-prod' }, assets: true });
     expect(ran).toBe(0);

@@ -4,7 +4,7 @@ Inventory a Salesforce CPQ org and map every construct to its Quotivity + HubSpo
 
 # description
 
-Reads the org's CPQ configuration through the connection the CLI already holds, classifies every record into ten functional buckets, gives each construct a verdict — clear path, degraded, or no target — and serves the report from 127.0.0.1 in your browser. Nothing about the configuration leaves the machine; the only outbound requests are two user-initiated HubSpot form submissions (the email gate and the meeting request at the end). Every request to Salesforce is a read.
+Reads the org's CPQ configuration through the connection the CLI already holds, classifies every record into ten functional buckets, gives each construct a verdict — clear path, degraded, or no target — and serves the report at http://localhost in your browser, bound to loopback only. Nothing about the configuration leaves the machine; the only outbound requests are two user-initiated HubSpot form submissions (the email gate and the meeting request at the end). Every request to Salesforce is a read.
 
 The command runs until you press Ctrl-C. The report's print control saves a PDF through the browser.
 
@@ -32,7 +32,7 @@ Defaults to 24. Twelve months misclassifies renewal-only configuration as dead i
 
 # flags.port.summary
 
-Port to serve the report on, bound to 127.0.0.1. Increments if taken.
+Port to serve the report on, loopback only. Increments if taken.
 
 # flags.no-open.summary
 
@@ -40,7 +40,7 @@ Do not open a browser; print the URL instead.
 
 # info.ready
 
-Report served at %s — bound to 127.0.0.1 only. Press Ctrl-C to stop.
+Report served at %s — loopback only, nothing is reachable off this machine. Press Ctrl-C to stop.
 
 # error.assets
 

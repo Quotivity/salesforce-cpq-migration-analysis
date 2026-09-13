@@ -26,6 +26,7 @@ export interface ServerOptions {
 
 export interface RunningServer {
   server: Server;
+  /** The URL to open: http://localhost:<port>/. */
   url: string;
   port: number;
   close: () => Promise<void>;
@@ -173,7 +174,11 @@ export async function startServer(opts: ServerOptions): Promise<RunningServer> {
   const server = createServer(handler);
   const port = await listen(server, host, opts.port ?? DEFAULT_PORT);
   const address = server.address() as AddressInfo;
-  const url = `http://${host}:${address.port}/`;
+  // Browsers resolve "localhost" to ::1 or 127.0.0.1 depending on the machine. Bind the IPv6
+  // loopback as well, best effort, so http://localhost works either way. Still loopback only.
+  const v6 = host === HOST ? await listenLoopbackV6(handler, address.port) : null;
+  const url =
+    host === HOST ? `http://localhost:${address.port}/` : `http://${host}:${address.port}/`;
   return {
     server,
     url,
@@ -182,10 +187,24 @@ export async function startServer(opts: ServerOptions): Promise<RunningServer> {
       new Promise<void>((resolveClose) => {
         for (const s of subscribers) s.end();
         subscribers.clear();
+        v6?.close();
         server.close(() => resolveClose());
       }),
     state: () => ({ status, error }),
   };
+}
+
+/** Best-effort second listener on ::1 for the same port; null when IPv6 loopback is unavailable. */
+function listenLoopbackV6(
+  handler: (req: IncomingMessage, res: ServerResponse) => void,
+  port: number,
+): Promise<Server | null> {
+  return new Promise((resolveV6) => {
+    const s = createServer(handler);
+    s.once('error', () => resolveV6(null));
+    s.once('listening', () => resolveV6(s));
+    s.listen(port, '::1');
+  });
 }
 
 /** Binds 127.0.0.1 only. Detects a taken port and increments, up to 20 tries. */

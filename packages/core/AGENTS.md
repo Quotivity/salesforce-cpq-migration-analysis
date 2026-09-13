@@ -16,7 +16,7 @@ extract (src/extract/*)  →  classify (src/classify/*)  →  assemble (src/repo
 - `src/liveness.ts` — Alive on `LastModifiedDate` within the window; >60% sharing one date marks the object unreliable.
 - `src/ownership.ts` — package-owned filtering.
 - `src/report/` — `ReportData` (the contract with the React app), assembly, the single-file print document, the share summary.
-- `src/server.ts` — `http` on `127.0.0.1`, port detection, SSE progress, `/report?print=1`. Makes no outbound request itself.
+- `src/server.ts` — `http` on `127.0.0.1` (plus `::1` best effort) opened as `http://localhost:<port>`, port detection, SSE progress, `/report?print=1`. Makes no outbound request itself.
 - `src/config/outbound.ts` — HubSpot portal and form GUIDs (compiled-in constants).
 
 ## Rules

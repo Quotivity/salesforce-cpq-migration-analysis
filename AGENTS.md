@@ -9,7 +9,7 @@ A free tool a Salesforce admin runs against their own org. It reads Salesforce C
 
 ## Non-negotiables
 
-- **Nothing leaves the machine except two user-initiated HubSpot form posts** (email gate, meeting request). No other outbound request anywhere. The server binds `127.0.0.1` only.
+- **Nothing leaves the machine except two user-initiated HubSpot form posts** (email gate, meeting request). No other outbound request anywhere. The server binds loopback only (`127.0.0.1`, plus `::1` best effort) and is opened as `http://localhost:<port>`.
 - **No query runs before the email gate is submitted.** The first SOQL call happens in `POST /api/run`.
 - Every Salesforce request is read-only (SOQL, Tooling SOQL). No DML, no Metadata deploys.
 - Liveness reads `LastModifiedDate`, never `CreatedDate`. Quote volume reads business dates.

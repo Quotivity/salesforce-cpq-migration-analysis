@@ -9,5 +9,5 @@ export function launchBanner(org: { name: string; username: string }): string {
 }
 
 export function readyLine(url: string): string {
-  return `Report served at ${url} — bound to 127.0.0.1 only. Press Ctrl-C to stop.`;
+  return `Report served at ${url} — loopback only, nothing is reachable off this machine. Press Ctrl-C to stop.`;
 }

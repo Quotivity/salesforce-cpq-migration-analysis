@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 324 324" width="324" height="324">
+  <!-- Quotivity Q mark: brand green disc, white ring, slate needle. -->
+  <defs>
+    <clipPath id="disc"><circle cx="162" cy="162" r="162"/></clipPath>
+  </defs>
+  <circle cx="162" cy="162" r="162" fill="#07AE77"/>
+  <g clip-path="url(#disc)">
+    <circle cx="160" cy="158" r="86" fill="none" stroke="#FFFFFF" stroke-width="52"/>
+    <path d="M198 196 L262 200 L242 262 Z" fill="#FFFFFF"/>
+    <line x1="150" y1="150" x2="330" y2="330" stroke="#506E91" stroke-width="58" stroke-linecap="round"/>
+  </g>
+</svg>
