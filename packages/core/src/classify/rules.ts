@@ -161,7 +161,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     bucket: 'catalog',
     lands:
       'HubSpot holds one current rate per currency. There is no way to author a rate for a named past or future period',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     unit: 'currencies',
     mapping: 'catalog.dcrTable',
   }),
@@ -207,7 +207,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'MinOptionCount > 1, or MaxOptionCount is a finite number > 1',
     bucket: 'configuration',
     lands: 'Allow-multiple, plus roll-up + Block to enforce the count',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'configuration.minMax',
   }),
   row({
@@ -228,7 +228,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'OptionalSKU is itself configurable',
     bucket: 'configuration',
     lands: '—',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'configuration.nested',
   }),
   row({
@@ -271,7 +271,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'Type = Dependency, any other shape',
     bucket: 'configuration',
     lands: 'Add add-on bundle product, or Block',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'configuration.dependency',
   }),
   row({
@@ -292,7 +292,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'Type = Filter',
     bucket: 'configuration',
     lands: '—',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'configuration.filter',
   }),
   row({
@@ -313,7 +313,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'Type contains Remove or Disable, no replacement',
     bucket: 'configuration',
     lands: '—',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'configuration.nested',
   }),
   row({
@@ -336,7 +336,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     bucket: 'configuration',
     lands:
       'Compatibility Rules and Dynamic Property Sets evaluate in the configurator; pricing does not resolve until the bundle lands on the quote',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'configuration.dependency',
   }),
 
@@ -467,7 +467,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
       'formula outside the supported grammar, or over the IF / length / nesting limits',
     bucket: 'price',
     lands: '—',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'price.term',
   }),
   row({
@@ -488,7 +488,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'TargetObject = Quote, SourceVariable empty',
     bucket: 'price',
     lands: '— no outcome writes an arbitrary quote property',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'price.term',
   }),
   row({
@@ -499,7 +499,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     bucket: 'price',
     crossBucket: 'lifecycle',
     lands: 'Ramp pricing',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     unit: 'products',
     mapping: 'price.mdq',
   }),
@@ -512,7 +512,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     crossBucket: 'lifecycle',
     lands:
       'Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     unit: 'products',
     mapping: 'price.mdq',
   }),
@@ -523,7 +523,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'ChargeType = Usage',
     bucket: 'price',
     lands: '—',
-    verdict: 'No target',
+    verdict: 'No path',
     unit: 'products',
     mapping: 'price.term',
   }),
@@ -546,7 +546,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'MDQ segments with differing quantities',
     bucket: 'price',
     lands: 'Quantity is locked across ramp periods — stepped quantity does not carry',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     unit: 'dimensions',
     mapping: 'price.mdq',
   }),
@@ -584,7 +584,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     bucket: 'follows',
     lands:
       'Roll-up conditions compare a line property to a static value, not to a quote property. Needs Update Line Items to stamp the quote value onto lines first, then filter on it',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'price.mdq',
   }),
   row({
@@ -605,7 +605,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'TargetObject = Product Option',
     bucket: 'follows',
     lands: 'Aggregates catalog records at configuration time; roll-ups aggregate quote lines',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'configuration.dependency',
   }),
   row({
@@ -615,7 +615,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'TargetObject = Asset or Subscription, or Scope = Assets',
     bucket: 'follows',
     lands: '— no asset model',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'lifecycle.orders',
   }),
 
@@ -650,7 +650,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     bucket: 'discounting',
     lands:
       'Roll-ups aggregate quote-wide or per bundle. Line item grouping is a template display feature and carries no functional aggregate',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'discounting.group',
   }),
   row({
@@ -660,7 +660,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'Type = Slab',
     bucket: 'discounting',
     lands: 'Volume tiers, converted to per-unit',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'discounting.tiers',
   }),
   row({
@@ -774,7 +774,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     bucket: 'guardrails',
     lands:
       'Grouping is display-only; anything that aggregates or gates by group has to be rebuilt on a quote-wide or per-bundle roll-up',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'discounting.group',
   }),
 
@@ -797,7 +797,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: 'approver derived from a field',
     bucket: 'approvals',
     lands: 'Workflow routing',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'approvals.derived',
   }),
   row({
@@ -818,7 +818,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: '—',
     bucket: 'approvals',
     lands: 'Rule conditions + roll-ups',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
     mapping: 'approvals.derived',
   }),
   row({
@@ -931,7 +931,7 @@ export const RULE_ROWS: readonly RuleRow[] = [
     discriminator: '—',
     bucket: 'lifecycle',
     lands: '—',
-    verdict: 'No target',
+    verdict: 'No path',
     mapping: 'lifecycle.orders',
   }),
 

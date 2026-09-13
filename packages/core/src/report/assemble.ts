@@ -33,7 +33,7 @@ interface RowTally {
   primary: boolean;
 }
 
-const ATTENTION: ReadonlySet<Verdict> = new Set(['Degraded', 'No target']);
+const ATTENTION: ReadonlySet<Verdict> = new Set(['Partial path', 'No path']);
 
 /** Objects that feed each bucket, for unread and bulk-touch reporting. */
 const OBJECT_BUCKETS: Record<string, BucketId[]> = {
@@ -282,7 +282,7 @@ export function assembleReport(
     count: mappingCounts.get(m.id) ?? 0,
   }));
   const verdicted = mapping.filter((m) => m.verdict !== 'Further review').length;
-  const verdictScale: VerdictTile[] = (['Clear path', 'Degraded', 'No target'] as const).map(
+  const verdictScale: VerdictTile[] = (['Clear path', 'Partial path', 'No path'] as const).map(
     (label) => {
       const count = mapping.filter((m) => m.verdict === label).length;
       return {
@@ -488,7 +488,7 @@ function buildNotes(
     },
     {
       head: 'Ramp pricing has hard edges, and a route around them',
-      body: 'A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Degraded.',
+      body: 'A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Partial path.',
     },
     {
       head: 'Dated conversion rates: quoting carries, authoring does not',

@@ -1,5 +1,5 @@
 /** Verdict scale from the spec. "Further review" is not a verdict but travels in the same field. */
-export type Verdict = 'Clear path' | 'Degraded' | 'No target' | 'Further review';
+export type Verdict = 'Clear path' | 'Partial path' | 'No path' | 'Further review';
 export type Shape = '1:1' | 'Fan-out' | 'Rebuild';
 export type ReviewReason = 'Unread' | 'Intent';
 

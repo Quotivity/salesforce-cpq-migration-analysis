@@ -127,7 +127,7 @@ export function bucketNote(id: BucketId, s: SummaryInput): string {
     case 'configuration': {
       const nested = s.rowCount('cfg.optionsNested');
       return nested
-        ? `Nesting has no target — Quotivity bundles are one level deep, so ${n(nested)} option product${nested === 1 ? '' : 's'} ha${nested === 1 ? 's' : 've'} to be flattened or split.`
+        ? `Nesting has no path — Quotivity bundles are one level deep, so ${n(nested)} option product${nested === 1 ? '' : 's'} ha${nested === 1 ? 's' : 've'} to be flattened or split.`
         : 'No nested bundles. Every option product is a leaf, which is the shape Quotivity bundles expect.';
     }
     case 'discovery':
@@ -149,7 +149,7 @@ export function bucketNote(id: BucketId, s: SummaryInput): string {
     case 'lifecycle':
       return f.amendRenewShareLastYear != null && f.amendRenewShareLastYear >= 0.5
         ? 'Renewals and amendments are the majority of quoting volume here, so this bucket carries more weight than its record count suggests.'
-        : 'Contracts and subscriptions carry to HubSpot Contracts; orders and assets have no target.';
+        : 'Contracts and subscriptions carry to HubSpot Contracts; orders and assets have no path.';
     case 'code': {
       const seeded = Object.entries(ex.seeded)
         .filter(([o]) => /CustomAction|CustomScript/.test(o))

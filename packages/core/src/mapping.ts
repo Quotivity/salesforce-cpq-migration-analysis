@@ -40,7 +40,7 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
     bucket: 'catalog',
     from: 'Dated conversion rates, a maintained rate table',
     to: 'HubSpot holds one current rate per currency — a rate cannot be authored against a period',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
   },
   {
     id: 'configuration.bundles',
@@ -63,28 +63,28 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
     bucket: 'configuration',
     from: 'Option constraints — dependency ("requires")',
     to: 'Already satisfied when the required option is included with a default; otherwise Add add-on or Block',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
   },
   {
     id: 'configuration.minMax',
     bucket: 'configuration',
     from: 'Feature min/max option counts',
     to: '"Pick one" and "Pick one or more" are native; a numeric cap needs a roll-up + Block',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
   },
   {
     id: 'configuration.nested',
     bucket: 'configuration',
     from: 'Nested bundles',
     to: '—',
-    verdict: 'No target',
+    verdict: 'No path',
   },
   {
     id: 'configuration.filter',
     bucket: 'configuration',
     from: 'Dynamic option sets (filter rules)',
     to: '—',
-    verdict: 'No target',
+    verdict: 'No path',
   },
   {
     id: 'configuration.lookup',
@@ -130,14 +130,14 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
     bucket: 'price',
     from: 'MDQ / segmented subscription pricing',
     to: 'Ramp pricing; Update Bundle Members rules when bundled. Stepped quantity does not carry',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
   },
   {
     id: 'price.term',
     bucket: 'price',
     from: 'Subscription term and proration maths',
     to: '—',
-    verdict: 'No target',
+    verdict: 'No path',
   },
   {
     id: 'price.lookup',
@@ -167,7 +167,7 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
     bucket: 'discounting',
     from: 'Schedules aggregating across a quote line group',
     to: 'Roll-up quote-wide or per bundle — grouping itself carries no functional aggregate',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
   },
   {
     id: 'discounting.contracted',
@@ -230,7 +230,7 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
     bucket: 'approvals',
     from: 'Derived approvers, escalation',
     to: 'Workflow routing',
-    verdict: 'Degraded',
+    verdict: 'Partial path',
   },
   {
     id: 'output.groups',
@@ -261,7 +261,7 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
     bucket: 'lifecycle',
     from: 'Orders, assets',
     to: '—',
-    verdict: 'No target',
+    verdict: 'No path',
   },
   {
     id: 'code.custom',
@@ -274,8 +274,8 @@ export const MAPPING_ROWS: readonly MappingDef[] = [
 
 export const VERDICT_MEANINGS: Record<Exclude<Verdict, 'Further review'>, string> = {
   'Clear path': 'The behaviour survives and the route to it is known',
-  Degraded: 'The behaviour survives in part. The report names what is lost',
-  'No target': 'The behaviour does not survive. Needs a redesign or a product change',
+  'Partial path': 'The behaviour survives in part. The report names what is lost',
+  'No path': 'The behaviour does not survive. Needs a redesign or a product change',
 };
 
 export const SHAPE_MEANINGS: Record<Shape, string> = {

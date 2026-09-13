@@ -3,27 +3,27 @@ import type { Verdict } from '@quotivity/cpq-inventory-core';
 export const verdictClass = (v: Verdict): string =>
   v === 'Clear path'
     ? 'v-clear'
-    : v === 'Degraded'
+    : v === 'Partial path'
       ? 'v-degraded'
-      : v === 'No target'
+      : v === 'No path'
         ? 'v-notarget'
         : 'v-review';
 
 export const verdictAccent = (v: Verdict): string =>
   v === 'Clear path'
     ? '#07AE77'
-    : v === 'Degraded'
+    : v === 'Partial path'
       ? '#D97230'
-      : v === 'No target'
+      : v === 'No path'
         ? '#C0392B'
         : '#3E8DC4';
 
 export const verdictFg = (v: Verdict): string =>
   v === 'Clear path'
     ? '#047251'
-    : v === 'Degraded'
+    : v === 'Partial path'
       ? '#A9611C'
-      : v === 'No target'
+      : v === 'No path'
         ? '#B23A2E'
         : '#1F6FA8';
 

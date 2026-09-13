@@ -200,7 +200,7 @@ describe('invariants', () => {
       if (reviewRows.length === 0) expect(b.review).toBeUndefined();
       else expect(b.review).toBeGreaterThan(0);
       const attention = b.rows
-        .filter((r) => (r.verdict === 'Degraded' || r.verdict === 'No target') && !r.crossListed)
+        .filter((r) => (r.verdict === 'Partial path' || r.verdict === 'No path') && !r.crossListed)
         .reduce((a, r) => a + r.count, 0);
       if (!b.countsMechanisms) expect(b.needsAttention).toBe(attention);
     }
@@ -210,10 +210,10 @@ describe('invariants', () => {
     expect(code?.alive).toBeNull();
   });
 
-  it('mapping distribution matches the spec: 21 clear, 6 degraded, 4 no target, 3 review', async () => {
+  it('mapping distribution matches the spec: 21 clear, 6 partial, 4 no path, 3 review', async () => {
     const { report } = await run();
     const counts = Object.fromEntries(report.verdictScale.map((v) => [v.label, v.count]));
-    expect(counts).toEqual({ 'Clear path': 21, Degraded: 6, 'No target': 4 });
+    expect(counts).toEqual({ 'Clear path': 21, 'Partial path': 6, 'No path': 4 });
     expect(report.reviewCount).toBe(3);
     expect(report.mapping).toHaveLength(34);
     for (const rule of RULE_ROWS)

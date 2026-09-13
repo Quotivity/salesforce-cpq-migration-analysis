@@ -138,8 +138,8 @@ export function Landing({ onStart, sourceUrl }: { onStart: () => void; sourceUrl
               </div>
               <div>
                 Every construct is mapped to its Quotivity or HubSpot equivalent and given one
-                verdict, on one question — does the behaviour survive? A clear path, degraded, or no
-                target at all.
+                verdict, on one question — does the behaviour survive? A clear path, a partial path,
+                or no path at all.
               </div>
               <div>
                 It does not price the migration, estimate how long it takes, or compare licence

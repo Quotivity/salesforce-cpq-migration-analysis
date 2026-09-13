@@ -140,7 +140,7 @@
           "unit": "currencies",
           "alive": 1,
           "lands": "HubSpot holds one current rate per currency. There is no way to author a rate for a named past or future period",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [],
           "details": [
             "EUR: 3 rate periods"
@@ -212,7 +212,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Allow-multiple, plus roll-up + Block to enforce the count",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Seats"
           ],
@@ -239,7 +239,7 @@
           "count": 1,
           "alive": 1,
           "lands": "—",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [
             "O2"
           ],
@@ -290,7 +290,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Add add-on bundle product, or Block",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Hardware requires Support"
           ],
@@ -315,7 +315,7 @@
           "count": 1,
           "alive": 1,
           "lands": "—",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [
             "Regional filter"
           ],
@@ -340,7 +340,7 @@
           "count": 1,
           "alive": 0,
           "lands": "—",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [
             "Disable on rule PR5"
           ],
@@ -365,7 +365,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Compatibility Rules and Dynamic Property Sets evaluate in the configurator; pricing does not resolve until the bundle lands on the quote",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Configurator price hint"
           ],
@@ -391,7 +391,7 @@
           "details": []
         }
       ],
-      "note": "Nesting has no target — Quotivity bundles are one level deep, so 1 option product has to be flattened or split.",
+      "note": "Nesting has no path — Quotivity bundles are one level deep, so 1 option product has to be flattened or split.",
       "partial": false,
       "unread": []
     },
@@ -591,7 +591,7 @@
           "count": 2,
           "alive": 0,
           "lands": "—",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [
             "SBQQ__NetPrice__c on rule PRC1",
             "SBQQ__ListPrice__c on rule PRC6"
@@ -620,7 +620,7 @@
           "count": 1,
           "alive": 0,
           "lands": "— no outcome writes an arbitrary quote property",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [
             "Custom_Total__c on rule PRC1"
           ],
@@ -633,7 +633,7 @@
           "unit": "products",
           "alive": 1,
           "lands": "Ramp pricing",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "crossListed": {
             "countedIn": "catalog",
             "countedInName": "Catalog"
@@ -650,7 +650,7 @@
           "unit": "products",
           "alive": 1,
           "lands": "Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "crossListed": {
             "countedIn": "catalog",
             "countedInName": "Catalog"
@@ -667,7 +667,7 @@
           "unit": "products",
           "alive": 1,
           "lands": "—",
-          "verdict": "No target",
+          "verdict": "No path",
           "crossListed": {
             "countedIn": "catalog",
             "countedInName": "Catalog"
@@ -698,7 +698,7 @@
           "unit": "dimensions",
           "alive": 1,
           "lands": "Quantity is locked across ramp periods — stepped quantity does not carry",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Yearly"
           ],
@@ -797,7 +797,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Roll-ups aggregate quote-wide or per bundle. Line item grouping is a template display feature and carries no functional aggregate",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Per group"
           ],
@@ -809,7 +809,7 @@
           "count": 1,
           "alive": 0,
           "lands": "Volume tiers, converted to per-unit",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Slab"
           ],
@@ -872,7 +872,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Roll-up conditions compare a line property to a static value, not to a quote property. Needs Update Line Items to stamp the quote value onto lines first, then filter on it",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Margin by region"
           ],
@@ -884,7 +884,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Aggregates catalog records at configuration time; roll-ups aggregate quote lines",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Option count"
           ],
@@ -1006,7 +1006,7 @@
           "count": 3,
           "alive": 3,
           "lands": "Grouping is display-only; anything that aggregates or gates by group has to be rebuilt on a quote-wide or per-bundle roll-up",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "crossListed": {
             "countedIn": "guardrails",
             "countedInName": "its own row in Guardrails"
@@ -1057,7 +1057,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Workflow routing",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Manager sign-off"
           ],
@@ -1082,7 +1082,7 @@
           "count": 1,
           "alive": 1,
           "lands": "Rule conditions + roll-ups",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "names": [
             "Net total"
           ],
@@ -1142,7 +1142,7 @@
           "count": 1,
           "alive": 1,
           "lands": "— no asset model",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [
             "Asset total"
           ],
@@ -1240,7 +1240,7 @@
           "unit": "products",
           "alive": 1,
           "lands": "Ramp pricing",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "crossListed": {
             "countedIn": "catalog",
             "countedInName": "Catalog"
@@ -1257,7 +1257,7 @@
           "unit": "products",
           "alive": 1,
           "lands": "Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle",
-          "verdict": "Degraded",
+          "verdict": "Partial path",
           "crossListed": {
             "countedIn": "catalog",
             "countedInName": "Catalog"
@@ -1297,7 +1297,7 @@
           "count": 5,
           "alive": 5,
           "lands": "—",
-          "verdict": "No target",
+          "verdict": "No path",
           "names": [],
           "details": [
             "2 orders",
@@ -1456,13 +1456,13 @@
       "pct": 68
     },
     {
-      "label": "Degraded",
+      "label": "Partial path",
       "meaning": "The behaviour survives in part. The report names what is lost",
       "count": 6,
       "pct": 19
     },
     {
-      "label": "No target",
+      "label": "No path",
       "meaning": "The behaviour does not survive. Needs a redesign or a product change",
       "count": 4,
       "pct": 13
@@ -1523,7 +1523,7 @@
       "bucketName": "Catalog",
       "from": "Dated conversion rates, a maintained rate table",
       "to": "HubSpot holds one current rate per currency — a rate cannot be authored against a period",
-      "verdict": "Degraded",
+      "verdict": "Partial path",
       "count": 1
     },
     {
@@ -1552,7 +1552,7 @@
       "bucketName": "Configuration",
       "from": "Option constraints — dependency (\"requires\")",
       "to": "Already satisfied when the required option is included with a default; otherwise Add add-on or Block",
-      "verdict": "Degraded",
+      "verdict": "Partial path",
       "count": 4
     },
     {
@@ -1561,7 +1561,7 @@
       "bucketName": "Configuration",
       "from": "Feature min/max option counts",
       "to": "\"Pick one\" and \"Pick one or more\" are native; a numeric cap needs a roll-up + Block",
-      "verdict": "Degraded",
+      "verdict": "Partial path",
       "count": 3
     },
     {
@@ -1570,7 +1570,7 @@
       "bucketName": "Configuration",
       "from": "Nested bundles",
       "to": "—",
-      "verdict": "No target",
+      "verdict": "No path",
       "count": 2
     },
     {
@@ -1579,7 +1579,7 @@
       "bucketName": "Configuration",
       "from": "Dynamic option sets (filter rules)",
       "to": "—",
-      "verdict": "No target",
+      "verdict": "No path",
       "count": 1
     },
     {
@@ -1637,7 +1637,7 @@
       "bucketName": "Price determination",
       "from": "MDQ / segmented subscription pricing",
       "to": "Ramp pricing; Update Bundle Members rules when bundled. Stepped quantity does not carry",
-      "verdict": "Degraded",
+      "verdict": "Partial path",
       "count": 5
     },
     {
@@ -1646,7 +1646,7 @@
       "bucketName": "Price determination",
       "from": "Subscription term and proration maths",
       "to": "—",
-      "verdict": "No target",
+      "verdict": "No path",
       "count": 4
     },
     {
@@ -1684,7 +1684,7 @@
       "bucketName": "Discounting",
       "from": "Schedules aggregating across a quote line group",
       "to": "Roll-up quote-wide or per bundle — grouping itself carries no functional aggregate",
-      "verdict": "Degraded",
+      "verdict": "Partial path",
       "count": 4
     },
     {
@@ -1763,7 +1763,7 @@
       "bucketName": "Approvals",
       "from": "Derived approvers, escalation",
       "to": "Workflow routing",
-      "verdict": "Degraded",
+      "verdict": "Partial path",
       "count": 2
     },
     {
@@ -1802,7 +1802,7 @@
       "bucketName": "Contract lifecycle",
       "from": "Orders, assets",
       "to": "—",
-      "verdict": "No target",
+      "verdict": "No path",
       "count": 6
     },
     {
@@ -1863,7 +1863,7 @@
     },
     {
       "head": "Ramp pricing has hard edges, and a route around them",
-      "body": "A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Degraded."
+      "body": "A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Partial path."
     },
     {
       "head": "Dated conversion rates: quoting carries, authoring does not",
