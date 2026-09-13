@@ -1,16 +1,14 @@
 /**
  * The only two outbound requests the tool makes, both user-initiated, both HubSpot form
  * submissions made from the browser. Portal ID and form GUIDs are public and compiled in.
- *
- * Placeholders are replaced with the real values before the first release (see README).
  */
-export const HUBSPOT_PORTAL_ID = 'REPLACE_WITH_PORTAL_ID';
-/** Email gate — email capture form. Carries email, plugin version, run id, lead source. */
-export const HUBSPOT_GATE_FORM_GUID = 'REPLACE_WITH_GATE_FORM_GUID';
+export const HUBSPOT_PORTAL_ID = '243933280';
+/** Email gate — email capture form. Carries name, email, plugin version, run id, lead source. */
+export const HUBSPOT_GATE_FORM_GUID = '78c7c119-3bf5-49d9-8c31-6122cfda26b3';
 /** Close screen — meeting request form. Carries the same plus the rendered report summary. */
-export const HUBSPOT_MEETING_FORM_GUID = 'REPLACE_WITH_MEETING_FORM_GUID';
-/** Internal name of the multi-line field on the meeting form that receives the report summary. */
-export const HUBSPOT_MEETING_SUMMARY_FIELD = 'cpq_inventory_report_summary';
+export const HUBSPOT_MEETING_FORM_GUID = '7a3e9649-209b-415d-81d0-bf6fe002e105';
+/** Internal name of the contact property on the meeting form that receives the report summary. */
+export const HUBSPOT_MEETING_SUMMARY_FIELD = 'salesforce_cpq_migration_analysis_result';
 export const LEAD_SOURCE = 'cpq-inventory-tool';
 export const SOURCE_URL = 'https://github.com/quotivity/salesforce-cpq-migration-analysis';
 export const PRIVACY_POLICY_URL = 'https://quotivity.com/privacy';

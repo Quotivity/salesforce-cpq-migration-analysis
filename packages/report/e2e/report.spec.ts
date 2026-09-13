@@ -1,8 +1,20 @@
 import { expect, test } from '@playwright/test';
 
 const HUBSPOT = /api\.hsforms\.com/;
-
+const PORTAL = '243933280';
+const GATE = '78c7c119-3bf5-49d9-8c31-6122cfda26b3';
+const MEETING = '7a3e9649-209b-415d-81d0-bf6fe002e105';
 const controlPort = Number(process.env.CPQ_E2E_PORT ?? 3590) + 1;
+
+interface FormBody {
+  fields: { name: string; value: string }[];
+}
+
+async function fillGate(page: import('@playwright/test').Page) {
+  await page.getByLabel('First name*').fill('Acme');
+  await page.getByLabel('Last name*').fill('Admin');
+  await page.getByLabel('Email*').fill('admin@acme.com');
+}
 
 test.describe('CPQ Inventory report', () => {
   test.beforeEach(async ({ request }) => {
@@ -14,10 +26,12 @@ test.describe('CPQ Inventory report', () => {
     context,
   }) => {
     const outbound: string[] = [];
+    const bodies: FormBody[] = [];
     await context.route('**/*', (route) => {
       const url = route.request().url();
       if (HUBSPOT.test(url)) {
         outbound.push(url);
+        bodies.push(route.request().postDataJSON() as FormBody);
         return route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -47,15 +61,21 @@ test.describe('CPQ Inventory report', () => {
     await expect(page.getByText('Your data never leaves your machine.')).toBeVisible();
     await page.getByRole('button', { name: 'Start Analysis' }).click();
 
-    // Hard gate: no email, no analysis.
+    // Hard gate: no name and email, no analysis.
     await expect(
       page.getByRole('heading', { name: 'Where should the analysis go?' }),
     ).toBeVisible();
+    await page.getByRole('button', { name: 'Start the Analysis' }).click();
+    await expect(page.getByText('Enter your first name')).toBeVisible();
+    await expect(page.getByText('Enter your last name')).toBeVisible();
+    await expect(page.getByText('Enter valid email address')).toBeVisible();
+    await fillGate(page);
     await page.getByLabel('Email*').fill('not-an-email');
     await page.getByRole('button', { name: 'Start the Analysis' }).click();
     await expect(page.getByText('Enter valid email address')).toBeVisible();
     const state = await (await page.request.get('/api/state')).json();
     expect(state.status).toBe('idle');
+    expect(outbound).toEqual([]);
 
     await page.getByLabel('Email*').fill('admin@acme.com');
     await page.getByRole('button', { name: 'Start the Analysis' }).click();
@@ -84,13 +104,37 @@ test.describe('CPQ Inventory report', () => {
     await expect(page.getByRole('heading', { name: /Share this analysis/ })).toBeVisible();
     await expect(page.getByText('quotivity-cpq-inventory-acme-prod-2026-09-12.pdf')).toBeVisible();
 
-    // Share = the meeting-request form. Placeholders are unconfigured in this checkout, so the
-    // client reports offline without making a request; with real GUIDs it posts to HubSpot.
+    // Share = the meeting-request form, intercepted above.
     await page.getByRole('button', { name: 'Schedule a Free Consultation' }).click();
-    await expect(page.getByText(/Sent\. Pick a time|could not reach Quotivity/)).toBeVisible();
+    await expect(page.getByText('Sent. Pick a time that suits you.')).toBeVisible();
 
-    // Nothing but HubSpot ever left the machine.
-    expect(outbound.every((u) => HUBSPOT.test(u))).toBe(true);
+    // Exactly the two HubSpot form posts left the machine: the gate and the meeting request.
+    expect(outbound).toEqual([
+      `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL}/${GATE}`,
+      `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL}/${MEETING}`,
+    ]);
+    const gate = bodies[0] as FormBody;
+    expect(gate.fields.map((f) => f.name)).toEqual([
+      'firstname',
+      'lastname',
+      'email',
+      'cpq_inventory_version',
+      'cpq_inventory_run_id',
+      'lead_source',
+    ]);
+    expect(gate.fields.slice(0, 3).map((f) => f.value)).toEqual([
+      'Acme',
+      'Admin',
+      'admin@acme.com',
+    ]);
+    const meeting = bodies[1] as FormBody;
+    const summary =
+      meeting.fields.find((f) => f.name === 'salesforce_cpq_migration_analysis_result')?.value ??
+      '';
+    expect(summary).toContain('STAGE 1 · INVENTORY');
+    expect(summary).toContain('Clear path: 21');
+    expect(summary).not.toContain('Platform Bundle'); // never a product name
+    expect(summary).not.toContain('Globex'); // never a customer
   });
 
   test('print control opens the self-contained document, which prints itself and stays open', async ({
@@ -144,7 +188,7 @@ test.describe('CPQ Inventory report', () => {
     await page.goto('/');
     for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Start Analysis' }).click();
-    await page.getByLabel('Email*').fill('admin@acme.com');
+    await fillGate(page);
     await page.getByRole('button', { name: 'Start the Analysis' }).click();
     await expect(page.getByText('We could not register your email')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What is in your org' })).toBeVisible({

@@ -53,4 +53,4 @@ npm run smoke:plugin # links the plugin into sf and checks --help
 
 ## Releasing
 
-One lockstep version across workspaces. `version.yml` (workflow_dispatch) bumps, commits and tags; `release.yml` publishes on a `v*` tag with npm provenance in the order core → standalone → plugin. `NPM_TOKEN` is a repository secret.
+One lockstep version across workspaces. `version.yml` (workflow_dispatch) bumps, commits and tags; `release.yml` publishes on a `v*` tag in the order core → standalone → plugin, using npm trusted publishing (OIDC — no token) with provenance.

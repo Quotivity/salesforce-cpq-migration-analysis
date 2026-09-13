@@ -1979,15 +1979,15 @@
     "distinctProductsQuoted": 4
   },
   "outbound": {
-    "portalId": "REPLACE_WITH_PORTAL_ID",
-    "gateFormGuid": "REPLACE_WITH_GATE_FORM_GUID",
-    "meetingFormGuid": "REPLACE_WITH_MEETING_FORM_GUID",
-    "meetingSummaryField": "cpq_inventory_report_summary",
+    "portalId": "243933280",
+    "gateFormGuid": "78c7c119-3bf5-49d9-8c31-6122cfda26b3",
+    "meetingFormGuid": "7a3e9649-209b-415d-81d0-bf6fe002e105",
+    "meetingSummaryField": "salesforce_cpq_migration_analysis_result",
     "leadSource": "cpq-inventory-tool",
     "sourceUrl": "https://github.com/quotivity/salesforce-cpq-migration-analysis",
     "privacyPolicyUrl": "https://quotivity.com/privacy",
     "learnMoreUrl": "https://quotivity.com",
-    "configured": false
+    "configured": true
   },
   "fileName": "quotivity-cpq-inventory-acme-prod-2026-09-12",
   "sourceUrl": "https://github.com/quotivity/salesforce-cpq-migration-analysis"

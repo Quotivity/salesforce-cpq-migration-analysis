@@ -74,6 +74,8 @@ export function subscribeProgress(handlers: {
  */
 export const HUBSPOT_FIELDS = {
   email: 'email',
+  firstName: 'firstname',
+  lastName: 'lastname',
   version: 'cpq_inventory_version',
   runId: 'cpq_inventory_run_id',
   leadSource: 'lead_source',
@@ -109,9 +111,15 @@ async function submitHubSpotForm(
   }
 }
 
+export interface Identity {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 export function submitGate(
   outbound: OutboundConfig,
-  email: string,
+  who: Identity,
   version: string,
   runId: string,
 ): Promise<'sent' | 'offline'> {
@@ -120,7 +128,9 @@ export function submitGate(
     outbound.portalId,
     outbound.gateFormGuid,
     [
-      { name: HUBSPOT_FIELDS.email, value: email },
+      { name: HUBSPOT_FIELDS.firstName, value: who.firstName },
+      { name: HUBSPOT_FIELDS.lastName, value: who.lastName },
+      { name: HUBSPOT_FIELDS.email, value: who.email },
       { name: HUBSPOT_FIELDS.version, value: version },
       { name: HUBSPOT_FIELDS.runId, value: runId },
       { name: HUBSPOT_FIELDS.leadSource, value: outbound.leadSource },
@@ -131,7 +141,7 @@ export function submitGate(
 
 export function submitMeetingRequest(
   outbound: OutboundConfig,
-  email: string,
+  who: Identity,
   version: string,
   runId: string,
   summary: string,
@@ -141,7 +151,9 @@ export function submitMeetingRequest(
     outbound.portalId,
     outbound.meetingFormGuid,
     [
-      { name: HUBSPOT_FIELDS.email, value: email },
+      { name: HUBSPOT_FIELDS.firstName, value: who.firstName },
+      { name: HUBSPOT_FIELDS.lastName, value: who.lastName },
+      { name: HUBSPOT_FIELDS.email, value: who.email },
       { name: HUBSPOT_FIELDS.version, value: version },
       { name: HUBSPOT_FIELDS.runId, value: runId },
       { name: HUBSPOT_FIELDS.leadSource, value: outbound.leadSource },

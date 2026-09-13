@@ -526,6 +526,21 @@ h1.h32-20 {
   border-top: 1px solid var(--line);
 }
 
+.name-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 440px;
+}
+.name-row .input {
+  max-width: none;
+}
+@media (max-width: 520px) {
+  .name-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Scanning ────────────────────────────────────────────────────────── */
 .scanning {
   padding-block: 72px 104px;

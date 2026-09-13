@@ -31,7 +31,7 @@ Options on both: `--window <months>` (dead-configuration window, default 24), `-
 
 1. The terminal prints which org it is connected to and opens your browser on `http://127.0.0.1:3579`.
 2. The landing screens explain what the tool does. **No query runs yet.**
-3. The email gate. Submitting it posts your email, the plugin version, a run identifier and the lead source to a HubSpot form — nothing about your configuration. If that request cannot get out (proxy, VPN, egress rule), the analysis runs anyway and the report says so.
+3. The email gate. Submitting it posts your name and email, the plugin version, a run identifier and the lead source to a HubSpot form — nothing about your configuration. If that request cannot get out (proxy, VPN, egress rule), the analysis runs anyway and the report says so.
 4. The first SOQL call is made when the gate is submitted. Progress is shown per bucket. Every request is a read; there is no DML and no Metadata deploy.
 5. **Stage 1 — Inventory**: ten buckets, each with Exists, Alive (over the window in force), Needs attention and, where it applies, Requires review.
 6. **Stage 2 — Migration analysis**: the same buckets with a verdict per construct — Clear path, Degraded, No target — plus a separate *Requires further review* section, prerequisites, and the notes that explain the edges.
@@ -42,7 +42,7 @@ Press Ctrl-C in the terminal to stop the server. The query results stay on your 
 ## Privacy, specifically
 
 - The Salesforce credential is the one the CLI already holds (plugin) or the token you pass (standalone). It is held in memory for the run, never written, never transmitted, and no Quotivity connected app or OAuth grant is involved.
-- Exactly two outbound requests exist, both user-initiated, both HubSpot form submissions made from your browser: the email gate and the meeting request. The meeting request carries the report summary (bucket counts, verdicts, mapping rows, the names of scripts flagged for review) — never the query results, product names, prices, customers, code or org access.
+- Exactly two outbound requests exist, both user-initiated, both HubSpot form submissions made from your browser: the email gate (name and email) and the meeting request. The meeting request carries the report summary (bucket counts, verdicts, mapping rows, the names of scripts flagged for review) — never the query results, product names, prices, customers, code or org access.
 - The server binds `127.0.0.1` only.
 - Apex classes and Flows are not scanned; the report says so.
 
@@ -76,11 +76,13 @@ Run the plugin from source: `npm run build && sf plugins link packages/plugin &&
 
 Run the report UI on fixture data without an org: `node packages/report/e2e/server.mjs` and open the printed URL.
 
-Before the first release, replace the placeholders in `packages/core/src/config/outbound.ts` (HubSpot portal ID, the two form GUIDs, the summary field name) and confirm the consent wording with whoever owns form consent language.
+The HubSpot portal ID, the two form GUIDs and the summary property name are compiled in at `packages/core/src/config/outbound.ts`; the HubSpot field names the forms use are in `packages/report/src/api.ts`. Confirm the consent wording with whoever owns form consent language before the first release.
 
 ## Releasing
 
-One version across every workspace. Run the **Version** workflow (patch, minor, major or an explicit version); it bumps, commits and tags. The tag triggers **Release**, which re-runs every check and publishes core, standalone and plugin to npm with provenance. `NPM_TOKEN` is a repository secret in the `npm` environment.
+One version across every workspace. Run the **Version** workflow (patch, minor, major or an explicit version); it bumps, commits and tags. The tag triggers **Release**, which re-runs every check and publishes core, standalone and plugin to npm.
+
+Publishing uses **npm trusted publishing** (OIDC): no token is stored anywhere. One-time setup on npmjs.com, for each of the three packages, under *Settings → Trusted publisher*: provider GitHub Actions, organization `Quotivity`, repository `salesforce-cpq-migration-analysis`, workflow filename `release.yml`, environment left blank. The workflow's `id-token: write` permission and the current npm CLI do the rest, and provenance attestations are generated automatically.
 
 ## License
 

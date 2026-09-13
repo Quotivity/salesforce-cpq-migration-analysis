@@ -13,7 +13,6 @@ jobs:
     name: Verify and publish to npm
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment: npm
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,18 +34,17 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run pack:check
+      # npm trusted publishing: the job's OIDC token authenticates the publish, so there is no
+      # long-lived token and nothing that bypasses 2FA. Needs npm 11.5.1+ and, on npmjs.com, a
+      # trusted publisher on each package pointing at this repository and workflow file.
+      - name: Use an npm that supports trusted publishing
+        run: npm install --global npm@latest && npm --version
       - name: Publish core
-        run: npm publish --workspace packages/core --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --workspace packages/core --access public
       - name: Publish standalone
-        run: npm publish --workspace packages/standalone --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --workspace packages/standalone --access public
       - name: Publish plugin
-        run: npm publish --workspace packages/plugin --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --workspace packages/plugin --access public
       - name: GitHub release
         uses: softprops/action-gh-release@v2
         with:

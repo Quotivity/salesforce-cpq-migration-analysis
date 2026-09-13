@@ -4,6 +4,7 @@ import {
   getReport,
   getShareSummary,
   getState,
+  type Identity,
   isPrintMode,
   type ServerState,
   startRun,
@@ -37,7 +38,7 @@ function Interactive() {
   const [progress, setProgress] = useState<ProgressEvent[]>([]);
   const [offline, setOffline] = useState(false);
   const [runError, setRunError] = useState<string | undefined>();
-  const [email, setEmail] = useState('');
+  const [who, setWho] = useState<Identity>({ firstName: '', lastName: '', email: '' });
   const [busy, setBusy] = useState(false);
   const [fatal, setFatal] = useState<string | null>(null);
   const unsubscribe = useRef<(() => void) | null>(null);
@@ -79,11 +80,11 @@ function Interactive() {
     return () => unsubscribe.current?.();
   }, [loadReport, watch]);
 
-  const onGate = async (value: string) => {
+  const onGate = async (identity: Identity) => {
     if (!server) return;
     setBusy(true);
-    setEmail(value);
-    const result = await submitGate(server.outbound, value, server.version, server.runId);
+    setWho(identity);
+    const result = await submitGate(server.outbound, identity, server.version, server.runId);
     setOffline(result === 'offline');
     setStage('scanning');
     setBusy(false);
@@ -101,7 +102,7 @@ function Interactive() {
       const summary = await getShareSummary();
       return await submitMeetingRequest(
         server.outbound,
-        email,
+        who,
         server.version,
         server.runId,
         summary,
@@ -158,7 +159,7 @@ function Interactive() {
         <Analysis report={report} onNext={() => setStage('close')} />
       )}
       {!fatal && stage === 'close' && report && (
-        <Close report={report} email={email} offline={offline} onShare={onShare} />
+        <Close report={report} email={who.email} offline={offline} onShare={onShare} />
       )}
     </div>
   );
