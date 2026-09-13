@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 324 324" width="324" height="324">
+  <title>Quotivity</title>
   <!-- Quotivity Q mark: brand green disc, white ring, slate needle. -->
   <defs>
     <clipPath id="disc"><circle cx="162" cy="162" r="162"/></clipPath>
