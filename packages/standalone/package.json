@@ -1,6 +1,6 @@
 {
   "name": "@quotivity/cpq-inventory-standalone",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Standalone Node script for the Quotivity CPQ Inventory & Migration Analysis. Not yet published: runs from a checkout of the repository.",
   "license": "Apache-2.0",
@@ -29,7 +29,7 @@
     "test": "vitest run --root ../.. packages/standalone"
   },
   "dependencies": {
-    "@quotivity/cpq-inventory-core": "0.1.0",
+    "@quotivity/cpq-inventory-core": "0.2.0",
     "open": "^11.0.3"
   }
 }

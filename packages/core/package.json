@@ -1,6 +1,6 @@
 {
   "name": "@quotivity/cpq-inventory-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Analysis core for the Quotivity CPQ Inventory & Migration Analysis: extraction, classification, mapping, report assembly and the local report server. Runs entirely on the customer's machine.",
   "license": "Apache-2.0",
   "type": "module",

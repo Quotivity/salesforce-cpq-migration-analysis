@@ -1,6 +1,6 @@
 {
   "name": "@quotivity/cpq-inventory-report",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "React report UI for the Quotivity CPQ Inventory. Pre-built at publish time into @quotivity/cpq-inventory-core/assets/report.",
   "license": "Apache-2.0",

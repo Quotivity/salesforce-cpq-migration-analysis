@@ -1,8 +1,8 @@
 {
   "name": "cpq-inventory-monorepo",
   "private": true,
-  "version": "0.1.0",
-  "description": "Quotivity CPQ Inventory & Migration Analysis \u2014 SFDX plugin, standalone script and analysis core",
+  "version": "0.2.0",
+  "description": "Quotivity CPQ Inventory & Migration Analysis — SFDX plugin, standalone script and analysis core",
   "license": "Apache-2.0",
   "type": "module",
   "engines": {

@@ -1,6 +1,6 @@
 {
   "name": "@quotivity/cpq-inventory",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Salesforce CLI plugin: inventory your Salesforce CPQ configuration and see where every piece lands in Quotivity + HubSpot. Runs entirely on your machine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@oclif/core": "^5.0.0",
-    "@quotivity/cpq-inventory-core": "0.1.0",
+    "@quotivity/cpq-inventory-core": "0.2.0",
     "@salesforce/core": "^9.1.11",
     "@salesforce/sf-plugins-core": "^13.0.4",
     "open": "^11.0.3"
