@@ -26,7 +26,7 @@ A free tool a Salesforce admin runs against their own org. It reads Salesforce C
 | `packages/core` | `@quotivity/cpq-inventory-core` | Extraction, classification, mapping, report assembly, local server. Zero runtime deps. |
 | `packages/report` | private | Vite + React report UI. Built into core's `assets/report`. |
 | `packages/plugin` | `@quotivity/cpq-inventory` | `sf cpq inventory` — Salesforce CLI plugin over core. |
-| `packages/standalone` | `@quotivity/cpq-inventory-standalone` | `cpq-inventory` bin over core, token + instance URL, zero deps beyond core. |
+| `packages/standalone` | private (not yet published) | `cpq-inventory` bin over core, token + instance URL, zero deps beyond core. |
 
 Each package has its own `AGENTS.md` with package-specific rules.
 
@@ -53,4 +53,4 @@ npm run smoke:plugin # links the plugin into sf and checks --help
 
 ## Releasing
 
-One lockstep version across workspaces. `version.yml` (workflow_dispatch) bumps, commits and tags; `release.yml` publishes on a `v*` tag in the order core → standalone → plugin, using npm trusted publishing (OIDC — no token) with provenance.
+One lockstep version across workspaces. `version.yml` (workflow_dispatch) bumps, commits and tags; `release.yml` publishes on a `v*` tag in the order core → plugin, using npm trusted publishing (OIDC — no token) with provenance. Standalone is private and skipped until it is ready to publish.

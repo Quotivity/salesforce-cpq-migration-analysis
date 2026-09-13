@@ -8,7 +8,6 @@ const expectations = {
     'messages/cpq.inventory.md',
     'oclif.manifest.json',
   ],
-  'packages/standalone': ['bin/cpq-inventory.js', 'lib/cli.js', 'lib/fetchConnection.js'],
 };
 
 let failed = false;

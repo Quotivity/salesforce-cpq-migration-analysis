@@ -1,6 +1,6 @@
 # packages/standalone — standalone Node script
 
-`@quotivity/cpq-inventory-standalone`, bin `cpq-inventory`. For orgs without SFDX. The admin supplies `--instance-url` and `--access-token` (or `SF_ACCESS_TOKEN`).
+`@quotivity/cpq-inventory-standalone`, bin `cpq-inventory`. For orgs without SFDX. Marked private and not published yet; remove `private` and add it back to `release.yml` and `scripts/pack-check.mjs` when it is. The admin supplies `--instance-url` and `--access-token` (or `SF_ACCESS_TOKEN`).
 
 ## Rules
 

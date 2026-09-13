@@ -25,7 +25,7 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           test "v${VERSION}" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != package version ${VERSION}"; exit 1; }
-          for pkg in packages/core packages/plugin packages/standalone; do
+          for pkg in packages/core packages/plugin; do
             PV=$(node -p "require('./${pkg}/package.json').version")
             test "${PV}" = "${VERSION}" || { echo "${pkg} is at ${PV}, expected ${VERSION}"; exit 1; }
           done
@@ -37,12 +37,11 @@ jobs:
       # npm trusted publishing: the job's OIDC token authenticates the publish, so there is no
       # long-lived token and nothing that bypasses 2FA. Needs npm 11.5.1+ and, on npmjs.com, a
       # trusted publisher on each package pointing at this repository and workflow file.
+      # packages/standalone is private for now and is not published.
       - name: Use an npm that supports trusted publishing
         run: npm install --global npm@latest && npm --version
       - name: Publish core
         run: npm publish --workspace packages/core --access public
-      - name: Publish standalone
-        run: npm publish --workspace packages/standalone --access public
       - name: Publish plugin
         run: npm publish --workspace packages/plugin --access public
       - name: GitHub release

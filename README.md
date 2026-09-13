@@ -17,13 +17,14 @@ sf cpq inventory --target-org <alias>
 
 The CLI will warn that the plugin is not signed by Salesforce and ask you to confirm. That prompt is expected: we ship unsigned and accept it. If your policy does not allow unsigned plugins, use the standalone script instead.
 
-**Standalone script** — no Salesforce CLI needed:
+**Standalone script** — no Salesforce CLI needed. Not published to npm yet; run it from a checkout:
 
 ```sh
-npx @quotivity/cpq-inventory-standalone --instance-url https://acme.my.salesforce.com --access-token <token>
+npm ci && npm run build
+node packages/standalone/bin/cpq-inventory.js --instance-url https://acme.my.salesforce.com --access-token <token>
 ```
 
-Get the two values from `sf org display --target-org <alias>` or any authenticated session. Both packages need Node.js 22 or newer and serve the same report.
+Get the two values from `sf org display --target-org <alias>` or any authenticated session. Both need Node.js 22 or newer and serve the same report.
 
 Options on both: `--window <months>` (dead-configuration window, default 24), `--port <port>` (default 3579, bound to 127.0.0.1), `--no-open`.
 
@@ -55,7 +56,7 @@ The source is here so you can check all of that before running it.
 | `packages/core` | `@quotivity/cpq-inventory-core` | Extraction, classification, mapping, report assembly, local server. No runtime dependencies. |
 | `packages/report` | private | Vite + React report UI, pre-built at publish time into core's `assets/report`. |
 | `packages/plugin` | `@quotivity/cpq-inventory` | `sf cpq inventory` — Salesforce CLI plugin over core. |
-| `packages/standalone` | `@quotivity/cpq-inventory-standalone` | `cpq-inventory` bin over core. |
+| `packages/standalone` | private for now | `cpq-inventory` bin over core. Runs from a checkout; not yet published. |
 | `docs/cpq-inventory-spec.md` | — | The build spec: the master for every functional mapping. |
 | `docs/design/` | — | The report mockup the UI implements. |
 
@@ -80,9 +81,9 @@ The HubSpot portal ID, the two form GUIDs and the summary property name are comp
 
 ## Releasing
 
-One version across every workspace. Run the **Version** workflow (patch, minor, major or an explicit version); it bumps, commits and tags. The tag triggers **Release**, which re-runs every check and publishes core, standalone and plugin to npm.
+One version across every workspace. Run the **Version** workflow (patch, minor, major or an explicit version); it bumps, commits and tags. The tag triggers **Release**, which re-runs every check and publishes core and then plugin to npm. The standalone package is private and skipped until it is ready.
 
-Publishing uses **npm trusted publishing** (OIDC): no token is stored anywhere. One-time setup on npmjs.com, for each of the three packages, under *Settings → Trusted publisher*: provider GitHub Actions, organization `Quotivity`, repository `salesforce-cpq-migration-analysis`, workflow filename `release.yml`, environment left blank. The workflow's `id-token: write` permission and the current npm CLI do the rest, and provenance attestations are generated automatically.
+Publishing uses **npm trusted publishing** (OIDC): no token is stored anywhere. A trusted publisher attaches to an existing package, so the first version of each is published manually from a logged-in machine (`npm run build`, then `npm publish --workspace packages/core --access public`, then the same for `packages/plugin`). One-time setup on npmjs.com, for each of the two packages, under *Settings → Trusted publisher*: provider GitHub Actions, organization `Quotivity`, repository `salesforce-cpq-migration-analysis`, workflow filename `release.yml`, environment left blank. The workflow's `id-token: write` permission and the current npm CLI do the rest, and provenance attestations are generated automatically.
 
 ## License
 
