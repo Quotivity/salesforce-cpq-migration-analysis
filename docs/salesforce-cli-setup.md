@@ -66,7 +66,7 @@ sf plugins install @quotivity/cpq-inventory
 sf cpq inventory --target-org my-org
 ```
 
-The install step asks you to confirm that the plugin is not signed by Salesforce. That is expected; answer yes. Then the command prints which org it connected to, starts a local server on `http://localhost:3579` bound to loopback only, and opens your browser. No query runs until you submit the email gate. Press Ctrl-C in the terminal when you are done.
+The install step asks you to confirm that the plugin is not signed by Salesforce. That is expected; answer yes. Then the command prints which org it connected to, starts a local server on `http://localhost:3579` bound to loopback only, and opens your browser. No query runs until you submit the email gate. Press Enter in the terminal when you are done.
 
 ## Troubleshooting
 

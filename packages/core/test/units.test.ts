@@ -138,3 +138,22 @@ describe('reads', () => {
     expect(read.count).toBe(0);
   });
 });
+
+describe('waitForExit', () => {
+  it('resolves on Enter from the input', async () => {
+    const { PassThrough } = await import('node:stream');
+    const { waitForExit } = await import('../src/waitForExit.js');
+    const input = new PassThrough();
+    const p = waitForExit({ input, interactive: true });
+    input.write('\n');
+    await expect(p).resolves.toBe('enter');
+  });
+  it('resolves on SIGINT and removes its listeners', async () => {
+    const { waitForExit } = await import('../src/waitForExit.js');
+    const before = process.listenerCount('SIGINT');
+    const p = waitForExit({ interactive: false });
+    process.emit('SIGINT');
+    await expect(p).resolves.toBe('signal');
+    expect(process.listenerCount('SIGINT')).toBe(before);
+  });
+});

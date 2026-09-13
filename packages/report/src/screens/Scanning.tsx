@@ -83,7 +83,7 @@ export function Scanning({
           </div>
           <div style={{ fontSize: 14, lineHeight: 1.65, color: '#3C4A42' }}>{error}</div>
           <div className="muted-13" style={{ marginTop: 8 }}>
-            Nothing was transmitted. Press Ctrl-C in the terminal, then run the command again once
+            Nothing was transmitted. Press Enter in the terminal, then run the command again once
             the cause is addressed.
           </div>
         </div>

@@ -2,10 +2,13 @@ import { createRequire } from 'node:module';
 import {
   ASSETS_DIR,
   assetsAvailable,
+  EXIT_HINT,
   launchBanner,
   newRunId,
   runInventory,
+  STOPPED_LINE,
   startServer,
+  waitForExit,
 } from '@quotivity/cpq-inventory-core';
 import { Messages, StateAggregator } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
@@ -82,14 +85,14 @@ export default class CpqInventory extends SfCommand<CpqInventoryResult> {
     this.log(messages.getMessage('info.ready', [server.url]));
     if (!flags['no-open']) await open(server.url);
 
-    await new Promise<void>((resolve) => {
-      const stop = () => {
-        this.log('\nStopping. The query results on this machine were never transmitted.');
-        void server.close().then(resolve);
-      };
-      process.once('SIGINT', stop);
-      process.once('SIGTERM', stop);
-    });
+    this.log(EXIT_HINT);
+    // sf-plugins-core installs a SIGINT handler that throws an ExitError with a stack trace. The
+    // command owns the process while the server runs, so replace it: Enter or Ctrl-C both close the
+    // server and let run() return, and the CLI exits cleanly.
+    process.removeAllListeners('SIGINT');
+    await waitForExit();
+    await server.close();
+    this.log(STOPPED_LINE);
 
     return { url: server.url, port: server.port, org: name, runId, windowMonths: flags.window };
   }

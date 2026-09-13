@@ -191,7 +191,7 @@ export function Close({
           <div className="confirm-title">Opened in a new tab, with the print dialog up.</div>
           <div className="confirm-body">
             The tab stays open — print again or adjust the page range if you need to. Nothing was
-            transmitted. Press Ctrl-C in the terminal when you are done and the server stops.
+            transmitted. Press Enter in the terminal when you are done and the server stops.
           </div>
         </div>
       )}
@@ -200,7 +200,7 @@ export function Close({
         @quotivity/cpq-inventory v{report.version} · run {report.runId} · source published at{' '}
         {report.sourceUrl.replace(/^https?:\/\//, '')}
         <br />
-        Server bound to localhost only · Ctrl-C in the terminal to stop
+        Server bound to localhost only · Enter in the terminal to stop
       </div>
     </div>
   );

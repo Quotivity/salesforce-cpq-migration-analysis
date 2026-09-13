@@ -3,11 +3,14 @@ import { parseArgs } from 'node:util';
 import {
   ASSETS_DIR,
   assetsAvailable,
+  EXIT_HINT,
   launchBanner,
   newRunId,
   readyLine,
   runInventory,
+  STOPPED_LINE,
   startServer,
+  waitForExit,
 } from '@quotivity/cpq-inventory-core';
 import open from 'open';
 import { FetchConnection } from './fetchConnection.js';
@@ -114,12 +117,8 @@ export async function main(argv: string[]): Promise<void> {
   });
   console.log(readyLine(server.url));
   if (opts.open) await open(server.url);
-  await new Promise<void>((resolve) => {
-    const stop = () => {
-      console.log('\nStopping. The query results on this machine were never transmitted.');
-      void server.close().then(resolve);
-    };
-    process.once('SIGINT', stop);
-    process.once('SIGTERM', stop);
-  });
+  console.log(EXIT_HINT);
+  await waitForExit();
+  await server.close();
+  console.log(STOPPED_LINE);
 }

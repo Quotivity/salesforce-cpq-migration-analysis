@@ -40,6 +40,7 @@ export * from './report/types.js';
 export { type RunningServer, type RunStatus, type ServerOptions, startServer } from './server.js';
 export * from './soql.js';
 export * from './types.js';
+export * from './waitForExit.js';
 
 export interface RunOptions extends Omit<ExtractOptions, 'onProgress'> {
   version: string;
