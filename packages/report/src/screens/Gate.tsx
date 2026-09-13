@@ -102,12 +102,14 @@ export function Gate({
       </div>
 
       <div style={{ marginTop: 22, fontSize: 13, lineHeight: 1.6, color: '#5C6B62' }}>
-        By submitting, you agree to receive communications from Quotivity. Unsubscribe at any time.
-        See our{' '}
+        By submitting this form, you consent to Quotivity storing and processing your information to
+        send you product updates, marketing, and related communications. We do not sell your data.
+        You may withdraw consent or unsubscribe at any time using the link in any email, or by
+        contacting <a href="mailto:privacy@quotivity.com">privacy@quotivity.com</a>. See our{' '}
         <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer">
           Privacy Policy
-        </a>
-        .
+        </a>{' '}
+        for details.
       </div>
 
       <button

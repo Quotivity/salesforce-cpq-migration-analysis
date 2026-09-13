@@ -76,7 +76,7 @@ Run the plugin from source: `npm run build && sf plugins link packages/plugin &&
 
 Run the report UI on fixture data without an org: `node packages/report/e2e/server.mjs` and open the printed URL.
 
-The HubSpot portal ID, the two form GUIDs and the summary property name are compiled in at `packages/core/src/config/outbound.ts`; the HubSpot field names the forms use are in `packages/report/src/api.ts`. Confirm the consent wording with whoever owns form consent language before the first release.
+The HubSpot portal ID, the two form GUIDs and the summary property name are compiled in at `packages/core/src/config/outbound.ts`; the HubSpot field names the forms use are in `packages/report/src/api.ts`. The consent statement shown with the gate is in `packages/report/src/screens/Gate.tsx`.
 
 ## Releasing
 
