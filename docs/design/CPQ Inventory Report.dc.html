@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/quotivity-design-system-ad64cb95-418f-4232-a7f0-0e7b52b47aa5/colors_and_type.css">
+<script src="_ds/quotivity-design-system-ad64cb95-418f-4232-a7f0-0e7b52b47aa5/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; background: #FFF9F4; }
+  body { font-family: 'Lexend Deca', sans-serif; font-weight: 300; color: #1C2A23; }
+  a { color: #047251; text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: #0F2E22; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FFF9F4;font-family:'Lexend Deca',sans-serif;font-weight:300;color:#1C2A23;-webkit-font-smoothing:antialiased">
+
+  <div style="background:#0F2E22;color:#DCEFE5">
+    <div style="max-width:920px;margin:0 auto;padding:7px 32px 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00DB9A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><line x1="12" y1="20" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      <div style="font-size:12px;line-height:1.5;letter-spacing:0.01em">This report is being served from <span style="font-family:var(--font-mono);font-weight:600;color:#FFFFFF">localhost</span> — your own machine. Nothing here has been uploaded anywhere.</div>
+    </div>
+  </div>
+
+  <div style="position:sticky;top:0;z-index:5;background:#FFF9F4;border-bottom:1px solid #E6DED4">
+    <div style="max-width:920px;margin:0 auto;padding:13px 32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:9px">
+        <img src="uploads/q-wordmark-light.png" alt="Quotivity" style="height:22px;width:auto;display:block">
+        <span style="font-size:13px;color:#6E7C73">Salesforce CPQ to HubSpot Migration Analysis Tool<br></span>
+      </div>
+      <div style="flex:1;min-width:24px"></div>
+      <a href="https://quotivity.com" target="_blank" rel="noopener" style="font-size:14px;font-weight:600;color:#047251;display:inline-flex;align-items:center;gap:5px;text-decoration:none">Learn more about Quotivity<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
+    </div>
+    <sc-if value="{{ showRail }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:920px;margin:0 auto;padding:0 32px;display:flex;gap:24px;flex-wrap:wrap">
+        <sc-for list="{{ rail }}" as="step" hint-placeholder-count="3">
+          <button type="button" onClick="{{ step.go }}" style="border:0;background:none;padding:0 0 9px;margin:0;cursor:pointer;font-family:'Lexend Deca',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:{{ step.fg }};border-bottom:2px solid {{ step.bd }}">{{ step.label }}</button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:920px;margin:0 auto;padding:56px 32px 96px">
+      <div style="min-height:540px;display:flex;flex-direction:column">
+
+        <sc-if value="{{ s1 }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#047251;margin-bottom:18px">CPQ Inventory &amp; Migration Analysis</div>
+            <h1 style="margin:0 0 24px;font-size:40px;line-height:1.08;font-weight:700;color:#0F2E22;letter-spacing:-0.015em;text-wrap:pretty">You're considering a move to HubSpot, but the CPQ gap is a concern.</h1>
+            <div style="display:grid;gap:13px;font-size:17px;line-height:1.55;color:#3C4A42">
+              <div>The CRM side is settled. HubSpot wins that comparison on its own merits and nobody needs a tool to tell them so.</div>
+              <div>Quoting is where the decision stalls. Years of bundles, pricing rules, discount schedules, guardrails and approvals sit in Salesforce CPQ, and no one can say with confidence what happens to them.</div>
+              <div>This tool answers that — against your own org, on your own machine.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s2 }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#047251;margin-bottom:18px">Where HubSpot stops</div>
+            <h1 style="margin:0 0 18px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22;letter-spacing:-0.01em">HubSpot covers the CRM completely. Quoting is where it runs out.</h1>
+            <div style="font-size:16px;line-height:1.6;color:#3C4A42;margin-bottom:26px">Sales, service, marketing and AI are all there. Every capability a CPQ org depends on is not.</div>
+
+            <div style="border-top:1px solid #DED5C9">
+              <div style="display:flex;gap:16px;padding:9px 0;border-bottom:1px solid #DED5C9;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8A9490">
+                <div style="flex:1;min-width:180px">Capability</div>
+                <div style="width:104px;flex:none;text-align:center">HubSpot</div>
+              </div>
+              <sc-for list="{{ cmpGroups }}" as="g" hint-placeholder-count="2">
+                <div>
+                  <div style="padding:15px 0 7px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#0F2E22">{{ g.name }}</div>
+                  <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="5">
+                    <div style="display:flex;gap:16px;padding:9px 0;border-bottom:1px solid #F3EDE5;align-items:baseline">
+                      <div style="flex:1;min-width:180px;font-size:14px;line-height:1.45;color:#3C4A42">{{ r.label }}</div>
+                      <div style="width:104px;flex:none;text-align:center;font-size:16px;font-weight:700;color:{{ r.hsFg }}">{{ r.hs }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s3 }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#047251;margin-bottom:18px">Where Quotivity picks it up</div>
+            <h1 style="margin:0 0 18px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22;letter-spacing:-0.01em">Quotivity is the quoting layer, built only for HubSpot.</h1>
+            <div style="font-size:16px;line-height:1.6;color:#3C4A42;margin-bottom:26px">Configurable products, calculated pricing, volume tiers, guardrails, approvals, templates and terms — built for teams using HubSpot, not bolted alongside it.</div>
+
+            <div style="border-top:1px solid #DED5C9">
+              <div style="display:flex;gap:16px;padding:9px 0;border-bottom:1px solid #DED5C9;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8A9490">
+                <div style="flex:1;min-width:170px">Capability</div>
+                <div style="width:104px;flex:none;text-align:center">HubSpot</div>
+                <div style="width:118px;flex:none;text-align:center;color:#047251">+ Quotivity</div>
+              </div>
+              <sc-for list="{{ cmpGroups }}" as="g" hint-placeholder-count="2">
+                <div>
+                  <div style="padding:15px 0 7px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#0F2E22">{{ g.name }}</div>
+                  <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="5">
+                    <div style="display:flex;gap:16px;padding:9px 0;border-bottom:1px solid #F3EDE5;align-items:baseline">
+                      <div style="flex:1;min-width:170px;font-size:14px;line-height:1.45;color:#3C4A42">{{ r.label }}</div>
+                      <div style="width:104px;flex:none;text-align:center;font-size:16px;font-weight:700;color:{{ r.hsFg }}">{{ r.hs }}</div>
+                      <div style="width:118px;flex:none;text-align:center;font-size:16px;font-weight:700;color:#047251;background:#F2FAF5">✓</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="margin-top:16px;font-size:14px;line-height:1.6;color:#6E7C73">Which leaves the real question: does <em>your</em> configuration fit that layer?</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ s4 }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#047251;margin-bottom:18px">What this tool does</div>
+            <h1 style="margin:0 0 20px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22;letter-spacing:-0.01em">It reads your org and tells you where every piece lands.</h1>
+            <div style="display:grid;gap:11px;font-size:16px;line-height:1.6;color:#3C4A42">
+              <div>Your Salesforce CPQ configuration is sorted into functional areas — what you sell, how it is configured, how a price reaches a line, what stops a rep, who approves, what the customer receives.</div>
+              <div>Every construct is mapped to its Quotivity or HubSpot equivalent and given one verdict, on one question — does the behaviour survive? A clear path, degraded, or no target at all.</div>
+              <div>It does not price the migration, estimate how long it takes, or compare licence costs.</div>
+            </div>
+
+            <div style="margin-top:24px;border:1px solid #CFE3D8;border-left:3px solid #07AE77;border-radius:3px;background:#F2FAF5;padding:18px 20px">
+              <div style="font-size:16px;font-weight:600;color:#0F2E22;margin-bottom:11px">Your data never leaves your machine. Run it, read it, and decide for yourself whether to talk to us.</div>
+              <div style="display:grid;gap:8px">
+                <sc-for list="{{ privacyList }}" as="p" hint-placeholder-count="4">
+                  <div style="display:flex;gap:10px;align-items:baseline;font-size:14px;line-height:1.55;color:#3C4A42">
+                    <span style="width:12px;flex:none;font-family:var(--font-mono);font-weight:700;color:{{ p.fg }}">{{ p.mark }}</span>
+                    <span>{{ p.text }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="margin-top:14px;font-size:13px;line-height:1.6;color:#6E7C73">Two outbound requests exist, both user-initiated: the email form on the next screen, and the share button at the end. <a href="https://github.com/quotivity/cpq-inventory" target="_blank" rel="noopener" style="font-weight:600;color:#047251;display:inline-flex;align-items:baseline;gap:4px">The source is published<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;transform:translateY(1px)"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a> — read it before you run it.</div>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:44px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <button type="button" onClick="{{ slideNext }}" style="border:0;border-radius:3px;background:#0F2E22;color:#FFF9F4;font-family:'Lexend Deca',sans-serif;font-size:15px;font-weight:600;padding:14px 26px;cursor:pointer">{{ nextLabel }}</button>
+          <sc-if value="{{ hasPrev }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ slidePrev }}" style="border:0;background:none;padding:0;margin:0;cursor:pointer;font-family:'Lexend Deca',sans-serif;font-size:14px;font-weight:600;color:#6E7C73">Back</button>
+          </sc-if>
+          <div style="flex:1;min-width:20px"></div>
+          <div style="display:flex;align-items:center;gap:9px;margin-right:4px">
+            <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
+              <button type="button" onClick="{{ d.go }}" aria-label="{{ d.label }}" style="width:{{ d.w }};height:8px;flex:none;border:0;border-radius:4px;padding:0;margin:0;cursor:pointer;background:{{ d.bg }};transition:width 200ms ease-out, background 200ms ease-out"></button>
+            </sc-for>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGate }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:76px 32px 104px">
+      <div>
+        <h1 style="margin:0 0 14px;font-size:28px;line-height:1.15;font-weight:700;color:#0F2E22">Where should the analysis go?</h1>
+        <div style="font-size:16px;line-height:1.6;color:#3C4A42;margin-bottom:26px">Your Salesforce data stays on this machine. The only thing sent to Quotivity is your email address.</div>
+        <div style="font-size:14px;line-height:1.65;color:#5C6B62;margin-bottom:28px">Alongside it: the plugin version, a run identifier, and the lead source. No counts, no object names, nothing about your configuration.</div>
+
+        <label for="q-email" style="display:block;font-size:13px;font-weight:600;color:#0F2E22;margin-bottom:6px">Email*</label>
+        <input id="q-email" type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@company.com" style="width:100%;max-width:440px;box-sizing:border-box;border:1px solid #C9BFB2;border-radius:3px;background:#FFFFFF;padding:12px;font-family:'Lexend Deca',sans-serif;font-weight:300;font-size:15px;color:#1C2A23;outline:none">
+        <sc-if value="{{ emailError }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:7px;font-size:13px;color:#C0392B">Enter valid email address</div>
+        </sc-if>
+        <div style="margin-top:9px;font-size:13px;color:#6E7C73">We take your company from the domain, so that is the only field.</div>
+
+        <div style="margin-top:22px;font-size:13px;line-height:1.6;color:#5C6B62">By submitting, you agree to receive communications from Quotivity. Unsubscribe at any time. See our <a href="#privacy">Privacy Policy</a>.</div>
+
+        <button type="button" onClick="{{ submitGate }}" style="margin-top:24px;border:0;border-radius:3px;background:#0F2E22;color:#FFF9F4;font-family:'Lexend Deca',sans-serif;font-size:15px;font-weight:600;padding:14px 26px;cursor:pointer">Start the Analysis</button>
+
+        <div style="margin-top:34px;padding-top:20px;border-top:1px solid #E6DED4;font-size:13px;line-height:1.65;color:#6E7C73">Nothing has been queried yet. The first SOQL call is made when you submit this form, not before — a reader of the source can check that.</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isScanning }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:72px 32px 104px">
+      <div>
+        <sc-if value="{{ offlineNotice }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:30px;border:1px solid #E8C9A6;border-left:3px solid #D97230;border-radius:3px;background:#FDF3E8;padding:16px 18px">
+            <div style="font-size:14px;font-weight:600;color:#8A4A17;margin-bottom:5px">We could not register your email</div>
+            <div style="font-size:14px;line-height:1.65;color:#5C4A38">This machine could not reach Quotivity — a proxy, a VPN, or an egress rule, most likely. The analysis is running locally anyway. When it finishes you can print the report to PDF and send it to us directly.</div>
+          </div>
+        </sc-if>
+        <h1 style="margin:0 0 8px;font-size:28px;font-weight:700;color:#0F2E22">Reading your org</h1>
+        <div style="font-family:var(--font-mono);font-size:13px;color:#6E7C73;margin-bottom:26px">{{ scanCurrent }}</div>
+        <div style="height:4px;border-radius:3px;background:#E9E0D6;overflow:hidden">
+          <div style="height:4px;background:#07AE77;width:{{ scanPct }};transition:width 240ms ease-out"></div>
+        </div>
+        <div style="margin-top:28px;display:grid;gap:10px">
+          <sc-for list="{{ scanLog }}" as="row" hint-placeholder-count="10">
+            <div style="display:flex;gap:12px;align-items:baseline;font-size:14px;color:{{ row.fg }}">
+              <span style="width:12px;flex:none;font-family:var(--font-mono);font-size:13px">{{ row.mark }}</span>
+              <span style="flex:1">{{ row.label }}</span>
+              <span style="font-family:var(--font-mono);font-size:12px;color:#8A9490">{{ row.detail }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:26px;font-size:13px;line-height:1.65;color:#6E7C73">Classifier inputs — product rules, product actions, error conditions, price rules and price actions — are retrieved in full. A partial set would produce wrong bucket assignments, so the run stops rather than classifying one.</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isInventory }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:52px 32px 104px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#047251;margin-bottom:14px">Stage 1 · Inventory</div>
+      <h1 style="margin:0 0 14px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22">What is in your org</h1>
+      <div style="font-size:16px;line-height:1.6;color:#3C4A42">Ten functional areas, ordered the way a quote happens. Each one answers a question about your business rather than naming an object.</div>
+
+      <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div style="border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:9px 14px;font-size:13px;color:#3C4A42"><span style="font-weight:600;color:#0F2E22">{{ orgName }}</span> · {{ orgUser }}</div>
+        <div style="border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:9px 14px;font-size:13px;color:#3C4A42">Alive measured over the trailing <span style="font-weight:600;color:#0F2E22">{{ deadWindow }}</span></div>
+        <button type="button" onClick="{{ toggleAllDetail }}" style="border:1px solid #C9BFB2;border-radius:3px;background:none;padding:9px 14px;cursor:pointer;font-family:'Lexend Deca',sans-serif;font-size:13px;font-weight:600;color:#0F2E22">{{ allDetailLabel }}</button>
+      </div>
+
+      <div style="margin-top:34px;display:grid;gap:34px">
+        <sc-for list="{{ phases }}" as="ph" hint-placeholder-count="4">
+          <div>
+            <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:9px;border-bottom:1px solid #DED5C9">
+              <div style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#0F2E22">{{ ph.name }}</div>
+              <div style="font-size:13px;color:#8A9490">{{ ph.note }}</div>
+            </div>
+
+            <sc-if value="{{ ph.cards }}" hint-placeholder-val="{{ true }}">
+              <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(316px,1fr));gap:14px;align-items:start">
+                <sc-for list="{{ ph.buckets }}" as="b" hint-placeholder-count="3">
+                  <div style="border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+                    <div>
+                      <div style="font-size:16px;font-weight:600;color:#0F2E22">{{ b.name }}</div>
+                      <div style="margin-top:4px;font-size:13px;color:#8A9490">{{ b.question }}</div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px">
+                      <sc-for list="{{ b.metrics }}" as="m" hint-placeholder-count="4">
+                        <div>
+                          <div style="font-family:var(--font-mono);font-size:19px;font-weight:600;color:{{ m.fg }};line-height:1.1">{{ m.v }}</div>
+                          <div style="margin-top:3px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8A9490">{{ m.k }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="display:grid;gap:4px;font-size:14px;line-height:1.55;color:#3C4A42">
+                      <sc-for list="{{ b.summary }}" as="line" hint-placeholder-count="2">
+                        <div>{{ line.t }}</div>
+                      </sc-for>
+                    </div>
+                    <div style="padding-top:2px">
+                      <button type="button" onClick="{{ b.toggle }}" style="border:0;background:none;padding:0;margin:0;cursor:pointer;font-family:'Lexend Deca',sans-serif;font-size:13px;font-weight:600;color:#047251;text-align:left">{{ b.toggleLabel }}</button>
+                    </div>
+                    <sc-if value="{{ b.open }}" hint-placeholder-val="{{ false }}">
+                      <div style="border-top:1px solid #EFE8DF;padding-top:12px;display:grid;gap:9px">
+                        <sc-for list="{{ b.rows }}" as="r" hint-placeholder-count="4">
+                          <div style="display:flex;gap:10px;align-items:baseline">
+                            <div style="flex:1">
+                              <div style="font-size:13px;color:#3C4A42">{{ r.label }}</div>
+                              <div style="margin-top:2px;font-size:12px;color:#8A9490">→ {{ r.lands }}</div>
+                            </div>
+                            <div style="text-align:right;flex:none">
+                              <div style="font-family:var(--font-mono);font-size:13px;color:#0F2E22">{{ r.count }}</div>
+                              <div style="margin-top:2px;display:flex;justify-content:flex-end;align-items:baseline;gap:6px">
+                                <sc-if value="{{ r.hasShape }}" hint-placeholder-val="{{ false }}">
+                                  <span style="font-size:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#8A9490">{{ r.shape }}</span>
+                                </sc-if>
+                                <span style="font-size:11px;font-weight:600;color:{{ r.fg }}">{{ r.verdict }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </sc-for>
+                        <div style="margin-top:2px;font-size:12px;line-height:1.55;color:#8A9490">{{ b.note }}</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ ph.rows }}" hint-placeholder-val="{{ false }}">
+              <div>
+                <sc-for list="{{ ph.buckets }}" as="b" hint-placeholder-count="3">
+                  <div style="border-bottom:1px solid #EFE8DF;padding:16px 0">
+                    <div style="display:flex;gap:24px;align-items:baseline;flex-wrap:wrap">
+                      <div style="width:196px;flex:none">
+                        <div style="font-size:15px;font-weight:600;color:#0F2E22">{{ b.name }}</div>
+                        <div style="margin-top:3px;font-size:12px;color:#8A9490">{{ b.question }}</div>
+                      </div>
+                      <div style="flex:1;min-width:240px;display:grid;gap:3px;font-size:14px;line-height:1.5;color:#3C4A42">
+                        <sc-for list="{{ b.summary }}" as="line" hint-placeholder-count="2">
+                          <div>{{ line.t }}</div>
+                        </sc-for>
+                      </div>
+                      <div style="width:210px;flex:none;display:flex;gap:16px">
+                        <sc-for list="{{ b.metrics }}" as="m" hint-placeholder-count="3">
+                          <div>
+                            <div style="font-family:var(--font-mono);font-size:15px;font-weight:600;color:{{ m.fg }}">{{ m.v }}</div>
+                            <div style="margin-top:2px;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8A9490">{{ m.k }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <button type="button" onClick="{{ b.toggle }}" style="border:0;background:none;padding:0;margin:0;cursor:pointer;font-family:'Lexend Deca',sans-serif;font-size:13px;font-weight:600;color:#047251">{{ b.toggleLabel }}</button>
+                    </div>
+                    <sc-if value="{{ b.open }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top:14px;margin-left:220px;display:grid;gap:8px">
+                        <sc-for list="{{ b.rows }}" as="r" hint-placeholder-count="4">
+                          <div style="display:flex;gap:14px;align-items:baseline">
+                            <div style="flex:1;font-size:13px;color:#3C4A42">{{ r.label }} <span style="color:#8A9490">→ {{ r.lands }}</span></div>
+                            <div style="width:56px;flex:none;text-align:right;font-family:var(--font-mono);font-size:13px;color:#0F2E22">{{ r.count }}</div>
+                            <div style="width:58px;flex:none;text-align:right;font-size:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#8A9490">{{ r.shape }}</div>
+                            <div style="width:98px;flex:none;text-align:right;font-size:12px;font-weight:600;color:{{ r.fg }}">{{ r.verdict }}</div>
+                          </div>
+                        </sc-for>
+                        <div style="margin-top:2px;font-size:12px;color:#8A9490">{{ b.note }}</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:40px;border:1px solid #CFE3D8;border-left:3px solid #07AE77;border-radius:3px;background:#F2FAF5;padding:20px 22px">
+        <div style="font-size:15px;font-weight:600;color:#0F2E22;margin-bottom:7px">Does this match what you expected? Most teams find something here they'd forgotten about.</div>
+        <div style="font-size:14px;line-height:1.65;color:#3C4A42">In this org: eight bundles not configured since 2024, four approval rules that have never fired, 123 products never quoted inside the {{ deadWindow }} window, and three Quote Calculator Plugins.</div>
+      </div>
+
+      <div style="margin-top:20px;font-size:13px;line-height:1.65;color:#6E7C73">Apex classes and Flows were not scanned. Neither can be attributed to an object reliably, so logic may exist there that this report does not see.</div>
+
+      <div style="margin-top:32px">
+        <button type="button" onClick="{{ toAnalysis }}" style="border:0;border-radius:3px;background:#0F2E22;color:#FFF9F4;font-family:'Lexend Deca',sans-serif;font-size:15px;font-weight:600;padding:14px 26px;cursor:pointer">See Where It Lands</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAnalysis }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:52px 32px 104px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#047251;margin-bottom:14px">Stage 2 · Migration analysis</div>
+      <h1 style="margin:0 0 14px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22">Where each piece lands</h1>
+      <div style="font-size:16px;line-height:1.6;color:#3C4A42">The same ten buckets, one verdict per construct. One question decides every verdict: does the behaviour survive? Not whether the structure changes — it always does — and not how much work it is.</div>
+
+      <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:12px">
+        <sc-for list="{{ verdictScale }}" as="v" hint-placeholder-count="3">
+          <div style="border:1px solid #E6DED4;border-left:3px solid {{ v.accent }};border-radius:3px;background:#FFFFFF;padding:14px 16px">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <div style="font-size:22px;font-weight:700;color:#0F2E22;line-height:1.1">{{ v.count }}</div>
+              <div style="font-family:var(--font-mono);font-size:12px;color:#8A9490">{{ v.pct }}</div>
+            </div>
+            <div style="margin-top:5px;font-size:13px;font-weight:600;color:{{ v.accent }}">{{ v.label }}</div>
+            <div style="margin-top:3px;font-size:12px;line-height:1.5;color:#6E7C73">{{ v.meaning }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:26px;flex-wrap:wrap;align-items:baseline;border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:14px 18px">
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#0F2E22">Shape · a separate fact, on clear-path rows only</div>
+        <sc-for list="{{ shapeLegend }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;align-items:baseline;gap:7px">
+            <span style="font-family:var(--font-mono);font-size:13px;font-weight:600;color:#0F2E22">{{ s.count }}</span>
+            <span style="font-size:12px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#3C4A42">{{ s.label }}</span>
+            <span style="font-size:12px;color:#8A9490">{{ s.meaning }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:36px;border-top:1px solid #DED5C9">
+        <div style="display:flex;gap:20px;padding:10px 0;border-bottom:1px solid #DED5C9;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8A9490">
+          <div style="width:150px;flex:none">Bucket</div>
+          <div style="flex:1.1;min-width:170px">Your Salesforce CPQ</div>
+          <div style="flex:1.25;min-width:190px">Where it lands</div>
+          <div style="width:62px;flex:none;text-align:right">Shape</div>
+          <div style="width:104px;flex:none;text-align:right">Verdict</div>
+        </div>
+        <sc-for list="{{ mapRows }}" as="m" hint-placeholder-count="29">
+          <div style="display:flex;gap:20px;padding:13px 0;border-bottom:1px solid #EFE8DF;align-items:baseline;flex-wrap:wrap">
+            <div style="width:150px;flex:none;font-size:12px;font-weight:600;color:{{ m.bucketFg }}">{{ m.bucket }}</div>
+            <div style="flex:1.1;min-width:170px;font-size:14px;line-height:1.5;color:#0F2E22">{{ m.from }}</div>
+            <div style="flex:1.25;min-width:190px;font-size:14px;line-height:1.5;color:#3C4A42">{{ m.to }}</div>
+            <div style="width:62px;flex:none;text-align:right;font-size:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#8A9490">{{ m.shape }}</div>
+            <div style="width:104px;flex:none;text-align:right;font-size:13px;font-weight:600;color:{{ m.fg }}">{{ m.verdict }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:36px;border:1px solid #C5D9E8;border-radius:3px;background:#FFFFFF;overflow:hidden">
+        <div style="padding:18px 22px;border-bottom:1px solid #EFE8DF;background:#F4F8FB">
+          <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+            <div style="font-size:16px;font-weight:700;color:#0F2E22">Requires further review</div>
+            <div style="font-family:var(--font-mono);font-size:13px;font-weight:600;color:#1F6FA8">{{ reviewCount }} rows</div>
+          </div>
+          <div style="margin-top:5px;font-size:13px;line-height:1.6;color:#5C6B62">Not a verdict, and never folded into a bucket's needs-attention figure. A row lands here only because a short answer from you would change which verdict it gets.</div>
+        </div>
+        <div style="padding:4px 22px 14px">
+          <sc-for list="{{ reviewRows }}" as="r" hint-placeholder-count="3">
+            <div style="padding:16px 0;border-bottom:1px solid #F3EDE5">
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+                <span style="font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#1F6FA8;border:1px solid #C5D9E8;border-radius:3px;padding:2px 6px">{{ r.reason }}</span>
+                <span style="font-size:14px;font-weight:600;color:#0F2E22">{{ r.subject }}</span>
+              </div>
+              <div style="margin-top:9px;font-size:14px;line-height:1.55;color:#3C4A42">{{ r.question }}</div>
+              <div style="margin-top:9px;display:grid;gap:5px">
+                <div style="display:flex;gap:9px;align-items:baseline;font-size:13px;line-height:1.55;color:#5C6B62"><span style="color:#047251;font-weight:700">→</span><span>{{ r.outA }}</span></div>
+                <div style="display:flex;gap:9px;align-items:baseline;font-size:13px;line-height:1.55;color:#5C6B62"><span style="color:#A9611C;font-weight:700">→</span><span>{{ r.outB }}</span></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:28px;display:grid;gap:14px">
+        <sc-for list="{{ notes }}" as="n" hint-placeholder-count="8">
+          <div style="border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:16px 18px">
+            <div style="font-size:14px;font-weight:600;color:#0F2E22;margin-bottom:5px">{{ n.head }}</div>
+            <div style="font-size:14px;line-height:1.65;color:#3C4A42">{{ n.body }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:34px;border:1px solid #D9CEC0;border-radius:3px;background:#FFFFFF;overflow:hidden">
+        <div style="padding:18px 22px;border-bottom:1px solid #EFE8DF">
+          <div style="font-size:16px;font-weight:700;color:#0F2E22">Prerequisites</div>
+          <div style="margin-top:4px;font-size:13px;color:#6E7C73">HubSpot properties every migrated rule or formula depends on. Nothing else can be built until these exist.</div>
+        </div>
+        <div style="padding:6px 22px 14px">
+          <sc-for list="{{ prereqs }}" as="p" hint-placeholder-count="4">
+            <div style="display:flex;gap:16px;padding:11px 0;border-bottom:1px solid #F3EDE5;align-items:baseline;flex-wrap:wrap">
+              <div style="flex:1;min-width:200px;font-family:var(--font-mono);font-size:13px;color:#0F2E22">{{ p.field }}</div>
+              <div style="flex:1;min-width:180px;font-size:13px;color:#5C6B62">{{ p.need }}</div>
+              <sc-if value="{{ p.hasFlag }}" hint-placeholder-val="{{ false }}">
+                <div style="flex:none;font-size:11px;font-weight:600;color:#1F6FA8">{{ p.flag }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:36px;border:1px solid #CFE3D8;border-left:3px solid #07AE77;border-radius:3px;background:#F2FAF5;padding:20px 22px">
+        <div style="font-size:16px;font-weight:600;color:#0F2E22">Every part of your configuration has either a destination or a decision — and this report names which.</div>
+      </div>
+
+      <div style="margin-top:14px;font-size:13px;line-height:1.65;color:#6E7C73">This report does not price the migration, estimate how long it takes, or compare licence costs. That is the conversation at the end.</div>
+
+      <div style="margin-top:32px">
+        <button type="button" onClick="{{ toClose }}" style="border:0;border-radius:3px;background:#0F2E22;color:#FFF9F4;font-family:'Lexend Deca',sans-serif;font-size:15px;font-weight:600;padding:14px 26px;cursor:pointer">Next: Share This Analysis</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isClose }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:76px 32px 120px">
+      <div>
+        <h1 style="margin:0 0 14px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22">Share this analysis and schedule a free consultation</h1>
+        <div style="font-size:16px;line-height:1.6;color:#3C4A42">One action: it sends the report you just read and books the call in the same step. It sends the rendered report — not the query results underneath it. The print control is the alternative for anyone who would rather attach a PDF themselves.</div>
+
+        <div style="margin-top:28px;border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:20px 22px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8A9490;margin-bottom:12px">What this button sends</div>
+          <div style="display:grid;gap:8px">
+            <sc-for list="{{ sendList }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;gap:10px;align-items:baseline;font-size:14px;line-height:1.55;color:#3C4A42">
+                <span style="width:12px;flex:none;font-family:var(--font-mono);color:{{ s.fg }}">{{ s.mark }}</span>
+                <span>{{ s.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;margin-top:30px;flex-wrap:wrap">
+          <button type="button" onClick="{{ doShare }}" style="border:0;border-radius:3px;background:#0F2E22;color:#FFF9F4;font-family:'Lexend Deca',sans-serif;font-size:15px;font-weight:600;padding:14px 26px;cursor:pointer">{{ shareLabel }}</button>
+          <button type="button" onClick="{{ doPrint }}" style="border:1px solid #C9BFB2;border-radius:3px;background:none;color:#0F2E22;font-family:'Lexend Deca',sans-serif;font-size:15px;font-weight:600;padding:13px 22px;cursor:pointer">Print the Report as a PDF</button>
+        </div>
+        <div style="margin-top:12px;font-family:var(--font-mono);font-size:12px;color:#8A9490">{{ fileName }}</div>
+        <div style="margin-top:10px;font-size:13px;line-height:1.65;color:#6E7C73">Printing opens the full report in a new tab and hands it to your browser's print dialog — save it as a PDF and it attaches to an email like any other document. Served from localhost, so this is not one of the two outbound requests.</div>
+
+        <sc-if value="{{ shared }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:28px;border:1px solid #CFE3D8;border-left:3px solid #07AE77;border-radius:3px;background:#F2FAF5;padding:18px 20px">
+            <div style="font-size:14px;font-weight:600;color:#0F2E22;margin-bottom:5px">Sent. Pick a time that suits you.</div>
+            <div style="font-size:14px;line-height:1.65;color:#3C4A42">The report is with the Quotivity team and a booking link is on its way to {{ emailOrYou }}. The local copy stays on this machine until you delete it.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ printed }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:28px;border:1px solid #E6DED4;border-radius:3px;background:#FFFFFF;padding:18px 20px">
+            <div style="font-size:14px;font-weight:600;color:#0F2E22;margin-bottom:5px">Opened in a new tab, with the print dialog up.</div>
+            <div style="font-size:14px;line-height:1.65;color:#3C4A42">The tab stays open — print again or adjust the page range if you need to. Nothing was transmitted. Press Ctrl-C in the terminal when you are done and the server stops.</div>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:48px;padding-top:22px;border-top:1px solid #E6DED4;font-family:var(--font-mono);font-size:12px;line-height:1.7;color:#8A9490">@quotivity/cpq-inventory v0.4.1 · run 8f2c · source published at github.com/quotivity/cpq-inventory<br>Server bound to localhost only · Ctrl-C in the terminal to stop</div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;inventoryLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Cards&quot;,&quot;Dense rows&quot;],&quot;default&quot;:&quot;Cards&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;deadWindow&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;12 months&quot;,&quot;24 months&quot;],&quot;default&quot;:&quot;24 months&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Report&quot;},&quot;simulateOfflineGate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;States&quot;}}">
+const V = {
+  'Clear path':     { fg: '#047251', accent: '#07AE77' },
+  Degraded:         { fg: '#A9611C', accent: '#D97230' },
+  'No target':      { fg: '#B23A2E', accent: '#C0392B' },
+  'Further review': { fg: '#1F6FA8', accent: '#3E8DC4' }
+};
+
+// [id, name, question, exists, alive, attention, review, [summary], [rows: label, count, lands, verdict, shape], note]
+const BUCKETS = [
+  ['catalog', 'Catalog', 'What do we sell, and in which currencies?', '423', '296', '2', '', [
+    '412 active products across 7 price books, 2 currencies enabled.',
+    '123 never appeared on a quote line in the window.'
+  ], [
+    ['Active products', '412', 'HubSpot product', 'Clear path', '1:1'],
+    ['Price books', '7', 'Quotivity price book', 'Clear path', '1:1'],
+    ['Enabled currencies', '2', 'Price book entry prices per enabled portal currency', 'Clear path', '1:1'],
+    ['Currencies with no explicit prices', '1', 'Prices materialised before import — the rate stops being tracked', 'Degraded', ''],
+    ['Dated conversion rates in use', '1', 'HubSpot automatic exchange rate updates — scheduled snapshots, not an authored rate table', 'Degraded', '']
+  ], 'Counts come from aggregate queries. PricebookEntry records are never retrieved — only the per-currency aggregate.'],
+
+  ['configuration', 'Configuration', 'What can be sold together, and what does the rep choose?', '622', '470', '19', '2', [
+    '38 bundles, 412 bundle options, deepest 3 levels.',
+    '8 not configured since 2024. 2 use dynamic option sets.'
+  ], [
+    ['Bundle options (CPQ product features)', '412', 'Bundle option', 'Clear path', '1:1'],
+    ['Option products, not configurable', '154', 'Option product', 'Clear path', '1:1'],
+    ['Option products that are themselves bundles', '9', '—', 'No target', ''],
+    ['Features — pick one, or pick one or more', '8', 'Included option with a default, or allow multiple', 'Clear path', '1:1'],
+    ['Features with a numeric option cap', '3', 'Allow-multiple, plus roll-up + Block to enforce the count', 'Degraded', ''],
+    ['Configuration rules', '6', 'Absorbed — Compatibility Rules execute within the bundle', 'Clear path', '1:1'],
+    ['Option constraints — exclusion', '8', 'Compatibility Rule (Incompatible)', 'Clear path', '1:1'],
+    ['Option constraints — dependency, already satisfied', '2', 'The required option is always present', 'Clear path', '1:1'],
+    ['Option constraints — dependency, any other shape', '2', 'Add add-on bundle product, or Block', 'Degraded', ''],
+    ['Selection rules', '11', 'Add add-on / Swap bundle product', 'Clear path', '1:1'],
+    ['Filter rules — dynamic option sets', '2', '—', 'No target', ''],
+    ['Product actions with no replacement', '3', '—', 'No target', ''],
+    ['Lookup queries on a product rule', '2', 'Depends on the custom object behind them', 'Further review', '']
+  ], 'Nesting has no target — Quotivity bundles are one level deep, so nine option products have to be flattened or split.'],
+
+  ['discovery', 'Discovery & capture', 'What do we ask before or while quoting?', '37', '29', '0', '', [
+    '19 configuration attributes, 3 guided selling processes, 9 process inputs.',
+    '6 price rules exist only to default a field.'
+  ], [
+    ['Attributes not applied to product options', '12', 'Guided Selling question', 'Clear path', '1:1'],
+    ['Attributes applied to product options', '7', 'Bundle header property + Update Bundle Members', 'Clear path', '1:1'],
+    ['Quote processes', '3', 'Guided Selling flow', 'Clear path', '1:1'],
+    ['Process inputs', '9', 'Guided Selling questions', 'Clear path', '1:1'],
+    ['Price rules writing a non-money field', '6', 'Update Line Items', 'Clear path', '1:1']
+  ], 'Attributes split by whether the answer is pushed onto product options — that decides which of the two destinations applies.'],
+
+  ['price', 'Price determination', 'How does a price get to the line?', '14', '11', '6', '1', [
+    '14 distinct ways a price reaches a line.',
+    '2 of them run through a Quote Calculator Plugin.'
+  ], [
+    ['Cost-plus pricing', '14 products', 'Calculated pricing formula', 'Clear path', 'Fan-out'],
+    ['Percent-of-total pricing', '6 products', 'Roll-up + calculated pricing formula', 'Clear path', 'Fan-out'],
+    ['Block pricing', '14 blocks', 'Calculated pricing formula', 'Clear path', 'Fan-out'],
+    ['Attribute-driven price', '22 products', 'Pricing table, or product variants', 'Clear path', '1:1'],
+    ['Price rules writing a price field', '38 rules', 'Calculated pricing formula', 'Clear path', 'Fan-out'],
+    ['Summary variables rolled up to the quote', '5', 'Roll-up, which writes its result to the quote', 'Clear path', 'Fan-out'],
+    ['Subscription term, not a bundle option', '44 products', 'Ramp pricing', 'Degraded', ''],
+    ['Subscription term on a bundle header or option', '17 products', 'Stepped periods via Update Bundle Members rules', 'Degraded', ''],
+    ['MDQ segments, same quantity every segment', '3 dimensions', 'Ramp pricing', 'Clear path', '1:1'],
+    ['MDQ segments with differing quantities', '1 dimension', 'Quantity is locked across ramp periods', 'Degraded', ''],
+    ['Usage-based charge type', '3 products', '—', 'No target', ''],
+    ['Price actions over the formula limits', '5', '—', 'No target', ''],
+    ['Price actions writing an arbitrary quote field', '2', '—', 'No target', ''],
+    ['Lookup queries on a price rule', '1', 'Depends on the custom object behind it', 'Further review', '']
+  ], 'This bucket counts mechanisms, not records. Fourteen is high — most orgs run three or four.'],
+
+  ['discounting', 'Discounting', 'Who gets off list, and by how much?', '343', '254', '6', '', [
+    '22 discount schedules, 96 tiers, 308 contracted prices.',
+    '5 schedules aggregate above the line rather than on it.'
+  ], [
+    ['Per-line schedules', '17', 'Volume pricing tiers', 'Clear path', '1:1'],
+    ['Schedules aggregating across the quote', '3', 'Quote-wide roll-up + calculated pricing formula', 'Clear path', 'Fan-out'],
+    ['Schedules aggregating across a quote line group', '2', 'Grouping carries no functional aggregate', 'Degraded', ''],
+    ['Slab-type schedules', '4', 'Volume tiers, converted to per-unit', 'Degraded', ''],
+    ['Contracted prices', '308', 'Price book assigned to a company', 'Clear path', 'Fan-out'],
+    ['Price rules writing a discount or markup field', '9', 'Volume tiers, or Add One-time Discount', 'Clear path', '1:1']
+  ], '96 tiers are read but not counted as constructs — they belong to their schedule. Tier bounds are half-open in CPQ and stay that way on import.'],
+
+  ['guardrails', 'Guardrails', 'What can a rep not do?', '67', '51', '2', '', [
+    '61 rules that stop or warn a rep. 47 fired in the last 12 months.',
+    '4 margin floors are computed by a price rule a validation rule then tests.'
+  ], [
+    ['Validation rules', '28', 'Block outcome', 'Clear path', '1:1'],
+    ['Alert rules', '6', 'Notify outcome', 'Clear path', '1:1'],
+    ['Quote-scope rules, no bundle context', '7', 'Block or Require Approval outcome', 'Clear path', '1:1'],
+    ['Floors and ceilings via price rules', '4', 'Roll-up + Block outcome', 'Clear path', 'Fan-out'],
+    ['Custom boolean condition logic on a rule', '12', 'Condition groups, the expression flattened', 'Clear path', 'Fan-out'],
+    ['Platform validation rules on CPQ objects', '1', 'Block outcome', 'Clear path', '1:1'],
+    ['Non-discountable / not price-editable', '7 products', 'Price book unit price editability', 'Clear path', '1:1'],
+    ['Rules gating on a quote line group', '2', 'Rebuilt on a quote-wide or per-bundle roll-up', 'Degraded', '']
+  ], 'Three more platform validation rules on these objects are package-owned and excluded. The one counted is admin-authored.'],
+
+  ['approvals', 'Approvals', 'Who has to sign off, and in what order?', '38', '31', '9', '', [
+    '18 approval rules, 4 chains, 23 approvers. Median cycle 1.4 days.',
+    'Advanced Approvals and 2 native approval processes are both live.'
+  ], [
+    ['Approval rules and their conditions', '18', 'Require Approval outcome + approval queue', 'Clear path', '1:1'],
+    ['Approval variables', '5', 'Roll-up field, read by the rule conditions', 'Clear path', '1:1'],
+    ['Chains with step-gated ordering', '4', 'Stacked Request Quote Approval actions in a HubSpot workflow', 'Clear path', 'Rebuild'],
+    ['Approvers derived from a field', '6', 'Workflow routing', 'Degraded', ''],
+    ['Tracked fields', '3', 'Rule conditions + roll-ups', 'Degraded', ''],
+    ['Native approval processes', '2', 'Require Approval + HubSpot workflow', 'Clear path', '1:1']
+  ], 'Both engines are running. A SOQL-only inventory would have missed the two native processes entirely.'],
+
+  ['output', 'Quote output', 'What does the customer actually receive?', '51', '44', '2', '', [
+    '6 templates, 34 sections, 22 line columns, 9 quote terms, 1 language.',
+    '2 templates have not been used since 2024.'
+  ], [
+    ['Templates, sections, content', '6', 'Quotivity Template', 'Clear path', 'Rebuild'],
+    ['Line columns', '22', 'Line item columns + Dynamic Property Sets', 'Clear path', '1:1'],
+    ['Quote terms', '9', 'Terms Library + Insert Template Terms', 'Clear path', '1:1'],
+    ['Term conditions', '4', 'Template module visibility, conditions grouped', 'Clear path', '1:1'],
+    ['Quote line groups used for presentation', '7', 'Template grouping by a line item property', 'Clear path', '1:1'],
+    ['Quote line groups referenced by a rule or schedule', '2', 'Grouping is display-only — the aggregate has to be rebuilt', 'Degraded', ''],
+    ['Signature setup', '1', 'e-signature', 'Clear path', 'Rebuild']
+  ], 'Templates are authored fresh rather than imported — same document, no import file. That is true of a move to Revenue Cloud Advanced too.'],
+
+  ['lifecycle', 'Contract lifecycle', 'What happens to the deal after it is won?', '1,792', '1,786', '6', '', [
+    '1,103 active contracts.',
+    "61% of last year's quotes were renewals or amendments."
+  ], [
+    ['Contracts and subscriptions', '1,103', 'HubSpot Contract + contract line items', 'Clear path', '1:1'],
+    ['Amendment and renewal quotes', '683', 'Change quote, renewal quote', 'Clear path', '1:1'],
+    ['Co-terming and uplift settings', '4', 'Renewal quote settings', 'Degraded', ''],
+    ['Orders and assets', '2', '—', 'No target', '']
+  ], 'Renewals and amendments are the majority of quoting volume here, so this bucket carries more weight than its record count suggests.'],
+
+  ['code', 'Custom code & UI', 'What has been customised on top of the CPQ objects?', '14', '—', '—', '14', [
+    '3 Quote Calculator Plugins, 2 triggers, 1 custom action, 6 UI customisations.',
+    'Named and flagged for review. Not interpreted.'
+  ], [
+    ['Quote Calculator Plugins', '3', 'Likely calculated pricing — unread', 'Further review', ''],
+    ['Apex triggers on CPQ objects', '2', 'Trigger bodies are unread', 'Further review', ''],
+    ['Custom actions', '1', 'Unread', 'Further review', ''],
+    ['Layouts, buttons, record pages', '6', 'Unread', 'Further review', ''],
+    ['Quote fields written only by code', '2', 'No declarative source until the code question is settled', 'Further review', '']
+  ], 'Package-owned records are excluded: 73 triggers, 52 buttons and links and 36 custom actions shipped with CPQ. QCP_MarginFloorAcrossQuote, QCP_LegacyRoundingRules, QCP_ExternalRateLookup — three means pricing outgrew the rules engine years ago, itself a finding.']
+];
+
+const PHASES = [
+  ['Before the quote', 'What exists before a rep opens one', ['catalog', 'configuration', 'discovery']],
+  ['The quote', 'What happens while one is built', ['price', 'discounting', 'guardrails', 'approvals', 'output']],
+  ['After signature', 'What the deal becomes', ['lifecycle']],
+  ['Outside the configuration', 'Built on top of the CPQ objects', ['code']]
+];
+
+// [bucket, from, to, verdict, shape]
+const MAP_ROWS = [
+  ['Catalog', 'Products, price books', 'HubSpot product library, Quotivity price books', 'Clear path', '1:1'],
+  ['Catalog', 'Multi-currency price books', 'Price book entries carry a price per enabled portal currency', 'Clear path', '1:1'],
+  ['Catalog', 'Prices left to currency conversion', 'Explicit per-currency prices, materialised at import', 'Degraded', ''],
+  ['Catalog', 'Dated conversion rates', 'HubSpot automatic exchange rate updates', 'Degraded', ''],
+  ['Configuration', 'Bundles, features, options, quantity bounds', 'Bundles, bundle options, option products', 'Clear path', '1:1'],
+  ['Configuration', 'Option constraints — exclusion', 'Compatibility Rules', 'Clear path', '1:1'],
+  ['Configuration', 'Option constraints — dependency', 'Already satisfied when the option is included with a default; otherwise Add add-on or Block', 'Degraded', ''],
+  ['Configuration', 'Feature min/max option counts', 'Pick one and pick one or more are native; a numeric cap needs a roll-up + Block', 'Degraded', ''],
+  ['Configuration', 'Nested bundles', '—', 'No target', ''],
+  ['Configuration', 'Dynamic option sets (filter rules)', '—', 'No target', ''],
+  ['Configuration', 'Lookup queries on a product rule', 'Depends on the custom object behind them, which the tool cannot read', 'Further review', ''],
+  ['Discovery & capture', 'Configuration attributes', 'Header property + Update Bundle Members, or Guided Selling', 'Clear path', '1:1'],
+  ['Discovery & capture', 'Guided selling processes', 'Guided Selling flows + questions', 'Clear path', '1:1'],
+  ['Price determination', 'Volume and tier pricing, attribute pricing', 'Price book adjustments, pricing tables, variants', 'Clear path', '1:1'],
+  ['Price determination', 'Cost-plus, percent-of-total, block pricing', 'Calculated pricing (+ roll-ups)', 'Clear path', 'Fan-out'],
+  ['Price determination', 'MDQ / segmented subscription pricing', 'Ramp pricing; Update Bundle Members rules when bundled. Stepped quantity does not carry', 'Degraded', ''],
+  ['Price determination', 'Subscription term and proration maths', '—', 'No target', ''],
+  ['Price determination', 'Lookup queries on a price rule', 'Depends on the custom object behind them, which the tool cannot read', 'Further review', ''],
+  ['Discounting', 'Discount schedules, per-line tiers', 'Volume pricing tiers', 'Clear path', '1:1'],
+  ['Discounting', 'Schedules aggregating across the quote', 'Quote-wide roll-up + calculated pricing formula', 'Clear path', 'Fan-out'],
+  ['Discounting', 'Schedules aggregating across a quote line group', 'Roll-up quote-wide or per bundle — grouping carries no aggregate', 'Degraded', ''],
+  ['Discounting', 'Contracted pricing', 'Price books assigned to companies', 'Clear path', 'Fan-out'],
+  ['Guardrails', 'Validation rules', 'Block', 'Clear path', '1:1'],
+  ['Guardrails', 'Alert rules', 'Notify', 'Clear path', '1:1'],
+  ['Guardrails', 'Non-discountable, price-not-editable', 'Price book editability, property-set rules', 'Clear path', '1:1'],
+  ['Guardrails', 'Custom boolean condition logic on a rule', 'Condition groups, the expression flattened', 'Clear path', 'Fan-out'],
+  ['Approvals', 'Approval rules and conditions', 'Require Approval + approval queue', 'Clear path', '1:1'],
+  ['Approvals', 'Approval chains, ordering', 'Stacked Request Quote Approval actions in a HubSpot workflow', 'Clear path', 'Rebuild'],
+  ['Approvals', 'Derived approvers, escalation', 'Workflow routing', 'Degraded', ''],
+  ['Quote output', 'Quote line groups', 'Template grouping of line items by a line item property', 'Clear path', '1:1'],
+  ['Quote output', 'Quote templates, sections, columns, terms', 'Quotivity Templates, Terms Library', 'Clear path', 'Rebuild'],
+  ['Contract lifecycle', 'Amendments, prorations, renewals', 'HubSpot Contracts, change and renewal quotes', 'Clear path', '1:1'],
+  ['Contract lifecycle', 'Orders, assets', '—', 'No target', ''],
+  ['Custom code & UI', 'QCP, triggers and UI customisations on CPQ objects', 'Calculated pricing, most likely — listed, not interpreted', 'Further review', '']
+];
+
+// [reason, subject, question, outcome A, outcome B]
+const REVIEW = [
+  ['Unread', 'Lookup queries on a product rule — 2', 'How many product properties does your lookup table key on?',
+   'Keys on one property: this is a pricing table and a direct port.',
+   'Keys on three: it becomes product variants, or an expanded catalogue.'],
+  ['Unread', 'Lookup queries on a price rule — 1', 'Are the lookup inputs properties of the product, or values from another object?',
+   'Product properties: a pricing table carries it.',
+   'Another object: custom object values cannot feed a pricing formula, so the matrix is re-expressed as variants or products.'],
+  ['Unread', 'Quote Calculator Plugins, triggers and UI — 11', 'What does each script actually do at its calculator hook?',
+   'Pricing maths: calculated pricing absorbs it declaratively.',
+   'An external call or a cross-system lookup: it needs a redesign, and the call decides which.']
+];
+
+const NOTES = [
+  ['Clear path is not a claim that it is easy', 'It says the behaviour survives and the route is known. A quote template rebuilt from scratch is a clear path — the finished document is reproducible and every part of it has a destination. Shape is where the work shows: Fan-out means one construct becomes several records, Rebuild means it is authored fresh rather than imported.'],
+  ['Ramp pricing has hard edges, and a route around them', 'A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Degraded.'],
+  ['The two currency rows are not the same problem', 'Dated conversion rates are about converting a deal between currencies — they land on HubSpot automatic exchange rate updates, which stamp a rate at close but come from Open Exchange Rates on a schedule rather than from an authored rate table. Prices left to conversion is about product prices never set explicitly in a second currency; those still have to be materialised before import. One of your two currencies would arrive empty.'],
+  ['The formula limits are specific', 'Calculated pricing supports IF, CASE, AND, OR, NOT, ISBLANK, BLANKVALUE, MIN and MAX — and AND / OR take two to five arguments each. A price action that ANDs six conditions is over the limit even though every function it uses is supported. The report prints the specific limit each formula breaches.'],
+  ['Contracted pricing states its cardinality', 'It lands as a price book assigned to a company, which also locks the quote so reps cannot switch away from negotiated pricing. Your 308 contracted prices across 41 accounts becomes 41 price books and 308 entries, expressed as import file rows.'],
+  ['Discount tiers are half-open', 'CPQ validates that each tier lower bound equals the previous upper bound, so a schedule reads 1–5, 5–10, 10–25. Reading those as inclusive ranges shifts every boundary by one unit and misprices the tier edges, so the convention is preserved on import.'],
+  ['Package-owned records are excluded everywhere', 'CPQ ships its own metadata and configuration records into every org. Counted naively they become your customisation. Namespaced components are filtered on namespace; seeded configuration records are identified by an install signature. In this org: 73 triggers, 52 buttons and links, 36 custom actions and 3 validation rules shipped with CPQ and were not counted.'],
+  ['Apex classes and Flows were not scanned', 'Neither can be attributed to a CPQ object reliably — matching strings in a class body over-matches on incidental references and under-matches on dynamic SOQL. Logic may exist there that this report does not see.']
+];
+
+const PREREQS = [
+  ['Quote_Margin_Percent__c', 'Roll-up property on the quote — 4 guardrails test it', ''],
+  ['QuoteLine_Cost__c', 'Line property — cost-plus formulas read it', ''],
+  ['Contract_Uplift_Percent__c', 'Renewal quote property — 2 price rules read it', ''],
+  ['Partner_Tier__c', 'Company property — drives 3 contracted price books', ''],
+  ['Quote_External_Rate__c', 'Written only by a QCP — no declarative source yet', 'review']
+];
+
+const CMP = [
+  ['CRM', [
+    ['Sales — contacts, accounts, opportunities, tasks, sequences', true],
+    ['Service — help desk, knowledge base', true],
+    ['Marketing — email, ad tracking, landing pages', true],
+    ['AI & agents — prospecting, customers, AEO, administration', true]
+  ]],
+  ['CPQ', [
+    ['Complex pricing', false],
+    ['Guided selling', false],
+    ['Product configurator', false],
+    ['Customizable templates', 'partial']
+  ]]
+];
+
+class Component extends DCLogic {
+  state = { stage: 'landing', step: 1, email: '', emailError: false, scanIdx: 0, open: {}, shared: false, printed: false };
+
+
+  componentWillUnmount() { clearInterval(this._t); }
+
+  startScan() {
+    clearInterval(this._t);
+    this.setState({ stage: 'scanning', scanIdx: 0 });
+    this._t = setInterval(() => {
+      const next = this.state.scanIdx + 1;
+      if (next > BUCKETS.length) { clearInterval(this._t); this.setState({ stage: 'inventory' }); }
+      else this.setState({ scanIdx: next });
+    }, 420);
+  }
+
+  go(stage) { clearInterval(this._t); this.setState({ stage }); }
+
+  bucketView(id) {
+    const b = BUCKETS.find(x => x[0] === id);
+    const open = !!this.state.open[id];
+    return {
+      name: b[1], question: b[2],
+      metrics: [
+        { k: 'Exists', v: b[3], fg: '#0F2E22' },
+        { k: 'Alive', v: b[4], fg: '#0F2E22' },
+        { k: 'Needs attention', v: b[5], fg: (b[5] === '0' || b[5] === '—') ? '#8A9490' : '#B23A2E' }
+      ].concat(b[6] ? [{ k: 'Requires review', v: b[6], fg: '#1F6FA8' }] : []),
+      summary: b[7].map(t => ({ t })),
+      rows: b[8].map(r => ({
+        label: r[0], count: r[1], lands: r[2], verdict: r[3], fg: V[r[3]].fg,
+        shape: r[4], hasShape: !!r[4]
+      })),
+      note: b[9],
+      open,
+      toggleLabel: open ? 'Hide the breakdown' : 'Show the breakdown',
+      toggle: () => this.setState(s => ({ open: Object.assign({}, s.open, { [id]: !s.open[id] }) }))
+    };
+  }
+
+  renderVals() {
+    const st = this.state.stage;
+    const p = this.props;
+    const deadWindow = p.deadWindow ?? '24 months';
+    const cards = (p.inventoryLayout ?? 'Cards') === 'Cards';
+    const scanned = this.state.scanIdx;
+    const unlocked = ['inventory', 'analysis', 'close'].indexOf(st) >= 0;
+    const allOpen = Object.keys(this.state.open).filter(k => this.state.open[k]).length >= BUCKETS.length;
+
+    const counts = {};
+    const shapes = {};
+    MAP_ROWS.forEach(r => {
+      counts[r[3]] = (counts[r[3]] || 0) + 1;
+      if (r[4]) shapes[r[4]] = (shapes[r[4]] || 0) + 1;
+    });
+    const verdicted = MAP_ROWS.filter(r => r[3] !== 'Further review').length;
+    const scaleDef = [
+      ['Clear path', 'The behaviour survives and the route to it is known'],
+      ['Degraded', 'The behaviour survives in part. The report names what is lost'],
+      ['No target', 'The behaviour does not survive. Needs a redesign or a product change']
+    ];
+
+    return {
+      hostLine: unlocked ? 'localhost:3579 · acme-prod · run 8f2c' : 'localhost:3579 · acme-prod',
+      isLanding: st === 'landing', isGate: st === 'gate', isScanning: st === 'scanning',
+      isInventory: st === 'inventory', isAnalysis: st === 'analysis', isClose: st === 'close',
+      showRail: unlocked,
+      rail: [['Inventory', 'inventory'], ['Migration analysis', 'analysis'], ['Share', 'close']].map(([label, id]) => ({
+        label, go: () => this.go(id),
+        fg: st === id ? '#0F2E22' : '#8A9490',
+        bd: st === id ? '#07AE77' : 'transparent'
+      })),
+
+      cmpGroups: CMP.map(g => ({
+        name: g[0],
+        rows: g[1].map(r => ({
+          label: r[0],
+          hs: r[1] === true ? '✓' : (r[1] === 'partial' ? '●' : '✕'),
+          hsFg: r[1] === true ? '#047251' : (r[1] === 'partial' ? '#E0A11B' : '#C0392B')
+        }))
+      })),
+      s1: this.state.step === 1, s2: this.state.step === 2, s3: this.state.step === 3, s4: this.state.step === 4,
+      dots: [1, 2, 3, 4].map(n => ({
+        go: () => this.setState({ step: n }),
+        label: 'Slide ' + n + ' of 4',
+        w: this.state.step === n ? '26px' : '8px',
+        bg: this.state.step === n ? '#0F2E22' : '#D8CEC1'
+      })),
+      hasPrev: this.state.step > 1,
+      nextLabel: this.state.step === 4 ? 'Start Analysis' : 'Continue',
+      slideNext: () => { if (this.state.step === 4) this.go('gate'); else this.setState(s => ({ step: s.step + 1 })); },
+      slidePrev: () => this.setState(s => ({ step: Math.max(1, s.step - 1) })),
+      privacyList: [
+        { mark: '✓', fg: '#047251', text: 'Queries are read-only, through the connection the Salesforce CLI already holds' },
+        { mark: '✓', fg: '#047251', text: 'Results are written to disk and served to this browser from localhost only' },
+        { mark: '×', fg: '#C0392B', text: 'No Quotivity connected app, no OAuth grant, no credential written or transmitted' },
+        { mark: '×', fg: '#C0392B', text: 'Nothing about your configuration is sent unless you click the share button at the end' }
+      ],
+      toGate: () => this.go('gate'),
+      email: this.state.email,
+      emailError: this.state.emailError,
+      onEmail: e => this.setState({ email: e.target.value, emailError: false }),
+      submitGate: () => {
+        const v = this.state.email.trim();
+        if (v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return this.setState({ emailError: true });
+        this.startScan();
+      },
+      offlineNotice: !!p.simulateOfflineGate,
+
+      scanCurrent: scanned >= BUCKETS.length ? 'Classifying records by function…' : 'SOQL · ' + (BUCKETS[scanned] ? BUCKETS[scanned][1].toLowerCase() : ''),
+      scanPct: Math.round((Math.min(scanned, BUCKETS.length) / BUCKETS.length) * 100) + '%',
+      scanLog: BUCKETS.map((b, i) => ({
+        mark: i < scanned ? '✓' : (i === scanned ? '▸' : '·'),
+        label: b[1],
+        detail: i < scanned ? 'done' : (i === scanned ? 'querying' : 'queued'),
+        fg: i < scanned ? '#3C4A42' : (i === scanned ? '#0F2E22' : '#A79C8E')
+      })),
+
+      orgName: 'acme-prod', orgUser: 'admin@acme.com', deadWindow,
+      allDetailLabel: allOpen ? 'Collapse every breakdown' : 'Expand every breakdown',
+      toggleAllDetail: () => {
+        const next = {};
+        if (!allOpen) BUCKETS.forEach(b => { next[b[0]] = true; });
+        this.setState({ open: next });
+      },
+      phases: PHASES.map(([name, note, ids]) => ({
+        name, note, cards, rows: !cards,
+        buckets: ids.map(id => this.bucketView(id))
+      })),
+      toAnalysis: () => this.go('analysis'),
+
+      verdictScale: scaleDef.map(([label, meaning]) => ({
+        label, meaning,
+        count: counts[label] || 0,
+        pct: Math.round(((counts[label] || 0) / verdicted) * 100) + '% of verdicts',
+        accent: V[label].accent
+      })),
+      reviewCount: counts['Further review'] || 0,
+      shapeLegend: [
+        ['1:1', 'One record becomes one record'],
+        ['Fan-out', 'One construct becomes several records, or several collapse into one'],
+        ['Rebuild', 'Authored fresh in the target rather than imported']
+      ].map(([label, meaning]) => ({ label, meaning, count: shapes[label] || 0 })),
+      mapRows: MAP_ROWS.map(r => ({
+        bucket: r[0], from: r[1], to: r[2], verdict: r[3],
+        shape: r[4] || '', hasShape: !!r[4],
+        fg: V[r[3]].fg, bucketFg: '#8A9490'
+      })),
+      reviewRows: REVIEW.map(r => ({ reason: r[0], subject: r[1], question: r[2], outA: r[3], outB: r[4] })),
+      notes: NOTES.map(n => ({ head: n[0], body: n[1] })),
+      prereqs: PREREQS.map(r => ({
+        field: r[0], need: r[1],
+        flag: r[2] === 'review' ? 'Further review' : '',
+        hasFlag: r[2] === 'review'
+      })),
+
+      toClose: () => this.go('close'),
+      sendList: [
+        { mark: '✓', fg: '#047251', text: 'The rendered report — the ten buckets, the mapping, the verdicts' },
+        { mark: '✓', fg: '#047251', text: 'The names of the custom scripts flagged for review' },
+        { mark: '×', fg: '#C0392B', text: 'Not the query results underneath it' },
+        { mark: '×', fg: '#C0392B', text: 'No product names, prices, customers, code or org access' }
+      ],
+      shared: this.state.shared,
+      printed: this.state.printed,
+      shareLabel: this.state.shared ? 'Analysis Sent' : 'Schedule a Free Consultation',
+      fileName: 'quotivity-cpq-inventory-acme-prod-2026-09-12.pdf',
+      emailOrYou: this.state.email.trim() || 'your address',
+      doShare: () => this.setState({ shared: true }),
+      doPrint: () => this.setState({ printed: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

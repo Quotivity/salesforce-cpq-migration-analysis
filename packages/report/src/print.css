@@ -1,0 +1,98 @@
+/*
+ * The printed report is a different document from the interactive one. These rules apply to the
+ * print tab (served at /report?print=1) and to anyone printing the interactive page.
+ */
+@page {
+  size: A4;
+  margin: 16mm 14mm 18mm;
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+  *,
+  *::before,
+  *::after {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    transition: none !important;
+  }
+  /* Dead weight on paper: banner, nav, rail, filters, the print control itself, the share button. */
+  .banner,
+  .header,
+  .rail,
+  .no-print,
+  .btn,
+  .btn-outline,
+  .btn-chip,
+  .btn-text,
+  .btn-back,
+  .actions,
+  .dots,
+  .landing-nav {
+    display: none !important;
+  }
+  .page {
+    min-height: 0;
+  }
+  .wrap {
+    max-width: none;
+    padding-inline: 0;
+  }
+  .stage,
+  .close {
+    padding-block: 0 8mm;
+  }
+  /* Everything expanded: a section behind a click does not exist in a PDF. */
+  .breakdown,
+  .dense-rows {
+    display: grid !important;
+  }
+  /* A verdict split across a page break is unreadable. */
+  .card,
+  .dense-row,
+  .map-row,
+  .brow,
+  .drow,
+  .review-row,
+  .tile,
+  .box-brand,
+  .box-plain,
+  .note,
+  .prereq-row,
+  .phase-head {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .phase {
+    break-inside: auto;
+  }
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  thead {
+    display: table-header-group;
+  }
+  tr {
+    break-inside: avoid;
+  }
+  h1 {
+    break-after: avoid;
+  }
+  .stage-break {
+    break-before: page;
+    page-break-before: always;
+  }
+  .print-ident {
+    display: flex;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .learn::after {
+    content: "";
+  }
+}

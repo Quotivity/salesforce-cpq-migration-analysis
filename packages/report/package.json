@@ -1,0 +1,23 @@
+{
+  "name": "@quotivity/cpq-inventory-report",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React report UI for the Quotivity CPQ Inventory. Pre-built at publish time into @quotivity/cpq-inventory-core/assets/report.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.0"
+  }
+}

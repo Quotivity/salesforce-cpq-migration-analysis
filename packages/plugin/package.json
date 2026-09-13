@@ -1,0 +1,67 @@
+{
+  "name": "@quotivity/cpq-inventory",
+  "version": "0.1.0",
+  "description": "Salesforce CLI plugin: inventory your Salesforce CPQ configuration and see where every piece lands in Quotivity + HubSpot. Runs entirely on your machine.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "author": "Quotivity",
+  "keywords": [
+    "sf-plugin",
+    "sf",
+    "salesforce",
+    "cpq",
+    "hubspot",
+    "quotivity",
+    "migration"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quotivity/salesforce-cpq-migration-analysis.git",
+    "directory": "packages/plugin"
+  },
+  "homepage": "https://github.com/quotivity/salesforce-cpq-migration-analysis",
+  "bugs": "https://github.com/quotivity/salesforce-cpq-migration-analysis/issues",
+  "exports": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "/lib",
+    "/messages",
+    "/bin",
+    "/oclif.manifest.json",
+    "!/lib/**/*.map"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "manifest": "oclif manifest",
+    "prepack": "npm run build && oclif manifest",
+    "test": "vitest run --root ../.. packages/plugin"
+  },
+  "oclif": {
+    "bin": "sf",
+    "commands": "./lib/commands",
+    "topicSeparator": " ",
+    "flexibleTaxonomy": true,
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ],
+    "topics": {
+      "cpq": {
+        "description": "Inventory a Salesforce CPQ org and map it to Quotivity + HubSpot."
+      }
+    }
+  },
+  "dependencies": {
+    "@oclif/core": "^5.0.0",
+    "@quotivity/cpq-inventory-core": "0.1.0",
+    "@salesforce/core": "^9.1.11",
+    "@salesforce/sf-plugins-core": "^13.0.4",
+    "open": "^11.0.3"
+  },
+  "devDependencies": {
+    "@oclif/plugin-help": "^6",
+    "oclif": "^6.0.0"
+  }
+}

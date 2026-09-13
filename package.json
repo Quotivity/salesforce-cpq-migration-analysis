@@ -1,0 +1,38 @@
+{
+  "name": "cpq-inventory-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Quotivity CPQ Inventory & Migration Analysis \u2014 SFDX plugin, standalone script and analysis core",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/report",
+    "packages/plugin",
+    "packages/standalone"
+  ],
+  "scripts": {
+    "build": "tsc -b packages/core && npm run build -w @quotivity/cpq-inventory-report && tsc -b tsconfig.json && npm run manifest -w @quotivity/cpq-inventory",
+    "clean": "rm -rf packages/*/lib packages/*/tsconfig.tsbuildinfo packages/core/assets packages/report/dist",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc -b tsconfig.json && tsc -p packages/report/tsconfig.json && tsc -p packages/report/tsconfig.e2e.json",
+    "test": "vitest run",
+    "test:e2e": "playwright test -c packages/report/playwright.config.ts",
+    "pack:check": "node scripts/pack-check.mjs",
+    "smoke:plugin": "node scripts/plugin-smoke.mjs",
+    "version:sync": "node scripts/version-sync.mjs",
+    "prepare": "node scripts/install-hooks.mjs",
+    "fixture:report": "CPQ_WRITE_FIXTURE=1 vitest run packages/core/test/fixture-report.test.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.13",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.2",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.0"
+  }
+}

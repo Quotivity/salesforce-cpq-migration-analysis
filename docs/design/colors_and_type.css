@@ -1,0 +1,241 @@
+/* ──────────────────────────────────────────────────────────────
+   Quotivity / Quotivity — colors & type tokens
+   Derived from: Quotivity/mono UI kit + Figma file + brand palette
+   ────────────────────────────────────────────────────────────── */
+
+/* --- Fonts --- */
+@font-face {
+  font-family: "Lexend Deca";
+  src: url("./fonts/LexendDeca-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Alan Sans";
+  src: url("./fonts/AlanSans-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ─── Brand (Quotivity palette from the brand sheet) ─── */
+  --brand-green-100: #1f403a; /* deepest — wordmark shadow */
+  --brand-green-200: #047251; /* dark primary, gradient end */
+  --brand-green-300: #07ae77; /* PRIMARY brand green */
+  --brand-green-400: #00db9a; /* electric accent */
+  --brand-green-500: #dffaf2; /* pale mint background */
+  --brand-green-gradient: linear-gradient(180deg, #00db9a 0%, #063c1d 99.82%); /* @kind color */
+
+  --brand-coral: #f25c54;
+  --brand-blue: #2088ff;
+  --brand-pink: #ff88e9;
+  --brand-orange: #d97230; /* warm signal / accents */
+  --brand-ecru: #fff9f4; /* soft page tint */
+
+  /* ─── HubSpot-surface grays (what the product UI actually uses) ─── */
+  /* From Figma top colors + UI kit's tailwind classes */
+  --hs-oxford: #2d3e50; /* global toolbar / dark nav */
+  --hs-obsidian: #425b76; /* global-bar inputs */
+  --hs-slate: #33475b; /* PRIMARY text (gray100 in repo) */
+  --hs-slate-2: #506e91; /* secondary text (gray200) */
+  --hs-steel: #7c98b6; /* tertiary text / muted icon (gray300) */
+  --hs-mist: #cbd6e2; /* borders, disabled fills (gray400) */
+  --hs-fog: #dfe3eb; /* divider lines */
+  --hs-fog-2: #eaf0f6; /* row-hover, zebra (gray500) */
+  --hs-sand: #f5f8fa; /* app canvas bg (gray600) */
+  --hs-white: #ffffff;
+
+  /* ─── HubSpot semantic colors ─── */
+  --hs-orange: #ff7a59; /* primary HubSpot action orange */
+  --hs-orange-dk: #e66b50; /* hover */
+  --hs-orange-lt: #ffebc9; /* warn background */
+  --hs-teal: #0091ae; /* primaryTeal — links, focus, active */
+  --hs-teal-2: #00a4bd; /* success check */
+  --hs-teal-lt: #b7ecec; /* teal tint */
+  --hs-cyan: #51d2d2; /* data viz */
+  --hs-danger: #f2545b; /* destructive */
+  --hs-danger-dk: #c01f29;
+  --hs-success: #07bda5; /* input-success green (distinct from brand) */
+  --hs-warning: #ffcd78;
+  --hs-focus: #0091ae;
+  --hs-focus-ring: rgba(0, 145, 174, 0.2);
+
+  /* ─── Semantic role tokens (prefer these in product UI) ─── */
+  --fg-1: var(--hs-slate); /* primary body text */
+  --fg-2: var(--hs-slate-2); /* secondary */
+  --fg-3: var(--hs-steel); /* tertiary / placeholder */
+  --fg-inverse: #ffffff;
+  --fg-link: var(--hs-teal);
+  --fg-danger: var(--hs-danger);
+  --fg-success: var(--hs-success);
+
+  --bg-canvas: var(--hs-sand); /* app background */
+  --bg-surface: #ffffff; /* card / panel */
+  --bg-hover: var(--hs-fog-2);
+  --bg-topbar: var(--hs-oxford); /* HubSpot global toolbar */
+  --bg-sidenav: var(--hs-slate);
+  --bg-selected: #e5f5f8; /* teal-tinted selected row */
+
+  --border-subtle: var(--hs-fog);
+  --border-default: var(--hs-mist);
+  --border-strong: var(--hs-slate-2);
+  --border-focus: var(--hs-teal);
+
+  /* ─── Type family tokens ─── */
+  --font-sans: "Lexend Deca", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Alan Sans", "Lexend Deca", sans-serif; /* brand marketing */
+  --font-mono: "Andale Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ─── Type scale (from Figma — Quotivity uses a tight scale) ─── */
+  --fs-xs: 12px; /* helper, caps, metadata */
+  --fs-sm: 14px; /* body, forms (most common) */
+  --fs-md: 16px; /* card title, emphasised body */
+  --fs-lg: 20px; /* section heading */
+  --fs-xl: 24px; /* page title */
+  --fs-2xl: 32px; /* screen H1 (magic-link page) */
+  --fs-3xl: 48px; /* marketing display */
+
+  --lh-tight: 1; /* @kind other */ /* display headings — Figma uses 100% */
+  --lh-snug: 1.2; /* @kind other */
+  --lh-normal: 1.5; /* @kind other */ /* body */
+
+  --fw-light: 300; /* @kind font */ /* DEFAULT body (Lexend Light — most-used weight) */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium: 500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold: 700; /* @kind font */ /* headings, emphasis */
+
+  /* ─── Spacing (Figma is 4/8 grid) ─── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+  --sp-9: 48px;
+  --sp-10: 64px;
+
+  /* ─── Radius (HubSpot is sharp — 3px is canonical) ─── */
+  --radius-sm: 2px;
+  --radius-md: 3px; /* DEFAULT for buttons, inputs, cards */
+  --radius-lg: 6px; /* toolbar chips, popovers */
+  --radius-pill: 999px;
+
+  /* ─── Elevation ─── */
+  --shadow-sm: 0 1px 2px 0 rgba(45, 62, 80, 0.08);
+  --shadow-md: 0 1px 5px 0 rgba(45, 62, 80, 0.12); /* card */
+  --shadow-lg: 0 4px 16px 0 rgba(45, 62, 80, 0.16); /* popover, modal */
+  --shadow-xl: 0 12px 32px 0 rgba(45, 62, 80, 0.2); /* dialog */
+  --shadow-focus: 0 0 0 3px var(--hs-focus-ring);
+
+  /* ─── Motion ─── */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1); /* @kind other */
+  --dur-fast: 120ms; /* @kind other */
+  --dur-normal: 200ms; /* @kind other */
+  --dur-slow: 320ms; /* @kind other */
+}
+
+/* ─── Reset + base ─── */
+html,
+body {
+  margin: 0;
+}
+body {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-light); /* Lexend Light is the product default */
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+  background: var(--bg-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Semantic type classes ─── */
+.t-display-1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-tight);
+  color: var(--fg-1);
+  letter-spacing: -0.01em;
+}
+.t-h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  color: var(--fg-1);
+}
+.t-h2 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+.t-h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+.t-card-title {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+  line-height: 24px;
+  color: var(--fg-1);
+}
+.t-body {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-light);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+}
+.t-body-strong {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+}
+.t-meta {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-light);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+.t-label {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  letter-spacing: 0.02em;
+}
+.t-button {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  color: inherit;
+}
+.t-link {
+  color: var(--fg-link);
+  text-decoration: none;
+}
+.t-link:hover {
+  text-decoration: underline;
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
