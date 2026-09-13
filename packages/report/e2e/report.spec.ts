@@ -104,7 +104,16 @@ test.describe('CPQ Inventory report', () => {
     await expect(page.getByRole('heading', { name: /Share this analysis/ })).toBeVisible();
     await expect(page.getByText('quotivity-cpq-inventory-acme-prod-2026-09-12.pdf')).toBeVisible();
 
-    // Share = the meeting-request form, intercepted above.
+    // Share = the meeting-request form, intercepted above. The message is required.
+    await page.getByRole('button', { name: 'Schedule a Free Consultation' }).click();
+    await expect(
+      page.getByText('Tell us a little about your configuration or migration'),
+    ).toBeVisible();
+    expect(outbound).toHaveLength(1);
+    await page
+      .getByLabel(/Tell us about your configuration/)
+      .fill('Three QCPs and a lot of contracted pricing.');
+    await page.getByLabel('Migration timing').selectOption('3-to-6');
     await page.getByRole('button', { name: 'Schedule a Free Consultation' }).click();
     await expect(page.getByText('Sent. Pick a time that suits you.')).toBeVisible();
 
@@ -133,6 +142,10 @@ test.describe('CPQ Inventory report', () => {
       '';
     expect(summary).toContain('STAGE 1 · INVENTORY');
     expect(summary).toContain('Clear path: 21');
+    expect(meeting.fields.find((f) => f.name === 'message')?.value).toBe(
+      'Three QCPs and a lot of contracted pricing.',
+    );
+    expect(meeting.fields.find((f) => f.name === 'migration_timing')?.value).toBe('3-to-6');
     expect(summary).not.toContain('Platform Bundle'); // never a product name
     expect(summary).not.toContain('Globex'); // never a customer
   });

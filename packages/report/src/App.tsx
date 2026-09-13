@@ -6,6 +6,7 @@ import {
   getState,
   type Identity,
   isPrintMode,
+  type MeetingDetails,
   type ServerState,
   startRun,
   submitGate,
@@ -96,7 +97,7 @@ function Interactive() {
     }
   };
 
-  const onShare = async (): Promise<'sent' | 'offline'> => {
+  const onShare = async (details: MeetingDetails): Promise<'sent' | 'offline'> => {
     if (!server) return 'offline';
     try {
       const summary = await getShareSummary();
@@ -106,6 +107,7 @@ function Interactive() {
         server.version,
         server.runId,
         summary,
+        details,
       );
     } catch {
       return 'offline';

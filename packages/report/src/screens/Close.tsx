@@ -1,9 +1,11 @@
 import type { ReportData } from '@quotivity/cpq-inventory-core';
 import { useState } from 'react';
+import { type MeetingDetails, MIGRATION_TIMING_OPTIONS } from '../api';
 
 const SEND = [
   { ok: true, text: 'The rendered report — the ten buckets, the mapping, the verdicts' },
   { ok: true, text: 'The names of the custom scripts flagged for review' },
+  { ok: true, text: 'Your message below and, if you choose one, your migration timing' },
   { ok: false, text: 'Not the query results underneath it' },
   { ok: false, text: 'No product names, prices, customers, code or org access' },
 ];
@@ -17,8 +19,11 @@ export function Close({
   report: ReportData;
   email: string;
   offline: boolean;
-  onShare: () => Promise<'sent' | 'offline'>;
+  onShare: (details: MeetingDetails) => Promise<'sent' | 'offline'>;
 }) {
+  const [message, setMessage] = useState('');
+  const [timing, setTiming] = useState('');
+  const [messageError, setMessageError] = useState(false);
   const [shared, setShared] = useState<'idle' | 'sending' | 'sent' | 'offline'>('idle');
   const [printed, setPrinted] = useState(false);
   const [blocked, setBlocked] = useState<string | null>(null);
@@ -37,8 +42,12 @@ export function Close({
   };
   const doShare = async () => {
     if (shared === 'sending' || shared === 'sent') return;
+    if (!message.trim()) {
+      setMessageError(true);
+      return;
+    }
     setShared('sending');
-    setShared(await onShare());
+    setShared(await onShare({ message: message.trim(), migrationTiming: timing || undefined }));
   };
 
   return (
@@ -61,6 +70,49 @@ export function Close({
           </div>
         </div>
       )}
+
+      <div className="share-form">
+        <label htmlFor="q-message" className="label">
+          Tell us about your configuration or migration*
+        </label>
+        <textarea
+          id="q-message"
+          className={`input textarea${messageError ? ' invalid' : ''}`}
+          value={message}
+          rows={5}
+          placeholder="What prompted the analysis, what you saw in it that you did not expect, anything about your configuration or timing that a first call should start from."
+          onChange={(e) => {
+            setMessage(e.target.value);
+            setMessageError(false);
+          }}
+          disabled={shared === 'sent'}
+        />
+        {messageError && (
+          <div className="error-13">Tell us a little about your configuration or migration</div>
+        )}
+
+        <label htmlFor="q-timing" className="label" style={{ marginTop: 18 }}>
+          Migration timing
+        </label>
+        <select
+          id="q-timing"
+          className="input select"
+          value={timing}
+          onChange={(e) => setTiming(e.target.value)}
+          disabled={shared === 'sent'}
+        >
+          <option value="">Not decided yet</option>
+          {MIGRATION_TIMING_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <div style={{ marginTop: 9, fontSize: 13, color: '#6E7C73' }}>
+          Optional. It helps us pick the right person for the call.
+        </div>
+      </div>
+
       <div className="box-plain xl" style={{ marginTop: 28 }}>
         <div className="send-title">What this button sends</div>
         <div className="checklist">

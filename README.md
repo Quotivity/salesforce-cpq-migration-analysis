@@ -29,14 +29,14 @@ Options: `--window <months>` (dead-configuration window, default 24), `--port <p
 4. The first SOQL call is made when the gate is submitted. Progress is shown per bucket. Every request is a read; there is no DML and no Metadata deploy.
 5. **Stage 1 — Inventory**: ten buckets, each with Exists, Alive (over the window in force), Needs attention and, where it applies, Requires review.
 6. **Stage 2 — Migration analysis**: the same buckets with a verdict per construct — Clear path, Degraded, No target — plus a separate *Requires further review* section, prerequisites, and the notes that explain the edges.
-7. The close: **Share this analysis and schedule a free consultation** sends the rendered report summary through a second HubSpot form and books the call. **Print the Report as a PDF** opens a self-contained copy in a new tab and hands it to your browser's print dialog; the tab is served from localhost and stays open.
+7. The close: **Share this analysis and schedule a free consultation** asks for a short message about your configuration or migration and, optionally, your migration timing, then sends those with the rendered report summary through a second HubSpot form and books the call. **Print the Report as a PDF** opens a self-contained copy in a new tab and hands it to your browser's print dialog; the tab is served from localhost and stays open.
 
 Press Ctrl-C in the terminal to stop the server. The query results stay on your disk until you delete them.
 
 ## Privacy, specifically
 
 - The Salesforce credential is the one the CLI already holds. It is held in memory for the run, never written, never transmitted, and no Quotivity connected app or OAuth grant is involved.
-- Exactly two outbound requests exist, both user-initiated, both HubSpot form submissions made from your browser: the email gate (name and email) and the meeting request. The meeting request carries the report summary (bucket counts, verdicts, mapping rows, the names of scripts flagged for review) — never the query results, product names, prices, customers, code or org access.
+- Exactly two outbound requests exist, both user-initiated, both HubSpot form submissions made from your browser: the email gate (name and email) and the meeting request. The meeting request carries your message, your migration timing if you chose one, and the report summary (bucket counts, verdicts, mapping rows, the names of scripts flagged for review) — never the query results, product names, prices, customers, code or org access.
 - The server binds `127.0.0.1` only.
 - Apex classes and Flows are not scanned; the report says so.
 

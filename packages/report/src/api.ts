@@ -79,7 +79,25 @@ export const HUBSPOT_FIELDS = {
   version: 'cpq_inventory_version',
   runId: 'cpq_inventory_run_id',
   leadSource: 'lead_source',
+  /** Meeting-request form only. */
+  message: 'message',
+  migrationTiming: 'migration_timing',
 } as const;
+
+/** Values of the `migration_timing` contact property, as configured in HubSpot. */
+export const MIGRATION_TIMING_OPTIONS = [
+  { value: 'asap', label: 'As soon as possible' },
+  { value: '3-to-6', label: 'In the next 3-6 months' },
+  { value: '6-to-12', label: 'In the next 6-12 months' },
+  { value: '12-or-more', label: 'More than 12 months from now' },
+] as const;
+
+export interface MeetingDetails {
+  /** Required on the form. */
+  message: string;
+  /** Optional; one of MIGRATION_TIMING_OPTIONS values. */
+  migrationTiming?: string;
+}
 
 interface HubSpotFormBody {
   fields: { name: string; value: string }[];
@@ -145,6 +163,7 @@ export function submitMeetingRequest(
   version: string,
   runId: string,
   summary: string,
+  details: MeetingDetails,
 ): Promise<'sent' | 'offline'> {
   if (!outbound.configured) return Promise.resolve('offline');
   return submitHubSpotForm(
@@ -158,6 +177,10 @@ export function submitMeetingRequest(
       { name: HUBSPOT_FIELDS.runId, value: runId },
       { name: HUBSPOT_FIELDS.leadSource, value: outbound.leadSource },
       { name: outbound.meetingSummaryField, value: summary },
+      { name: HUBSPOT_FIELDS.message, value: details.message },
+      ...(details.migrationTiming
+        ? [{ name: HUBSPOT_FIELDS.migrationTiming, value: details.migrationTiming }]
+        : []),
     ],
     'CPQ Inventory — share and schedule',
   );

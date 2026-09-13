@@ -541,6 +541,23 @@ h1.h32-20 {
   }
 }
 
+.share-form {
+  margin-top: 28px;
+  max-width: 560px;
+}
+.share-form .input {
+  max-width: none;
+}
+.input.textarea {
+  resize: vertical;
+  line-height: 1.55;
+  min-height: 120px;
+}
+.input.select {
+  appearance: auto;
+  padding: 11px 12px;
+}
+
 /* ── Scanning ────────────────────────────────────────────────────────── */
 .scanning {
   padding-block: 72px 104px;
