@@ -1,13 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 324 324" width="324" height="324">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 648 648" width="648" height="648">
   <title>Quotivity</title>
-  <!-- Quotivity Q mark: brand green disc, white ring, slate needle. -->
+  <!-- Quotivity Q mark: green disc, white ring with a tail, white needle. -->
   <defs>
-    <clipPath id="disc"><circle cx="162" cy="162" r="162"/></clipPath>
+    <clipPath id="disc"><circle cx="324" cy="324" r="324"/></clipPath>
   </defs>
-  <circle cx="162" cy="162" r="162" fill="#07AE77"/>
+  <circle cx="324" cy="324" r="324" fill="#0BAE7C"/>
   <g clip-path="url(#disc)">
-    <circle cx="160" cy="158" r="86" fill="none" stroke="#FFFFFF" stroke-width="52"/>
-    <path d="M198 196 L262 200 L242 262 Z" fill="#FFFFFF"/>
-    <line x1="150" y1="150" x2="330" y2="330" stroke="#506E91" stroke-width="58" stroke-linecap="round"/>
+    <circle cx="324" cy="324" r="161" fill="none" stroke="#FFFFFF" stroke-width="86"/>
+    <path d="M 500 350 C 542 420 548 492 532 532 C 480 534 418 516 382 490 C 440 470 480 420 500 350 Z" fill="#FFFFFF"/>
+    <line x1="352" y1="318" x2="528" y2="494" stroke="#0BAE7C" stroke-width="18" stroke-linecap="round"/>
+    <line x1="314" y1="314" x2="512" y2="512" stroke="#FFFFFF" stroke-width="62" stroke-linecap="round"/>
   </g>
 </svg>
