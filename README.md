@@ -8,25 +8,18 @@ Published for review. We're not accepting pull requests.
 
 ## Install
 
-**Salesforce CLI plugin** — for orgs with SFDX and someone technical on the Salesforce side:
+The tool is a plugin for the Salesforce CLI (`sf`). If you do not have the CLI yet, or have never connected it to your org, follow [Setting up the Salesforce CLI](docs/salesforce-cli-setup.md) first; it takes about five minutes and needs no Salesforce administrator beyond your own login.
+
+With the CLI installed and connected:
 
 ```sh
 sf plugins install @quotivity/cpq-inventory
 sf cpq inventory --target-org <alias>
 ```
 
-The CLI will warn that the plugin is not signed by Salesforce and ask you to confirm. That prompt is expected: we ship unsigned and accept it. If your policy does not allow unsigned plugins, use the standalone script instead.
+The CLI will warn that the plugin is not signed by Salesforce and ask you to confirm. That prompt is expected: we ship unsigned and accept it.
 
-**Standalone script** — no Salesforce CLI needed. Not published to npm yet; run it from a checkout:
-
-```sh
-npm ci && npm run build
-node packages/standalone/bin/cpq-inventory.js --instance-url https://acme.my.salesforce.com --access-token <token>
-```
-
-Get the two values from `sf org display --target-org <alias>` or any authenticated session. Both need Node.js 22 or newer and serve the same report.
-
-Options on both: `--window <months>` (dead-configuration window, default 24), `--port <port>` (default 3579, bound to 127.0.0.1), `--no-open`.
+Options: `--window <months>` (dead-configuration window, default 24), `--port <port>` (default 3579, bound to 127.0.0.1), `--no-open`. Needs Node.js 22 or newer, which the CLI brings with it.
 
 ## What happens when you run it
 
@@ -42,7 +35,7 @@ Press Ctrl-C in the terminal to stop the server. The query results stay on your 
 
 ## Privacy, specifically
 
-- The Salesforce credential is the one the CLI already holds (plugin) or the token you pass (standalone). It is held in memory for the run, never written, never transmitted, and no Quotivity connected app or OAuth grant is involved.
+- The Salesforce credential is the one the CLI already holds. It is held in memory for the run, never written, never transmitted, and no Quotivity connected app or OAuth grant is involved.
 - Exactly two outbound requests exist, both user-initiated, both HubSpot form submissions made from your browser: the email gate (name and email) and the meeting request. The meeting request carries the report summary (bucket counts, verdicts, mapping rows, the names of scripts flagged for review) — never the query results, product names, prices, customers, code or org access.
 - The server binds `127.0.0.1` only.
 - Apex classes and Flows are not scanned; the report says so.
@@ -56,7 +49,7 @@ The source is here so you can check all of that before running it.
 | `packages/core` | `@quotivity/cpq-inventory-core` | Extraction, classification, mapping, report assembly, local server. No runtime dependencies. |
 | `packages/report` | private | Vite + React report UI, pre-built at publish time into core's `assets/report`. |
 | `packages/plugin` | `@quotivity/cpq-inventory` | `sf cpq inventory` — Salesforce CLI plugin over core. |
-| `packages/standalone` | private for now | `cpq-inventory` bin over core. Runs from a checkout; not yet published. |
+| `docs/salesforce-cli-setup.md` | — | Getting the Salesforce CLI installed and connected to an org. |
 | `docs/cpq-inventory-spec.md` | — | The build spec: the master for every functional mapping. |
 | `docs/design/` | — | The report mockup the UI implements. |
 
@@ -81,7 +74,7 @@ The HubSpot portal ID, the two form GUIDs and the summary property name are comp
 
 ## Releasing
 
-One version across every workspace. Run the **Version** workflow (patch, minor, major or an explicit version); it bumps, commits and tags. The tag triggers **Release**, which re-runs every check and publishes core and then plugin to npm. The standalone package is private and skipped until it is ready.
+One version across every workspace. Run the **Version** workflow (patch, minor, major or an explicit version); it bumps, commits and tags. The tag triggers **Release**, which re-runs every check and publishes core and then plugin to npm.
 
 Publishing uses **npm trusted publishing** (OIDC): no token is stored anywhere. A trusted publisher attaches to an existing package, so the first version of each is published manually from a logged-in machine (`npm run build`, then `npm publish --workspace packages/core --access public`, then the same for `packages/plugin`). One-time setup on npmjs.com, for each of the two packages, under *Settings → Trusted publisher*: provider GitHub Actions, organization `Quotivity`, repository `salesforce-cpq-migration-analysis`, workflow filename `release.yml`, environment left blank. The workflow's `id-token: write` permission and the current npm CLI do the rest, and provenance attestations are generated automatically.
 
