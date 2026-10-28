@@ -97,7 +97,7 @@ Classification reads discriminator fields already present on the records — pri
 
 ### Classification rules
 
-This table is the report's detail view. **Each row renders with a count, inside its bucket.** The discriminator row — not the object — is the unit of counting, and the unit a verdict attaches to. A bucket's *Exists* value is the sum of its rows; rows whose verdict is Degraded or No target sum to its *Needs attention* value; rows marked *Further review* are counted separately and appear in the **Requires further review** section as well as under their bucket.
+This table is the report's detail view. **Each row renders with a count, inside its bucket.** The discriminator row — not the object — is the unit of counting, and the unit a verdict attaches to. A bucket's *Exists* value is the sum of its rows; rows whose verdict is Partial path or No target sum to its *Needs attention* value; rows marked *Further review* are counted separately and appear in the **Requires further review** section as well as under their bucket.
 
 | Source | Discriminator | Bucket | Lands as | Verdict |
 |---|---|---|---|---|
@@ -105,17 +105,17 @@ This table is the report's detail view. **Each row renders with a count, inside 
 | `Pricebook2` | — | Catalog | Quotivity price book | Clear path |
 | `CurrencyType` | more than one enabled | Catalog | Price book entry prices per enabled portal currency | Clear path |
 | `DatedConversionRate` | one rate period per currency | Catalog | A manually set exchange rate — equivalent to a static rate | Clear path |
-| `DatedConversionRate` | multiple maintained rate periods per currency | Catalog | HubSpot holds one current rate per currency. There is no way to author a rate for a named past or future period | Degraded |
+| `DatedConversionRate` | multiple maintained rate periods per currency | Catalog | HubSpot holds one current rate per currency. There is no way to author a rate for a named past or future period | Partial path |
 | `ProductFeature__c` | — | Configuration | Bundle option | Clear path |
 | `ProductOption__c` | OptionalSKU is not configurable | Configuration | Option product | Clear path |
 | `ProductOption__c` | OptionalSKU is itself configurable | Configuration — nesting | — | No target |
 | `ProductFeature__c` | MinOptionCount = 1, MaxOptionCount = 1 | Configuration | Included option with a default product — "Pick one" | Clear path |
 | `ProductFeature__c` | MinOptionCount = 1, MaxOptionCount blank | Configuration | Included option, allow multiple — "Pick one or more" | Clear path |
-| `ProductFeature__c` | MinOptionCount > 1, or MaxOptionCount is a finite number > 1 | Configuration | Allow-multiple, plus roll-up + Block to enforce the count | Degraded |
+| `ProductFeature__c` | MinOptionCount > 1, or MaxOptionCount is a finite number > 1 | Configuration | Allow-multiple, plus roll-up + Block to enforce the count | Partial path |
 | `ConfigurationRule__c` | — | Configuration | Absorbed — scope is implicit, since Compatibility Rules execute within the bundle | Clear path |
 | `OptionConstraint__c` | Type = Exclusion | Configuration | Compatibility Rule (Incompatible) | Clear path |
 | `OptionConstraint__c` | Type = Dependency, required option is on an included option with a default | Configuration | Already satisfied — the option is always present | Clear path |
-| `OptionConstraint__c` | Type = Dependency, any other shape | Configuration | Add add-on bundle product, or Block | Degraded |
+| `OptionConstraint__c` | Type = Dependency, any other shape | Configuration | Add add-on bundle product, or Block | Partial path |
 | `ProductRule__c` | Type = Validation | Guardrails | Block outcome | Clear path |
 | `ProductRule__c` | Type = Alert | Guardrails | Notify outcome | Clear path |
 | `ProductRule__c` | Scope = Quote, no bundle context | Guardrails | Block or Require Approval outcome | Clear path |
@@ -132,15 +132,15 @@ This table is the report's detail view. **Each row renders with a count, inside 
 | `PriceRule__c` | actions write a non-money field | Discovery & capture — defaulting | Update Line Items | Clear path |
 | `PriceRule__c` | actions write unit / list / net price, or a price formula | Price determination | Calculated pricing formula | Clear path |
 | `PriceRule__c` | actions write a field a validation rule then tests | Guardrails — floor or ceiling | Roll-up + Block outcome | Clear path |
-| `PriceRule__c` | `TargetObject__c` = Configurator | Configuration | Compatibility Rules and Dynamic Property Sets do evaluate in the configurator; *pricing* does not resolve until the bundle lands on the quote | Degraded |
+| `PriceRule__c` | `TargetObject__c` = Configurator | Configuration | Compatibility Rules and Dynamic Property Sets do evaluate in the configurator; *pricing* does not resolve until the bundle lands on the quote | Partial path |
 | `PriceRule__c` | actions write a discount or markup field | Discounting | Volume tiers or Add One-time Discount | Clear path |
 | `PriceAction__c` | formula outside the supported grammar, or over the IF / length / nesting limits | Price determination | — | No target |
 | `PriceAction__c` | TargetObject = Quote, `SBQQ__SourceVariable__c` populated | Price determination | Roll-up, which writes its result to the quote | Clear path |
 | `PriceAction__c` | TargetObject = Quote, `SBQQ__SourceVariable__c` empty | Price determination | — no outcome writes an arbitrary quote property | No target |
 | `SummaryVariable__c` | `TargetObject` = Quote Line, no constraint field | follows the rule that uses it | Roll-up field, with conditions when `FilterField` is set | Clear path |
-| `SummaryVariable__c` | `ConstraintField__c` populated | follows the rule that uses it | Roll-up conditions compare a line property to a static value, not to a quote property. Needs Update Line Items to stamp the quote value onto lines first, then filter on it | Degraded |
+| `SummaryVariable__c` | `ConstraintField__c` populated | follows the rule that uses it | Roll-up conditions compare a line property to a static value, not to a quote property. Needs Update Line Items to stamp the quote value onto lines first, then filter on it | Partial path |
 | `SummaryVariable__c` | `CombineWith__c` or `ValueElement__c` populated | follows the rule that uses it | Two roll-ups, composed in a calculated pricing formula | Clear path |
-| `SummaryVariable__c` | `TargetObject` = Product Option | follows the rule that uses it | Aggregates catalog records at configuration time; roll-ups aggregate quote lines | Degraded |
+| `SummaryVariable__c` | `TargetObject` = Product Option | follows the rule that uses it | Aggregates catalog records at configuration time; roll-ups aggregate quote lines | Partial path |
 | `SummaryVariable__c` | `TargetObject` = Asset or Subscription, or `Scope` = Assets | follows the rule that uses it | — no asset model | No target |
 | `LookupQuery__c` | on a product rule | Configuration + Custom code & UI | The tool cannot read the custom object the lookup targets, so its size and shape are unknown | Further review |
 | `LookupQuery__c` | on a price rule | Price determination + Custom code & UI | Same, and custom object values cannot be inputs to a pricing formula — a multi-input price matrix has to be re-expressed as variants or as products | Further review |
@@ -148,25 +148,25 @@ This table is the report's detail view. **Each row renders with a count, inside 
 | `Product2` | PricingMethod = Percent Of Total | Price determination | Roll-up + calculated pricing formula | Clear path |
 | `Product2` | PricingMethod = Block, or `BlockPrice__c` rows | Price determination | Calculated pricing formula | Clear path |
 | `Product2` | attribute-driven price | Price determination | Pricing table (value or range), or product variants | Clear path |
-| `Product2` | SubscriptionPricing, SubscriptionTerm, not a bundle option | Price determination + Contract lifecycle | Ramp pricing | Degraded |
-| `Product2` | SubscriptionPricing, and the product is a bundle header or option product | Price determination + Contract lifecycle | Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle | Degraded |
+| `Product2` | SubscriptionPricing, SubscriptionTerm, not a bundle option | Price determination + Contract lifecycle | Ramp pricing | Partial path |
+| `Product2` | SubscriptionPricing, and the product is a bundle header or option product | Price determination + Contract lifecycle | Stepped periods built with Update Bundle Members rules — the Ramp Pricing feature itself cannot be applied to a bundle | Partial path |
 | `Product2` | ChargeType = Usage | Price determination | — | No target |
 | `Dimension__c` | MDQ segments, same quantity in every segment | Price determination | Ramp pricing; Update Bundle Members rules when the product is bundled | Clear path |
-| `Dimension__c` | MDQ segments with differing quantities | Price determination | Quantity is locked across ramp periods — stepped quantity does not carry | Degraded |
+| `Dimension__c` | MDQ segments with differing quantities | Price determination | Quantity is locked across ramp periods — stepped quantity does not carry | Partial path |
 | `DiscountSchedule__c` | on `Product2` or `ProductOption`, per-line | Discounting | Volume pricing tiers | Clear path |
 | `DiscountSchedule__c` | AggregationScope = Quote | Discounting | Quote-wide roll-up, then a calculated pricing formula over it | Clear path |
-| `DiscountSchedule__c` | AggregationScope = Group | Discounting | Roll-ups aggregate quote-wide or per bundle. Line item grouping is a template display feature and carries no functional aggregate | Degraded |
-| `DiscountSchedule__c` | Type = Slab | Discounting | Volume tiers, converted to per-unit | Degraded |
+| `DiscountSchedule__c` | AggregationScope = Group | Discounting | Roll-ups aggregate quote-wide or per bundle. Line item grouping is a template display feature and carries no functional aggregate | Partial path |
+| `DiscountSchedule__c` | Type = Slab | Discounting | Volume tiers, converted to per-unit | Partial path |
 | `ContractedPrice__c` | — | Discounting — negotiated | Price book assigned to a company | Clear path |
 | `sbaa__ApprovalRule__c` + conditions | — | Approvals | Require Approval outcome + approval queue | Clear path |
 | `sbaa__ApprovalChain__c` | step gated on a prior step | Approvals | HubSpot workflow orchestration | Clear path |
-| `sbaa__Approver__c` | approver derived from a field | Approvals | Workflow routing | Degraded |
-| `sbaa__TrackedField__c` | — | Approvals | Rule conditions + roll-ups | Degraded |
+| `sbaa__Approver__c` | approver derived from a field | Approvals | Workflow routing | Partial path |
+| `sbaa__TrackedField__c` | — | Approvals | Rule conditions + roll-ups | Partial path |
 | `sbaa__ApprovalVariable__c` | — | Approvals | Roll-up field, read by the rule's conditions | Clear path |
 | `ApprovalProcess` | native, on Quote or Opportunity | Approvals | Require Approval + HubSpot workflow | Clear path |
 | QuoteTemplate family | — | Quote output | Quotivity Template + Terms Library | Clear path |
 | `QuoteLineGroup__c` | groups used for presentation | Quote output | Template grouping of line items by a line item property | Clear path |
-| `QuoteLineGroup__c` | referenced by a discount schedule, rule or approval | Discounting + Guardrails | Grouping is display-only; anything that aggregates or gates by group has to be rebuilt on a quote-wide or per-bundle roll-up | Degraded |
+| `QuoteLineGroup__c` | referenced by a discount schedule, rule or approval | Discounting + Guardrails | Grouping is display-only; anything that aggregates or gates by group has to be rebuilt on a quote-wide or per-bundle roll-up | Partial path |
 | `QuoteTerm__c` | — | Quote output | Terms Library + Insert Template Terms | Clear path |
 | `TermCondition__c` | — | Quote output | Template module visibility — condition groups combined with AND / OR | Clear path |
 | `LineColumn__c` | — | Quote output | Line item columns + Dynamic Property Sets | Clear path |
@@ -188,7 +188,7 @@ Every bucket renders the same three values plus one summary sentence.
 |---|---|
 | **Exists** | Records of that function in the org |
 | **Alive** | Records touched within the trailing window (see *Dead configuration* below) |
-| **Needs attention** | Records whose verdict is Degraded or No target |
+| **Needs attention** | Records whose verdict is Partial path or No target |
 | **Requires review** | Records the tool could not give a verdict. Its own figure, never added to *Needs attention* |
 
 A bucket with no review rows prints no review figure rather than a zero.
@@ -234,7 +234,7 @@ Not whether the structure changes — it always does, the two products have diff
 | Verdict | Meaning |
 |---|---|
 | **Clear path** | The behaviour survives and the route to it is known |
-| **Degraded** | The behaviour survives in part. The report names what is lost |
+| **Partial path** | The behaviour survives in part. The report names what is lost |
 | **No target** | The behaviour does not survive. Needs a redesign or a product change |
 
 **Clear path is not a claim that it is easy.** It says there is a known route and nothing about how the quote behaves is given up along the way. A quote template that has to be rebuilt from scratch is a clear path: the finished document is reproducible, every part of it has a destination, and the work is a project plan rather than an open question.
@@ -251,7 +251,7 @@ Not whether the structure changes — it always does, the two products have diff
 
 Not a verdict. Its own section, and its own number — these rows are never folded into Clear path, and never into a bucket's *Needs attention* figure either. They are counted and shown separately.
 
-**A row qualifies only if a short answer from the customer would change which verdict it gets.** Not "it is hard," not "there is a workaround." If you cannot name the answer that would flip it, it is not review — it is Degraded, and Degraded has to keep meaning *we know exactly what you lose*.
+**A row qualifies only if a short answer from the customer would change which verdict it gets.** Not "it is hard," not "there is a workaround." If you cannot name the answer that would flip it, it is not review — it is Partial path, and Partial path has to keep meaning *we know exactly what you lose*.
 
 Two reasons a row lands here. The report labels which:
 
@@ -266,7 +266,7 @@ No row in the current classification uses **Intent** — every review row today 
 
 **Calibration.** Most of a healthy CPQ org lands on Clear path — a product built to receive these migrations should absorb most of what a CPQ org contains, and a report that says otherwise is either wrong or describing an org that should not migrate. So a high Clear path share is not the bug signal. These are:
 
-- **No Degraded and no No-target rows at all.** Every org of any age has something that does not carry. A clean sweep means the detectors are not firing.
+- **No Partial path and no No-target rows at all.** Every org of any age has something that does not carry. A clean sweep means the detectors are not firing.
 - **Fewer Fan-out and Rebuild markers than Clear path rows containing contracted pricing, approval chains or quote templates.** Those three always change shape.
 - **More than about 5% unclassifiable residue.** Print it either way; 30% means the model needs another bucket.
 
@@ -277,11 +277,11 @@ No row in the current classification uses **Intent** — every review row today 
 | Catalog | Products, price books | HubSpot product library, Quotivity price books | Clear path | 1:1 |
 | Catalog | Multi-currency price books | Price book entries carry a price per enabled portal currency | Clear path | 1:1 |
 | Catalog | Dated conversion rates, a single static rate | A manually set HubSpot exchange rate | Clear path | 1:1 |
-| Catalog | Dated conversion rates, a maintained rate table | HubSpot holds one current rate per currency — a rate cannot be authored against a period | Degraded | — |
+| Catalog | Dated conversion rates, a maintained rate table | HubSpot holds one current rate per currency — a rate cannot be authored against a period | Partial path | — |
 | Configuration | Bundles, features, options, quantity bounds | Bundles, bundle options, option products | Clear path | 1:1 |
 | Configuration | Option constraints — exclusion | Compatibility Rules | Clear path | 1:1 |
-| Configuration | Option constraints — dependency ("requires") | Already satisfied when the required option is included with a default; otherwise Add add-on or Block | Degraded | — |
-| Configuration | Feature min/max option counts | "Pick one" and "Pick one or more" are native; a numeric cap needs a roll-up + Block | Degraded | — |
+| Configuration | Option constraints — dependency ("requires") | Already satisfied when the required option is included with a default; otherwise Add add-on or Block | Partial path | — |
+| Configuration | Feature min/max option counts | "Pick one" and "Pick one or more" are native; a numeric cap needs a roll-up + Block | Partial path | — |
 | Configuration | Nested bundles | — | No target | — |
 | Configuration | Dynamic option sets (filter rules) | — | No target | — |
 | Configuration | Lookup queries on a product rule | Depends on the custom object behind them, which the tool cannot read | Further review | — |
@@ -289,12 +289,12 @@ No row in the current classification uses **Intent** — every review row today 
 | Discovery & capture | Guided selling processes | Guided Selling flows + questions | Clear path | 1:1 |
 | Price determination | Volume and tier pricing, attribute pricing | Price book adjustments, pricing tables, variants | Clear path | 1:1 |
 | Price determination | Cost-plus, percent-of-total, block pricing | Calculated pricing (+ roll-ups) | Clear path | Fan-out |
-| Price determination | MDQ / segmented subscription pricing | Ramp pricing; Update Bundle Members rules when bundled. Stepped *quantity* does not carry | Degraded | — |
+| Price determination | MDQ / segmented subscription pricing | Ramp pricing; Update Bundle Members rules when bundled. Stepped *quantity* does not carry | Partial path | — |
 | Price determination | Subscription term and proration maths | — | No target | — |
 | Price determination | Lookup queries on a price rule | Depends on the custom object behind them, which the tool cannot read | Further review | — |
 | Discounting | Discount schedules, per-line tiers | Volume pricing tiers | Clear path | 1:1 |
 | Discounting | Schedules aggregating across the quote | Quote-wide roll-up + calculated pricing formula | Clear path | Fan-out |
-| Discounting | Schedules aggregating across a quote line group | Roll-up quote-wide or per bundle — grouping itself carries no functional aggregate | Degraded | — |
+| Discounting | Schedules aggregating across a quote line group | Roll-up quote-wide or per bundle — grouping itself carries no functional aggregate | Partial path | — |
 | Discounting | Contracted pricing | Price books assigned to companies | Clear path | Fan-out |
 | Guardrails | Validation rules | Block | Clear path | 1:1 |
 | Guardrails | Alert rules | Notify | Clear path | 1:1 |
@@ -302,18 +302,18 @@ No row in the current classification uses **Intent** — every review row today 
 | Guardrails | Custom boolean condition logic on a rule | Condition groups, the expression flattened | Clear path | Fan-out |
 | Approvals | Approval rules and conditions | Require Approval + approval queue | Clear path | 1:1 |
 | Approvals | Approval chains, ordering | Stacked Request Quote Approval (v2) actions in a HubSpot workflow | Clear path | Rebuild |
-| Approvals | Derived approvers, escalation | Workflow routing | Degraded | — |
+| Approvals | Derived approvers, escalation | Workflow routing | Partial path | — |
 | Quote output | Quote line groups | Template grouping of line items by a line item property | Clear path | 1:1 |
 | Quote output | Quote templates, sections, columns, terms | Quotivity Templates, Terms Library | Clear path | Rebuild |
 | Contract lifecycle | Amendments, prorations, renewals | HubSpot Contracts, change and renewal quotes | Clear path | 1:1 |
 | Contract lifecycle | Orders, assets | — | No target | — |
 | Custom code & UI | QCP, triggers and UI customisations on CPQ objects | Calculated pricing \* | Further review | — |
 
-**Distribution on this set:** 21 Clear path, 6 Degraded, 4 No target, and 3 Requires further review — reported as its own figure, never inside Needs attention.
+**Distribution on this set:** 21 Clear path, 6 Partial path, 4 No target, and 3 Requires further review — reported as its own figure, never inside Needs attention.
 
-**Ramp pricing has hard edges, and a route around them.** A ramp needs at least two periods, applies only to recurring line items, and the Ramp Pricing feature **cannot be applied to a bundle header or an option product**. That is not a dead end: stepped periods on a bundled product are buildable with **Update Bundle Members** rules. The outcome is reproducible; what is lost is the native feature's grouping, period badges, and starting/ending MRR handling — so it is Degraded, and the report says which route applies. The detector checks whether the subscription product is also a `ProductOption__c`.
+**Ramp pricing has hard edges, and a route around them.** A ramp needs at least two periods, applies only to recurring line items, and the Ramp Pricing feature **cannot be applied to a bundle header or an option product**. That is not a dead end: stepped periods on a bundled product are buildable with **Update Bundle Members** rules. The outcome is reproducible; what is lost is the native feature's grouping, period badges, and starting/ending MRR handling — so it is Partial path, and the report says which route applies. The detector checks whether the subscription product is also a `ProductOption__c`.
 
-**Quantity is locked across ramp periods.** Within a ramp, name, SKU, quantity, unit price, cost, billing frequency and variant stay identical across periods — only discount, term and billing start vary. CPQ MDQ segments can carry a different *quantity* per segment (100 seats in year 1, 150 in year 2). That case does not carry, and it is the most common reason a segmented subscription lands on Degraded rather than Clear path.
+**Quantity is locked across ramp periods.** Within a ramp, name, SKU, quantity, unit price, cost, billing frequency and variant stay identical across periods — only discount, term and billing start vary. CPQ MDQ segments can carry a different *quantity* per segment (100 seats in year 1, 150 in year 2). That case does not carry, and it is the most common reason a segmented subscription lands on Partial path rather than Clear path.
 
 **Dated conversion rates: quoting carries, authoring does not.** HubSpot holds **one current rate per currency**. An admin can set it manually, or turn on automatic updates on a monthly, quarterly or annual schedule from Open Exchange Rates. A deal's rate is stamped at its close date and closed deals are not retroactively re-rated, so point-in-time quoting carries. HubSpot also keeps a viewable currency history, so past rates are not lost.
 

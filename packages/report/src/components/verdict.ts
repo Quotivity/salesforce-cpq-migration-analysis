@@ -4,7 +4,7 @@ export const verdictClass = (v: Verdict): string =>
   v === 'Clear path'
     ? 'v-clear'
     : v === 'Partial path'
-      ? 'v-degraded'
+      ? 'v-partial-path'
       : v === 'No path'
         ? 'v-notarget'
         : 'v-review';

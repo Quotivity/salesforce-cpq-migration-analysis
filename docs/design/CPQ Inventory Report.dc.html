@@ -123,7 +123,7 @@
             <h1 style="margin:0 0 20px;font-size:32px;line-height:1.12;font-weight:700;color:#0F2E22;letter-spacing:-0.01em">It reads your org and tells you where every piece lands.</h1>
             <div style="display:grid;gap:11px;font-size:16px;line-height:1.6;color:#3C4A42">
               <div>Your Salesforce CPQ configuration is sorted into functional areas — what you sell, how it is configured, how a price reaches a line, what stops a rep, who approves, what the customer receives.</div>
-              <div>Every construct is mapped to its Quotivity or HubSpot equivalent and given one verdict, on one question — does the behaviour survive? A clear path, degraded, or no target at all.</div>
+              <div>Every construct is mapped to its Quotivity or HubSpot equivalent and given one verdict, on one question — does the behaviour survive? A clear path, partial path, or no target at all.</div>
               <div>It does not price the migration, estimate how long it takes, or compare licence costs.</div>
             </div>
 
@@ -502,7 +502,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;inventoryLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Cards&quot;,&quot;Dense rows&quot;],&quot;default&quot;:&quot;Cards&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;deadWindow&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;12 months&quot;,&quot;24 months&quot;],&quot;default&quot;:&quot;24 months&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Report&quot;},&quot;simulateOfflineGate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;States&quot;}}">
 const V = {
   'Clear path':     { fg: '#047251', accent: '#07AE77' },
-  Degraded:         { fg: '#A9611C', accent: '#D97230' },
+  'Partial path':   { fg: '#A9611C', accent: '#D97230' },
   'No target':      { fg: '#B23A2E', accent: '#C0392B' },
   'Further review': { fg: '#1F6FA8', accent: '#3E8DC4' }
 };
@@ -516,8 +516,8 @@ const BUCKETS = [
     ['Active products', '412', 'HubSpot product', 'Clear path', '1:1'],
     ['Price books', '7', 'Quotivity price book', 'Clear path', '1:1'],
     ['Enabled currencies', '2', 'Price book entry prices per enabled portal currency', 'Clear path', '1:1'],
-    ['Currencies with no explicit prices', '1', 'Prices materialised before import — the rate stops being tracked', 'Degraded', ''],
-    ['Dated conversion rates in use', '1', 'HubSpot automatic exchange rate updates — scheduled snapshots, not an authored rate table', 'Degraded', '']
+    ['Currencies with no explicit prices', '1', 'Prices materialised before import — the rate stops being tracked', 'Partial path', ''],
+    ['Dated conversion rates in use', '1', 'HubSpot automatic exchange rate updates — scheduled snapshots, not an authored rate table', 'Partial path', '']
   ], 'Counts come from aggregate queries. PricebookEntry records are never retrieved — only the per-currency aggregate.'],
 
   ['configuration', 'Configuration', 'What can be sold together, and what does the rep choose?', '622', '470', '19', '2', [
@@ -528,11 +528,11 @@ const BUCKETS = [
     ['Option products, not configurable', '154', 'Option product', 'Clear path', '1:1'],
     ['Option products that are themselves bundles', '9', '—', 'No target', ''],
     ['Features — pick one, or pick one or more', '8', 'Included option with a default, or allow multiple', 'Clear path', '1:1'],
-    ['Features with a numeric option cap', '3', 'Allow-multiple, plus roll-up + Block to enforce the count', 'Degraded', ''],
+    ['Features with a numeric option cap', '3', 'Allow-multiple, plus roll-up + Block to enforce the count', 'Partial path', ''],
     ['Configuration rules', '6', 'Absorbed — Compatibility Rules execute within the bundle', 'Clear path', '1:1'],
     ['Option constraints — exclusion', '8', 'Compatibility Rule (Incompatible)', 'Clear path', '1:1'],
     ['Option constraints — dependency, already satisfied', '2', 'The required option is always present', 'Clear path', '1:1'],
-    ['Option constraints — dependency, any other shape', '2', 'Add add-on bundle product, or Block', 'Degraded', ''],
+    ['Option constraints — dependency, any other shape', '2', 'Add add-on bundle product, or Block', 'Partial path', ''],
     ['Selection rules', '11', 'Add add-on / Swap bundle product', 'Clear path', '1:1'],
     ['Filter rules — dynamic option sets', '2', '—', 'No target', ''],
     ['Product actions with no replacement', '3', '—', 'No target', ''],
@@ -560,10 +560,10 @@ const BUCKETS = [
     ['Attribute-driven price', '22 products', 'Pricing table, or product variants', 'Clear path', '1:1'],
     ['Price rules writing a price field', '38 rules', 'Calculated pricing formula', 'Clear path', 'Fan-out'],
     ['Summary variables rolled up to the quote', '5', 'Roll-up, which writes its result to the quote', 'Clear path', 'Fan-out'],
-    ['Subscription term, not a bundle option', '44 products', 'Ramp pricing', 'Degraded', ''],
-    ['Subscription term on a bundle header or option', '17 products', 'Stepped periods via Update Bundle Members rules', 'Degraded', ''],
+    ['Subscription term, not a bundle option', '44 products', 'Ramp pricing', 'Partial path', ''],
+    ['Subscription term on a bundle header or option', '17 products', 'Stepped periods via Update Bundle Members rules', 'Partial path', ''],
     ['MDQ segments, same quantity every segment', '3 dimensions', 'Ramp pricing', 'Clear path', '1:1'],
-    ['MDQ segments with differing quantities', '1 dimension', 'Quantity is locked across ramp periods', 'Degraded', ''],
+    ['MDQ segments with differing quantities', '1 dimension', 'Quantity is locked across ramp periods', 'Partial path', ''],
     ['Usage-based charge type', '3 products', '—', 'No target', ''],
     ['Price actions over the formula limits', '5', '—', 'No target', ''],
     ['Price actions writing an arbitrary quote field', '2', '—', 'No target', ''],
@@ -576,8 +576,8 @@ const BUCKETS = [
   ], [
     ['Per-line schedules', '17', 'Volume pricing tiers', 'Clear path', '1:1'],
     ['Schedules aggregating across the quote', '3', 'Quote-wide roll-up + calculated pricing formula', 'Clear path', 'Fan-out'],
-    ['Schedules aggregating across a quote line group', '2', 'Grouping carries no functional aggregate', 'Degraded', ''],
-    ['Slab-type schedules', '4', 'Volume tiers, converted to per-unit', 'Degraded', ''],
+    ['Schedules aggregating across a quote line group', '2', 'Grouping carries no functional aggregate', 'Partial path', ''],
+    ['Slab-type schedules', '4', 'Volume tiers, converted to per-unit', 'Partial path', ''],
     ['Contracted prices', '308', 'Price book assigned to a company', 'Clear path', 'Fan-out'],
     ['Price rules writing a discount or markup field', '9', 'Volume tiers, or Add One-time Discount', 'Clear path', '1:1']
   ], '96 tiers are read but not counted as constructs — they belong to their schedule. Tier bounds are half-open in CPQ and stay that way on import.'],
@@ -593,7 +593,7 @@ const BUCKETS = [
     ['Custom boolean condition logic on a rule', '12', 'Condition groups, the expression flattened', 'Clear path', 'Fan-out'],
     ['Platform validation rules on CPQ objects', '1', 'Block outcome', 'Clear path', '1:1'],
     ['Non-discountable / not price-editable', '7 products', 'Price book unit price editability', 'Clear path', '1:1'],
-    ['Rules gating on a quote line group', '2', 'Rebuilt on a quote-wide or per-bundle roll-up', 'Degraded', '']
+    ['Rules gating on a quote line group', '2', 'Rebuilt on a quote-wide or per-bundle roll-up', 'Partial path', '']
   ], 'Three more platform validation rules on these objects are package-owned and excluded. The one counted is admin-authored.'],
 
   ['approvals', 'Approvals', 'Who has to sign off, and in what order?', '38', '31', '9', '', [
@@ -603,8 +603,8 @@ const BUCKETS = [
     ['Approval rules and their conditions', '18', 'Require Approval outcome + approval queue', 'Clear path', '1:1'],
     ['Approval variables', '5', 'Roll-up field, read by the rule conditions', 'Clear path', '1:1'],
     ['Chains with step-gated ordering', '4', 'Stacked Request Quote Approval actions in a HubSpot workflow', 'Clear path', 'Rebuild'],
-    ['Approvers derived from a field', '6', 'Workflow routing', 'Degraded', ''],
-    ['Tracked fields', '3', 'Rule conditions + roll-ups', 'Degraded', ''],
+    ['Approvers derived from a field', '6', 'Workflow routing', 'Partial path', ''],
+    ['Tracked fields', '3', 'Rule conditions + roll-ups', 'Partial path', ''],
     ['Native approval processes', '2', 'Require Approval + HubSpot workflow', 'Clear path', '1:1']
   ], 'Both engines are running. A SOQL-only inventory would have missed the two native processes entirely.'],
 
@@ -617,7 +617,7 @@ const BUCKETS = [
     ['Quote terms', '9', 'Terms Library + Insert Template Terms', 'Clear path', '1:1'],
     ['Term conditions', '4', 'Template module visibility, conditions grouped', 'Clear path', '1:1'],
     ['Quote line groups used for presentation', '7', 'Template grouping by a line item property', 'Clear path', '1:1'],
-    ['Quote line groups referenced by a rule or schedule', '2', 'Grouping is display-only — the aggregate has to be rebuilt', 'Degraded', ''],
+    ['Quote line groups referenced by a rule or schedule', '2', 'Grouping is display-only — the aggregate has to be rebuilt', 'Partial path', ''],
     ['Signature setup', '1', 'e-signature', 'Clear path', 'Rebuild']
   ], 'Templates are authored fresh rather than imported — same document, no import file. That is true of a move to Revenue Cloud Advanced too.'],
 
@@ -627,7 +627,7 @@ const BUCKETS = [
   ], [
     ['Contracts and subscriptions', '1,103', 'HubSpot Contract + contract line items', 'Clear path', '1:1'],
     ['Amendment and renewal quotes', '683', 'Change quote, renewal quote', 'Clear path', '1:1'],
-    ['Co-terming and uplift settings', '4', 'Renewal quote settings', 'Degraded', ''],
+    ['Co-terming and uplift settings', '4', 'Renewal quote settings', 'Partial path', ''],
     ['Orders and assets', '2', '—', 'No target', '']
   ], 'Renewals and amendments are the majority of quoting volume here, so this bucket carries more weight than its record count suggests.'],
 
@@ -654,12 +654,12 @@ const PHASES = [
 const MAP_ROWS = [
   ['Catalog', 'Products, price books', 'HubSpot product library, Quotivity price books', 'Clear path', '1:1'],
   ['Catalog', 'Multi-currency price books', 'Price book entries carry a price per enabled portal currency', 'Clear path', '1:1'],
-  ['Catalog', 'Prices left to currency conversion', 'Explicit per-currency prices, materialised at import', 'Degraded', ''],
-  ['Catalog', 'Dated conversion rates', 'HubSpot automatic exchange rate updates', 'Degraded', ''],
+  ['Catalog', 'Prices left to currency conversion', 'Explicit per-currency prices, materialised at import', 'Partial path', ''],
+  ['Catalog', 'Dated conversion rates', 'HubSpot automatic exchange rate updates', 'Partial path', ''],
   ['Configuration', 'Bundles, features, options, quantity bounds', 'Bundles, bundle options, option products', 'Clear path', '1:1'],
   ['Configuration', 'Option constraints — exclusion', 'Compatibility Rules', 'Clear path', '1:1'],
-  ['Configuration', 'Option constraints — dependency', 'Already satisfied when the option is included with a default; otherwise Add add-on or Block', 'Degraded', ''],
-  ['Configuration', 'Feature min/max option counts', 'Pick one and pick one or more are native; a numeric cap needs a roll-up + Block', 'Degraded', ''],
+  ['Configuration', 'Option constraints — dependency', 'Already satisfied when the option is included with a default; otherwise Add add-on or Block', 'Partial path', ''],
+  ['Configuration', 'Feature min/max option counts', 'Pick one and pick one or more are native; a numeric cap needs a roll-up + Block', 'Partial path', ''],
   ['Configuration', 'Nested bundles', '—', 'No target', ''],
   ['Configuration', 'Dynamic option sets (filter rules)', '—', 'No target', ''],
   ['Configuration', 'Lookup queries on a product rule', 'Depends on the custom object behind them, which the tool cannot read', 'Further review', ''],
@@ -667,12 +667,12 @@ const MAP_ROWS = [
   ['Discovery & capture', 'Guided selling processes', 'Guided Selling flows + questions', 'Clear path', '1:1'],
   ['Price determination', 'Volume and tier pricing, attribute pricing', 'Price book adjustments, pricing tables, variants', 'Clear path', '1:1'],
   ['Price determination', 'Cost-plus, percent-of-total, block pricing', 'Calculated pricing (+ roll-ups)', 'Clear path', 'Fan-out'],
-  ['Price determination', 'MDQ / segmented subscription pricing', 'Ramp pricing; Update Bundle Members rules when bundled. Stepped quantity does not carry', 'Degraded', ''],
+  ['Price determination', 'MDQ / segmented subscription pricing', 'Ramp pricing; Update Bundle Members rules when bundled. Stepped quantity does not carry', 'Partial path', ''],
   ['Price determination', 'Subscription term and proration maths', '—', 'No target', ''],
   ['Price determination', 'Lookup queries on a price rule', 'Depends on the custom object behind them, which the tool cannot read', 'Further review', ''],
   ['Discounting', 'Discount schedules, per-line tiers', 'Volume pricing tiers', 'Clear path', '1:1'],
   ['Discounting', 'Schedules aggregating across the quote', 'Quote-wide roll-up + calculated pricing formula', 'Clear path', 'Fan-out'],
-  ['Discounting', 'Schedules aggregating across a quote line group', 'Roll-up quote-wide or per bundle — grouping carries no aggregate', 'Degraded', ''],
+  ['Discounting', 'Schedules aggregating across a quote line group', 'Roll-up quote-wide or per bundle — grouping carries no aggregate', 'Partial path', ''],
   ['Discounting', 'Contracted pricing', 'Price books assigned to companies', 'Clear path', 'Fan-out'],
   ['Guardrails', 'Validation rules', 'Block', 'Clear path', '1:1'],
   ['Guardrails', 'Alert rules', 'Notify', 'Clear path', '1:1'],
@@ -680,7 +680,7 @@ const MAP_ROWS = [
   ['Guardrails', 'Custom boolean condition logic on a rule', 'Condition groups, the expression flattened', 'Clear path', 'Fan-out'],
   ['Approvals', 'Approval rules and conditions', 'Require Approval + approval queue', 'Clear path', '1:1'],
   ['Approvals', 'Approval chains, ordering', 'Stacked Request Quote Approval actions in a HubSpot workflow', 'Clear path', 'Rebuild'],
-  ['Approvals', 'Derived approvers, escalation', 'Workflow routing', 'Degraded', ''],
+  ['Approvals', 'Derived approvers, escalation', 'Workflow routing', 'Partial path', ''],
   ['Quote output', 'Quote line groups', 'Template grouping of line items by a line item property', 'Clear path', '1:1'],
   ['Quote output', 'Quote templates, sections, columns, terms', 'Quotivity Templates, Terms Library', 'Clear path', 'Rebuild'],
   ['Contract lifecycle', 'Amendments, prorations, renewals', 'HubSpot Contracts, change and renewal quotes', 'Clear path', '1:1'],
@@ -703,7 +703,7 @@ const REVIEW = [
 
 const NOTES = [
   ['Clear path is not a claim that it is easy', 'It says the behaviour survives and the route is known. A quote template rebuilt from scratch is a clear path — the finished document is reproducible and every part of it has a destination. Shape is where the work shows: Fan-out means one construct becomes several records, Rebuild means it is authored fresh rather than imported.'],
-  ['Ramp pricing has hard edges, and a route around them', 'A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Degraded.'],
+  ['Ramp pricing has hard edges, and a route around them', 'A ramp needs at least two periods, applies only to recurring lines, and cannot be applied to a bundle header or an option product. Stepped periods on a bundled product are still buildable with Update Bundle Members rules — what is lost is the native grouping, period badges and MRR handling. Quantity is also locked across ramp periods, which is the most common reason a segmented subscription lands on Partial path.'],
   ['The two currency rows are not the same problem', 'Dated conversion rates are about converting a deal between currencies — they land on HubSpot automatic exchange rate updates, which stamp a rate at close but come from Open Exchange Rates on a schedule rather than from an authored rate table. Prices left to conversion is about product prices never set explicitly in a second currency; those still have to be materialised before import. One of your two currencies would arrive empty.'],
   ['The formula limits are specific', 'Calculated pricing supports IF, CASE, AND, OR, NOT, ISBLANK, BLANKVALUE, MIN and MAX — and AND / OR take two to five arguments each. A price action that ANDs six conditions is over the limit even though every function it uses is supported. The report prints the specific limit each formula breaches.'],
   ['Contracted pricing states its cardinality', 'It lands as a price book assigned to a company, which also locks the quote so reps cannot switch away from negotiated pricing. Your 308 contracted prices across 41 accounts becomes 41 price books and 308 entries, expressed as import file rows.'],
@@ -793,7 +793,7 @@ class Component extends DCLogic {
     const verdicted = MAP_ROWS.filter(r => r[3] !== 'Further review').length;
     const scaleDef = [
       ['Clear path', 'The behaviour survives and the route to it is known'],
-      ['Degraded', 'The behaviour survives in part. The report names what is lost'],
+      ['Partial path', 'The behaviour survives in part. The report names what is lost'],
       ['No target', 'The behaviour does not survive. Needs a redesign or a product change']
     ];
 

@@ -36,8 +36,8 @@
 
   --clear-fg: #047251;
   --clear-accent: #07ae77;
-  --degraded-fg: #a9611c;
-  --degraded-accent: #d97230;
+  --partial-path-fg: #a9611c;
+  --partial-path-accent: #d97230;
   --notarget-fg: #b23a2e;
   --notarget-accent: #c0392b;
   --review-fg: #1f6fa8;
@@ -325,7 +325,7 @@ h1.h32-20 {
 }
 .box-warn {
   border: 1px solid var(--warn-border);
-  border-left: 3px solid var(--degraded-accent);
+  border-left: 3px solid var(--partial-path-accent);
   border-radius: 3px;
   background: var(--warn-tint);
   padding: 16px 18px;
@@ -728,7 +728,7 @@ h1.h32-20 {
 }
 .metric-v.unreliable {
   font-size: 13px;
-  color: var(--degraded-fg);
+  color: var(--partial-path-fg);
 }
 .metric-k {
   margin-top: 3px;
@@ -804,8 +804,8 @@ h1.h32-20 {
 .v-clear {
   color: var(--clear-fg);
 }
-.v-degraded {
-  color: var(--degraded-fg);
+.v-partial-path {
+  color: var(--partial-path-fg);
 }
 .v-notarget {
   color: var(--notarget-fg);
@@ -822,7 +822,7 @@ h1.h32-20 {
 .partial-flag {
   font-size: 11px;
   font-weight: 600;
-  color: var(--degraded-fg);
+  color: var(--partial-path-fg);
 }
 
 /* Dense rows (print, and the alternate layout) */
@@ -1156,7 +1156,7 @@ h1.h32-20 {
   color: var(--brand);
 }
 .outcome.b .arrow {
-  color: var(--degraded-fg);
+  color: var(--partial-path-fg);
 }
 .review-names {
   margin-top: 8px;
